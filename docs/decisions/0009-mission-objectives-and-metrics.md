@@ -55,7 +55,7 @@ roster ([ADR-0002](0002-two-layer-world-model.md)).
 | `hazard_energy_lost` | Σ `energy_lost` over hazard exposures | energy units | — |
 | `move_conflicts` | number of `move_conflict` events ([ADR-0003](0003-simultaneous-movement-and-collision-resolution.md)) | count | — |
 | `invalid_actions` | number of `invalid_action` events | count | — |
-| `agent_utilization` | active agent-steps ÷ `n × T`. An agent-step is active if the agent is active at the end of the step and not idle on base (on the base, did not move, energy at capacity) | fraction | — (`T ≥ 1`) |
+| `agent_utilization` | active agent-steps ÷ `n × T`. An agent-step is active if the agent is active at the end of the step and not idle on base (stayed on the base and started the step at full energy). A step spent recharging is active; waiting on the base fully charged is idle | fraction | event stream has no steps (never for a real episode) |
 | `agents_disabled` (diagnostic) | distinct agents disabled during the episode | count | — |
 | `agents_disabled_energy` | … of which reason `energy_depleted` | count | — |
 | `agents_disabled_hazard` | … of which reason `hazard` | count | — |
