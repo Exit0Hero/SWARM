@@ -9,8 +9,8 @@ unless the user explicitly approves it.
 
 | Phase | Name | Status |
 |---|---|---|
-| 0 | Foundation | In review |
-| 1 | Deterministic 2D core | Planned (next) |
+| 0 | Foundation | Complete (PR #1, merged 2026-11-15) |
+| 1 | Deterministic 2D core | In progress: M1 implemented, in review; M2 planned |
 | 2 | Navigation and classical baselines | Planned |
 | 3 | Coordination under constraints | Planned |
 | 4 | Multi-agent reinforcement learning | Planned |
@@ -30,18 +30,19 @@ Acceptance:
 ## Phase 1 — Deterministic 2D core
 Implements ADR-0001 to ADR-0008 and the core part of ADR-0010.
 
-**Milestone M1 — "one honest episode"** (smallest end-to-end slice):
+**Milestone M1 — "one honest episode"** (smallest end-to-end slice). Status: implemented, in review.
+The file-level map of what was built is in `docs/02_SYSTEM_ARCHITECTURE.md` ("Implemented modules").
 - Frozen, validated `ScenarioConfig` with JSON round-trip and config hash. Seeded generator for terrain
   (`OPEN`, `DEBRIS`, `STRUCTURE`, `BASE`), static survivors and a drone/ground roster.
 - `reset(seed)` / `step(actions)` with action masks, simultaneous two-layer movement resolution,
   integer energy with recharge and disablement, passive detection with `p_detect`, and a typed event stream.
 - Random valid-action policy. Episode runner writing versioned JSON with run metadata.
 - Metrics: recall, time to first detection, coverage (sensed and visited), energy used, move conflicts,
-  invalid actions.
+  invalid actions (plus an auxiliary count of agents disabled).
 - Text renderer for debugging (no dependencies).
 - Tests: byte-identical event stream for the same seed. Property tests (bounds, terrain, no shared cell,
   energy ≥ 0, permutation invariance, policy swap does not change the scenario). Hidden-state leakage test.
-  docs/10 edge cases.
+  docs/10 edge cases. Golden event-stream hashes for fixed seeds (regression).
 - Not in M1: hazards, false positives, communication, pathfinding, rewards, PettingZoo, plotting.
 
 **Milestone M2:** hazard overlay, false-positive detections plus a precision metric, mission

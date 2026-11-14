@@ -47,3 +47,11 @@ order or agent ID order. This permutation invariance is a required property test
   environment, must resolve them. Phase 2 planners use reservation tables.
 - Required tests: vertex, swap, chain, three-cycle, base co-occupancy, cross-layer
   non-interaction, and permutation invariance.
+
+## Clarifications (2026-11-15, Phase 1 M1)
+These settle cases the rules above left open. They do not change any rule.
+- **Swaps through the base.** Rule 6 (base exemption) also covers swaps. Two agents exchanging a
+  base cell and an adjacent cell both move, because the base has unlimited capacity.
+- **Disabled agents** are stationary for the rest of the episode. They keep occupying their cell, so
+  moves into it fail with `blocked`.
+- **Leaving the base.** Two agents leaving the base for the same cell is an ordinary vertex conflict.

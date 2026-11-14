@@ -5,20 +5,35 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: Phase 0 (foundation) — no simulator yet
+## Current status: Phase 1, milestone M1 ("one honest episode")
 
 | What | Status |
 |---|---|
-| Requirements, architecture and specification documents (`docs/`) | Present |
-| Architecture Decision Records ADR-0001 to ADR-0010 (`docs/decisions/`) | Accepted |
-| Claude Code project skills (9, in `.claude/skills/`) | Present |
-| Python packaging, lint, type-check and test tooling, CI | Present |
-| 2D environment, agents, policies, metrics, experiment runner | **Not implemented** (Phase 1–2) |
-| Coordination, communication, MARL, perception, dashboard, 3D | **Not implemented** (Phase 3–8) |
+| Docs, ADR-0001 to ADR-0010, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Deterministic 2D grid with air and ground layers, terrain, survivors, heterogeneous agents | Implemented (M1) |
+| Simultaneous movement with conflict resolution, action masks, integer energy and disabling | Implemented (M1) |
+| Probabilistic survivor detection in sensor range, typed event stream | Implemented (M1) |
+| Random valid-action baseline, episode runner with JSON results, text renderer | Implemented (M1) |
+| Hazards, false positives, mission-success termination, multi-seed aggregation | Planned (M2) |
+| Path planning, informed baselines, coordination, communication | Planned (Phases 2–3) |
+| MARL, perception models, dashboard, 3D | Planned (Phases 4–8) |
 
-The `swarm` package currently exposes only `swarm.__version__`. The tests check packaging, the
-dependency policy and documentation integrity. They do not test simulation behaviour, because
-none exists yet. Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
+The only policy is a **random** baseline. It is a sanity check, not a search strategy. In M1 all agents move
+one cell per step, so nothing here shows that drones outperform ground robots, or the reverse. The simulator
+is a simplified abstraction, not a physically realistic model (see `docs/15_RISK_REGISTER_AND_LIMITATIONS.md`).
+Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
+
+## Run an episode
+
+```bash
+python -m swarm.experiments.run_episode --config configs/m1_default.json --seed 0 \
+    --out runs/m1_seed0.json --events runs/m1_seed0.events.jsonl --render
+```
+
+This writes a versioned JSON result (config, seed derivation, software versions, git commit, metric values with
+definitions and units, and event-stream hash) and prints a summary. Re-running with the same config and seed
+reproduces the same `event_stream_sha256` and metrics. The format is described in
+`docs/11_REPRODUCIBILITY_AND_EXPERIMENT_LOGGING.md`.
 
 ## Install (development)
 
@@ -57,7 +72,8 @@ added in the phase that needs them (`docs/decisions/README.md`).
 | `docs/` | Requirements, specifications, roadmap, risks (numbered 01–15) |
 | `docs/decisions/` | Architecture Decision Records |
 | `.claude/skills/` | Project-specific Claude Code skills |
-| `src/swarm/` | Python package (Phase 0: version only) |
+| `src/swarm/` | Python package: `core`, `scenarios`, `policies`, `evaluation`, `experiments`, `visualization` |
+| `configs/` | Example scenario configs |
 | `tests/` | Test suite |
 | `.github/workflows/ci.yml` | Continuous integration |
 
