@@ -1,0 +1,49 @@
+# 2D Simulation Specification
+
+The binding rules are in the ADRs. This document gives the overview and links to them.
+
+## World
+The world is a 2D, 4-connected grid with discrete time ([ADR-0001](decisions/0001-grid-and-discrete-time.md)).
+Each cell has one terrain type (`OPEN`, `DEBRIS`, `STRUCTURE`, `BASE`), and its traversability depends on
+the agent's layer (`AIR` or `GROUND`). A hazard overlay is optional
+([ADR-0002](decisions/0002-two-layer-world-model.md)). The cell model is extensible through new terrain types
+and traversability-table entries.
+
+## Agents
+Each agent has:
+- stable ID and type (type parameters are an `AgentTypeSpec`, not subclasses);
+- layer (`AIR` or `GROUND`) and position;
+- sensor radius (≥ 1) and detection model;
+- communication range (Phase 3);
+- integer energy capacity, current level, per-action costs and recharge rate;
+- status: `active` or `disabled`. Returning to base is a policy behaviour, not an environment status
+  ([ADR-0004](decisions/0004-action-masks-and-invalid-actions.md)).
+
+## Hidden state and observations
+Survivor locations are hidden from agents. A local observation contains only what lies inside the agent's
+sensor footprint, its own state, and its action mask
+([ADR-0008](decisions/0008-observation-and-hidden-state-boundaries.md)). Do not leak hidden state into
+decentralized policies.
+
+## Actions
+`Discrete(5)`: stay, north, east, south, west. Sensing is passive every step. Communication becomes a separate
+channel in Phase 3. Return-to-base is composed of moves by a policy. The environment validates actions
+centrally and exposes an action mask ([ADR-0004](decisions/0004-action-masks-and-invalid-actions.md)).
+
+## Step order
+1. Validate proposed actions (contract violations raise; masked actions become stay plus an event).
+2. Resolve movement simultaneously per layer: vertex, swap and blocked conflicts make the movers stay; cycles of three
+   or more succeed; the base is exempt ([ADR-0003](decisions/0003-simultaneous-movement-and-collision-resolution.md)).
+3. Apply energy costs and base recharge. Disable agents at zero energy away from base.
+4. Update hazards and environment dynamics.
+5. Generate detections (and, from Phase 3, communication events).
+6. Update mission state, termination and truncation ([ADR-0009](decisions/0009-mission-objectives-and-metrics.md)).
+7. Emit the ordered event list ([ADR-0005](decisions/0005-event-driven-simulation.md)).
+
+Tie-breaking never depends on agent ID order or container iteration order, so seeded runs are reproducible
+([ADR-0006](decisions/0006-random-number-generation-and-reproducibility.md)).
+
+## Scenario configuration
+Map dimensions, terrain generation parameters, hazard parameters, base location, survivor count and placement
+constraints, agent roster with type specs, time limit, sensor settings, communication settings, recall target,
+and seed. The format is versioned JSON ([ADR-0007](decisions/0007-configuration-and-serialization.md)).

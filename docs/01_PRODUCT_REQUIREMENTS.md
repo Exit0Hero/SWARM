@@ -16,6 +16,8 @@ SWARM is an extensible research platform for studying cooperative autonomous age
 5. Export metrics and experiment artifacts.
 
 ## 4. MVP scope
+The MVP is delivered across Phases 1–3 of the [roadmap](14_ROADMAP.md).
+
 - 2D map and discrete simulation clock.
 - Obstacles and configurable hazard zones.
 - Drone and ground-robot agent types with distinct movement/resource parameters.

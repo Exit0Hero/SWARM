@@ -6,14 +6,16 @@ Build SWARM: a research-grade, reproducible multi-agent simulation platform for 
 ## Read first
 Before making substantial changes, read:
 - `MASTER_PROMPT.md`
+- `docs/14_ROADMAP.md` for the current phase. Phases are numbered 0–8, and this file is the source of truth.
+- `docs/decisions/README.md` (ADR index). ADRs override the numbered docs when they conflict.
 - `docs/01_PRODUCT_REQUIREMENTS.md`
 - `docs/02_SYSTEM_ARCHITECTURE.md`
 - `docs/03_SOFTWARE_REQUIREMENTS.md`
 - `docs/04_SIMULATION_SPECIFICATION.md`
 - `docs/05_EXPERIMENTS_AND_METRICS.md`
-- `docs/14_ROADMAP.md`
 
-Read other documents and skills when relevant.
+Read other documents and skills when relevant. Do not start work from a later phase until the current
+phase's acceptance criteria are met, unless the user approves.
 
 ## Engineering principles
 1. Inspect the existing repository before proposing or changing its structure.
@@ -40,7 +42,7 @@ For each task:
 2. State assumptions and identify risks.
 3. Write or update tests with the implementation.
 4. Implement the smallest complete change.
-5. Run relevant tests, linting, and type checks available in the repository.
+5. Run the quality gate from the repository root: `ruff check .`, `ruff format --check .`, `mypy`, `pytest`.
 6. Report exact commands and actual outcomes. If a command was not run, say so.
 7. Update documentation when behavior, configuration, or interfaces change.
 
@@ -53,4 +55,4 @@ For each task:
 - Add tests for edge cases and failure modes, not only happy paths.
 
 ## Skills
-Use the project skills in `.claude/skills/` when their descriptions match the task. Skills are workflow instructions; do not treat them as permission to skip repository inspection, testing, or user approval for destructive actions.
+Use the project skills in `.claude/skills/` when their descriptions match the task: architecture-review, simulation-core, path-planning, task-allocation, marl-research, perception, experiment-analysis, testing-and-review, documentation. Skills are workflow instructions; do not treat them as permission to skip repository inspection, testing, or user approval for destructive actions.

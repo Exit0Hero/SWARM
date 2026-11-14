@@ -1,11 +1,17 @@
 # Repository and Git Workflow
 
-## Suggested structure
+## Target structure
+Directories under `src/swarm/` and the `configs`, `scripts` and `artifacts` directories are created when the
+first real content for them exists. The tree below is the target, not the current state (see `README.md`).
+
 ```text
 swarm/
   .claude/
     skills/
+  .github/
+    workflows/
   docs/
+    decisions/
   src/swarm/
     core/
     scenarios/

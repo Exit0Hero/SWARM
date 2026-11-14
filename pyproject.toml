@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "swarm"
+version = "0.0.1"
+description = "Research simulator for autonomous multi-agent disaster response and search & rescue."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Exit0Hero" }]
+# Python floor: NumPy 2.5 requires >=3.12 and PyTorch 2.15 dropped 3.10.
+# Verified 2026-11-15 by resolving numpy, torch, pettingzoo, gymnasium, scipy and
+# matplotlib with binary wheels only for Python 3.12-3.15. See README "Python support".
+requires-python = ">=3.12"
+# Runtime dependency policy: NumPy only until a phase needs more (docs/decisions/README.md).
+dependencies = ["numpy>=2.2"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0",
+    "hypothesis>=6.100",
+    "ruff>=0.15",
+    "mypy>=2.0",
+]
+
+[project.urls]
+Repository = "https://github.com/Exit0Hero/SWARM"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/swarm"]
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "B",        # bugbear
+    "UP",       # pyupgrade
+    "N",        # pep8-naming
+    "SIM",      # simplify
+    "RUF",      # ruff-specific
+    "NPY",      # numpy-specific (includes legacy np.random usage)
+    "PT",       # pytest style
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+files = ["src", "tests"]

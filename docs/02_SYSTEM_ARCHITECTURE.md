@@ -34,6 +34,15 @@ Visualization / Analysis
 - `swarm.visualization`: optional rendering and dashboard.
 - `swarm.experiments`: configs, runners, result storage.
 
+Subpackages are created only when they contain working, tested code (see
+[repository conventions](decisions/README.md#repository-conventions)). The list above is the target layout, not
+the current one.
+
+## Event stream
+`Step / Reward / Termination` in the diagram is implemented as an ordered stream of typed events. Metrics, rewards,
+logging and visualization consume events and read-only snapshots, and never mutate the environment. The core
+computes no reward ([ADR-0005](decisions/0005-event-driven-simulation.md)).
+
 ## Architectural constraints
 - Environment transitions must not depend on rendering.
 - Policies consume observations and return valid actions; they should not mutate the environment directly.
