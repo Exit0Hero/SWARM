@@ -38,6 +38,28 @@ Subpackages are created only when they contain working, tested code (see
 [repository conventions](decisions/README.md#repository-conventions)). The list above is the target layout, not
 the current one.
 
+## Implemented modules (Phase 1 M1)
+For M1, agent models and observations live in `swarm.core` and `swarm.scenarios` rather than in separate
+`swarm.agents` and `swarm.observations` packages. Agent types are configuration data (ADR-0002), so a separate
+package would be empty. Dependencies point downward only: `experiments` → `policies`, `evaluation`,
+`visualization` → `core` → `scenarios.config`.
+
+| Module | Contents |
+|---|---|
+| `src/swarm/core/types.py` | `Layer`, `Terrain`, `Action`, `AgentStatus`, traversability table |
+| `src/swarm/core/rng.py` | Per-episode RNG streams and seed-derivation record (ADR-0006) |
+| `src/swarm/core/movement.py` | Pure simultaneous move resolution (ADR-0003) |
+| `src/swarm/core/events.py` | Typed events, canonical JSON Lines, stream hash (ADR-0005) |
+| `src/swarm/core/observation.py` | `Observation`, footprint geometry (ADR-0008) |
+| `src/swarm/core/env.py` | `SwarmEnv`, `StepResult`, `EnvSnapshot` (ADR-0010) |
+| `src/swarm/scenarios/config.py` | Frozen configs, strict JSON, config hash, default agent types (ADR-0007) |
+| `src/swarm/scenarios/generator.py` | `Scenario` ground truth, seeded generator, ASCII maps, reachability |
+| `src/swarm/policies/` | `Policy` protocol and the random valid-action baseline |
+| `src/swarm/evaluation/metrics.py` | Event-replay metrics with definitions and units (ADR-0009) |
+| `src/swarm/experiments/runner.py` | `run_episode`, result record, metadata |
+| `src/swarm/experiments/run_episode.py` | Command-line entry point |
+| `src/swarm/visualization/text.py` | Read-only text renderer |
+
 ## Event stream
 `Step / Reward / Termination` in the diagram is implemented as an ordered stream of typed events. Metrics, rewards,
 logging and visualization consume events and read-only snapshots, and never mutate the environment. The core

@@ -43,6 +43,24 @@ centrally and exposes an action mask ([ADR-0004](decisions/0004-action-masks-and
 Tie-breaking never depends on agent ID order or container iteration order, so seeded runs are reproducible
 ([ADR-0006](decisions/0006-random-number-generation-and-reproducibility.md)).
 
+## Implementation details fixed in Phase 1 M1
+- **Spawn:** every agent starts on the base with its configured `initial_energy` (default: full capacity).
+- **Energy accounting:** a successful move costs `move_cost`; staying, a failed move and an invalid action cost
+  `stay_cost`. An agent never pays more than it has, so energy never goes negative. After paying, an agent on the
+  base gains up to `recharge_rate`, capped at capacity. An agent that ends a step at zero energy away from the base
+  is disabled. On the base it simply recharges.
+- **Disabled agents** stay where they are, keep occupying the cell (ADR-0003 clarifications), stop sensing, and
+  leave `env.agents`.
+- **Detection draws:** one draw from the `dynamics` stream for each (active agent, survivor inside its footprint)
+  pair, in sorted agent order and then survivor order. Reported with probability `p_detect`. No false positives in M1.
+- **Reset** observations include terrain and visible agents but no detection reports. Sensing happens during steps.
+- **Episode end (M1):** truncation at `time_limit`, or termination when every agent is disabled. If both happen on
+  the same step, termination takes precedence. Ending on mission success (ADR-0009) arrives in M2, so zero-survivor
+  episodes currently run to the time limit.
+- **Hazards** are not modelled in M1.
+- **Generation:** terrain is drawn independently per cell. The base is the configured cell or the grid centre.
+  Reachability is not enforced, so a survivor may be unreachable. Coverage uses eligible (reachable) cells only.
+
 ## Scenario configuration
 Map dimensions, terrain generation parameters, hazard parameters, base location, survivor count and placement
 constraints, agent roster with type specs, time limit, sensor settings, communication settings, recall target,

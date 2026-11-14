@@ -16,6 +16,12 @@ Exact metric definitions, undefined-value handling, the mission objective and th
 - **Agent utilization:** active agent-steps ÷ available agent-steps.
 - **Message delivery rate:** delivered ÷ attempted messages (Phase 3).
 
+### Implemented in Phase 1 M1
+`recall`, `time_to_first_detection`, `coverage_sensed`, `coverage_visited`, `energy_used`, `move_conflicts`,
+`invalid_actions`, and the auxiliary count `agents_disabled`. Each result file embeds the definition, unit and
+undefined case of every metric (`src/swarm/evaluation/metrics.py`). Precision, mission success, time to recall
+target, energy efficiency, agent utilization and multi-seed aggregation are planned for M2.
+
 ## Experiment protocol
 - Compare policies on identical evaluation seed lists and config hashes.
 - Use multiple seeds and report n, mean, sample standard deviation and a 95% bootstrap confidence interval. Report
