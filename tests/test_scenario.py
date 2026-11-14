@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+from typing import Any
+
 import numpy as np
 import pytest
 from hypothesis import given
@@ -9,6 +12,7 @@ from hypothesis import strategies as st
 
 from swarm.core.rng import episode_streams, seed_derivation, validate_seed
 from swarm.core.types import Layer, Terrain
+from swarm.scenarios.config import HazardConfig, ScenarioConfig
 from swarm.scenarios.generator import (
     Scenario,
     ScenarioError,
@@ -165,3 +169,94 @@ def test_generation_invariants(seed: int, h: int, w: int) -> None:
     assert s.base == (h // 2, w // 2)
     assert len(s.survivors) == count
     assert s == _generate(seed, height=h, width=w, survivors=count)
+
+
+# ----------------------------------------------------------------- M2: sub-streams and hazards
+
+
+def _hazard_config(fraction: float = 0.2, **overrides: Any) -> ScenarioConfig:
+    base = make_config(height=30, width=30, survivors=5, **overrides)
+    return replace(
+        base,
+        hazards=HazardConfig(
+            fraction=fraction,
+            affected_layers=(Layer.GROUND,),
+            energy_cost=1,
+            disable_probability=0.0,
+        ),
+    )
+
+
+def test_dynamics_children_do_not_change_m1_streams() -> None:
+    """ADR-0013: spawning hazard/false_positive children leaves dynamics untouched."""
+    s = episode_streams(9, AGENTS)
+    _, dynamics_seq, _ = np.random.SeedSequence(9).spawn(3)
+    assert np.array_equal(s.dynamics.random(8), np.random.default_rng(dynamics_seq).random(8))
+    draws = [s.hazard.random(), s.false_positive.random(), s.scenario.random()]
+    assert len(set(draws)) == 3
+
+
+def test_seed_derivation_records_dynamics_children() -> None:
+    assert seed_derivation(0, AGENTS)["dynamics_children"] == ["hazard", "false_positive"]
+
+
+def test_hazards_only_on_open_or_debris_and_never_on_base() -> None:
+    config = _hazard_config(fraction=1.0, structure=0.3, debris=0.3)
+    s = generate_scenario(config, episode_streams(0, AGENTS).scenario)
+    allowed = (s.terrain == Terrain.OPEN) | (s.terrain == Terrain.DEBRIS)
+    assert np.array_equal(s.hazard_grid, allowed)
+    assert not s.hazard_grid[s.base]
+
+
+def test_enabling_hazards_keeps_terrain_and_survivors() -> None:
+    plain = make_config(height=30, width=30, survivors=5)
+    hazardous = _hazard_config()
+    a = generate_scenario(plain, episode_streams(4, AGENTS).scenario)
+    b = generate_scenario(hazardous, episode_streams(4, AGENTS).scenario)
+    assert np.array_equal(a.terrain, b.terrain)
+    assert a.survivors == b.survivors
+    assert not a.hazard_grid.any()
+    assert b.hazard_grid.any()
+
+
+def test_hazard_fraction_statistics() -> None:
+    config = _hazard_config(fraction=0.25, structure=0.0, debris=0.0)
+    s = generate_scenario(config, episode_streams(1, AGENTS).scenario)
+    # 899 eligible cells, Binomial sd ~ 13; bound > 5 sd.
+    assert abs(int(s.hazard_grid.sum()) - 0.25 * 899) < 70
+
+
+def test_zero_fraction_hazards_and_fingerprint_compatibility() -> None:
+    plain = generate_scenario(make_config(), episode_streams(2, AGENTS).scenario)
+    zero = generate_scenario(_hazard_config(fraction=0.0), episode_streams(2, AGENTS).scenario)
+    assert not zero.hazard_grid.any()
+    # A hazard-free scenario hashes exactly like an M1 scenario (no hazard bytes are added).
+    no_overlay = Scenario(terrain=plain.terrain, base=plain.base, survivors=plain.survivors)
+    assert plain.fingerprint() == no_overlay.fingerprint()
+
+
+def test_hazards_change_fingerprint_and_equality() -> None:
+    a = parse_ascii_map(["B.."])
+    b = parse_ascii_map(["B.."], hazards=[(0, 2)])
+    assert a != b
+    assert a.fingerprint() != b.fingerprint()
+    assert b.hazard_grid.tolist() == [[False, False, True]]
+
+
+@pytest.mark.parametrize(
+    ("hazards", "message"),
+    [
+        ([(0, 0)], "not an OPEN or DEBRIS cell"),
+        ([(0, 1)], "not an OPEN or DEBRIS"),
+        ([(5, 5)], "outside"),
+    ],
+)
+def test_hazard_validation(hazards: list[tuple[int, int]], message: str) -> None:
+    with pytest.raises(ScenarioError, match=message):
+        parse_ascii_map(["B#."], hazards=hazards)
+
+
+def test_hazard_overlay_is_read_only() -> None:
+    s = parse_ascii_map(["B."], hazards=[(0, 1)])
+    with pytest.raises(ValueError, match="read-only"):
+        s.hazard_grid[0, 1] = False
