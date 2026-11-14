@@ -62,7 +62,11 @@ class Observation:
     ``local_terrain`` is a read-only ``int8`` array of shape ``(2r+1, 2r+1)`` centred on the
     agent (``r = sensor_radius``), holding :class:`~swarm.core.types.Terrain` codes inside the
     footprint, :data:`UNKNOWN` outside it and :data:`OUT_OF_BOUNDS` beyond the grid.
-    ``detections`` are the cells reported this step (possibly noisy; empty on reset).
+    ``local_hazard`` is a read-only boolean array aligned with ``local_terrain``: ``True`` marks a
+    hazardous cell inside the footprint; ``False`` means safe inside the footprint and *unknown*
+    outside it (ADR-0011).
+    ``detections`` are the cells this agent reported this step: true and false reports merged and
+    indistinguishable (ADR-0012); empty on reset.
     ``action_mask[a]`` is ``True`` when action ``a`` is valid (ADR-0004).
     """
 
@@ -78,6 +82,7 @@ class Observation:
     grid_shape: tuple[int, int]
     base_position: Position
     local_terrain: npt.NDArray[np.int8]
+    local_hazard: npt.NDArray[np.bool_]
     visible_agents: tuple[VisibleAgent, ...]
     detections: tuple[Position, ...]
     action_mask: tuple[bool, ...]
@@ -85,9 +90,10 @@ class Observation:
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Observation):
             return NotImplemented
-        names = [f.name for f in fields(self) if f.name != "local_terrain"]
-        return all(getattr(self, n) == getattr(other, n) for n in names) and np.array_equal(
-            self.local_terrain, other.local_terrain
+        arrays = ("local_terrain", "local_hazard")
+        names = [f.name for f in fields(self) if f.name not in arrays]
+        return all(getattr(self, n) == getattr(other, n) for n in names) and all(
+            np.array_equal(getattr(self, n), getattr(other, n)) for n in arrays
         )
 
     __hash__ = None  # type: ignore[assignment]

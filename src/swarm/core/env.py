@@ -6,8 +6,9 @@ integer actions keyed by agent ID and returns a :class:`StepResult` with observa
 terminations, truncations, infos and the ordered event list. The core computes no reward.
 
 Step order (docs/04): 1 validate actions, 2 resolve movement, 3 energy and recharge (agents at
-zero energy away from base are disabled), 4 hazards (none in Phase 1 M1), 5 sensing,
-6 mission state. Within a phase, agents are processed in sorted ID order.
+zero energy away from base are disabled), 4 static hazards (ADR-0011), 5 sensing: true reports
+then false reports (ADR-0012), 6 mission state: mission success > all disabled > time limit
+(ADR-0009). Within a phase, agents are processed in sorted ID order.
 
 State is held in NumPy arrays indexed by sorted agent order. Positions and energy are integers.
 """
@@ -17,6 +18,7 @@ from __future__ import annotations
 import operator
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+from fractions import Fraction
 from typing import Any, SupportsIndex
 
 import numpy as np
@@ -28,6 +30,7 @@ from swarm.core.events import (
     EnergySpent,
     EpisodeEnd,
     Event,
+    HazardExposure,
     InvalidAction,
     MoveConflict,
     Moved,
@@ -114,6 +117,14 @@ class SwarmEnv:
         self._index = {aid: i for i, aid in enumerate(self.possible_agents)}
         self._scenario: Scenario | None = None
         self._dynamics: np.random.Generator | None = None
+        self._hazard_rng: np.random.Generator | None = None
+        self._false_positive_rng: np.random.Generator | None = None
+        self._hazard_layers = (
+            frozenset() if config.hazards is None else frozenset(config.hazards.affected_layers)
+        )
+        # Exact rational target: avoids float rounding at the boundary (ADR-0009).
+        self._recall_target = Fraction(str(config.recall_target))
+        self._found: set[int] = set()
         self._pos = np.zeros((len(self.possible_agents), 2), dtype=np.int64)
         self._energy = np.zeros(len(self.possible_agents), dtype=np.int64)
         self._active = np.zeros(len(self.possible_agents), dtype=np.bool_)
@@ -163,6 +174,9 @@ class SwarmEnv:
             check_scenario_matches(self._config, scenario)
         self._scenario = scenario
         self._dynamics = streams.dynamics
+        self._hazard_rng = streams.hazard
+        self._false_positive_rng = streams.false_positive
+        self._found = set()
         self._pos[:] = scenario.base
         self._energy[:] = self._initial_energy
         self._active[:] = True
@@ -240,9 +254,41 @@ class SwarmEnv:
                 disabled_now.append(aid)
                 events.append(AgentDisabled(t, aid, self._position(i), "energy_depleted"))
 
-        # 4. Hazards: not modelled in Phase 1 M1 (ADR-0002 rule 4 arrives in M2).
+        # 4. Static hazards (ADR-0011): exposure when an affected agent ends the step in a hazard.
+        hazard_rng = self._hazard_rng
+        assert hazard_rng is not None
+        hazards = scenario.hazard_grid
+        cfg_hazards = self._config.hazards
+        for aid in acting:
+            i = self._index[aid]
+            spec = self._specs[i]
+            here = self._position(i)
+            if (
+                cfg_hazards is None
+                or not self._active[i]
+                or spec.layer not in self._hazard_layers
+                or not hazards[here]
+            ):
+                continue
+            lost = min(cfg_hazards.energy_cost, int(self._energy[i]))
+            self._energy[i] -= lost
+            events.append(HazardExposure(t, aid, here, lost, int(self._energy[i])))
+            if self._energy[i] == 0:
+                reason = "energy_depleted"
+            elif hazard_rng.random() < cfg_hazards.disable_probability:
+                reason = "hazard"
+            else:
+                continue
+            self._active[i] = False
+            disabled_now.append(aid)
+            events.append(AgentDisabled(t, aid, here, reason))
 
-        # 5. Sensing: each active agent reports each survivor in its footprint w.p. p_detect.
+        # 5. Sensing (ADR-0012). True reports: one dynamics draw per survivor in the footprint.
+        #    False reports: one false_positive draw per other in-grid footprint cell, row-major.
+        fp_rng = self._false_positive_rng
+        assert fp_rng is not None
+        survivor_index = {pos: k for k, pos in enumerate(scenario.survivors)}
+        h, w = scenario.shape
         reports: dict[AgentId, list[Position]] = {}
         for aid in acting:
             i = self._index[aid]
@@ -256,20 +302,44 @@ class SwarmEnv:
                 in_range = in_footprint(here, survivor, radius)
                 if in_range and rng.random() < self._config.p_detect:
                     found.append(survivor)
+                    self._found.add(s_index)
                     events.append(Detection(t, aid, survivor, True, s_index))
+            empty_cells = [
+                (here[0] + dr, here[1] + dc)
+                for dr, dc in footprint_offsets(radius)
+                if 0 <= here[0] + dr < h
+                and 0 <= here[1] + dc < w
+                and (here[0] + dr, here[1] + dc) not in survivor_index
+            ]
+            draws = fp_rng.random(len(empty_cells))
+            for cell, u in zip(empty_cells, draws, strict=True):
+                if u < self._config.p_false_positive:
+                    found.append(cell)
+                    events.append(Detection(t, aid, cell, False, None))
             reports[aid] = found
 
-        # 6. Mission state (ADR-0009, M1 subset: time limit and all-disabled only).
+        # 6. Mission state (ADR-0009): mission_success > all_disabled > time_limit.
         self._step = t
+        n_survivors = len(scenario.survivors)
+        success = n_survivors > 0 and Fraction(len(self._found), n_survivors) >= self._recall_target
         all_disabled = not bool(self._active.any())
         time_up = t >= self._config.time_limit
-        if all_disabled or time_up:
+        if success or all_disabled or time_up:
             self._done = True
-            self._end_reason = "all_disabled" if all_disabled else "time_limit"
-            events.append(EpisodeEnd(t, self._end_reason, all_disabled, not all_disabled))
+            if success:
+                self._end_reason = "mission_success"
+            elif all_disabled:
+                self._end_reason = "all_disabled"
+            else:
+                self._end_reason = "time_limit"
+            ended_terminal = self._end_reason != "time_limit"
+            events.append(EpisodeEnd(t, self._end_reason, ended_terminal, not ended_terminal))
 
-        terminations = {aid: all_disabled or aid in disabled_now for aid in acting}
-        truncations = {aid: time_up and not terminations[aid] for aid in acting}
+        terminal = self._done and self._end_reason != "time_limit"
+        terminations = {aid: terminal or aid in disabled_now for aid in acting}
+        truncations = {
+            aid: self._end_reason == "time_limit" and not terminations[aid] for aid in acting
+        }
         observations = {
             aid: self._observe(self._index[aid], tuple(reports.get(aid, ()))) for aid in acting
         }
@@ -389,6 +459,20 @@ class SwarmEnv:
         view.flags.writeable = False
         return view
 
+    def _local_hazard(self, i: int) -> npt.NDArray[np.bool_]:
+        scenario = self._require_scenario()
+        radius = self._specs[i].sensor_radius
+        size = 2 * radius + 1
+        view = np.zeros((size, size), dtype=np.bool_)
+        r, c = self._position(i)
+        h, w = scenario.shape
+        hazards = scenario.hazard_grid
+        for dr, dc in footprint_offsets(radius):
+            if 0 <= r + dr < h and 0 <= c + dc < w:
+                view[dr + radius, dc + radius] = hazards[r + dr, c + dc]
+        view.flags.writeable = False
+        return view
+
     def _observe(self, i: int, detections: tuple[Position, ...]) -> Observation:
         scenario = self._require_scenario()
         spec = self._specs[i]
@@ -417,6 +501,7 @@ class SwarmEnv:
             grid_shape=scenario.shape,
             base_position=scenario.base,
             local_terrain=self._local_terrain(i),
+            local_hazard=self._local_hazard(i),
             visible_agents=visible,
             detections=tuple(sorted(set(detections))),
             action_mask=self._mask(i),

@@ -88,12 +88,26 @@ class AgentDisabled(Event):
     kind: ClassVar[str] = "agent_disabled"
     agent_id: AgentId
     position: Position
-    reason: str  # "energy_depleted"
+    reason: str  # "energy_depleted" | "hazard"
+
+
+@dataclass(frozen=True, slots=True)
+class HazardExposure(Event):
+    """An affected agent ended a step in a hazardous cell (ADR-0011). Emitted even at 0 damage."""
+
+    kind: ClassVar[str] = "hazard_exposure"
+    agent_id: AgentId
+    cell: Position
+    energy_lost: int
+    remaining: int
 
 
 @dataclass(frozen=True, slots=True)
 class Detection(Event):
-    """A detection report. ``true_positive`` and ``survivor_index`` are evaluator-only."""
+    """A detection report (true or false, ADR-0012).
+
+    ``true_positive`` and ``survivor_index`` are evaluator-only; policies only ever see the cell.
+    """
 
     kind: ClassVar[str] = "detection"
     agent_id: AgentId
@@ -105,7 +119,7 @@ class Detection(Event):
 @dataclass(frozen=True, slots=True)
 class EpisodeEnd(Event):
     kind: ClassVar[str] = "episode_end"
-    reason: str  # "time_limit" | "all_disabled"
+    reason: str  # "mission_success" | "all_disabled" | "time_limit" (that precedence, ADR-0009)
     terminated: bool
     truncated: bool
 
