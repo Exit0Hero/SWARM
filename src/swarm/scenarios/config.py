@@ -18,8 +18,15 @@ from typing import Any, Final
 
 from swarm.core.types import AgentId, Layer, Position
 
-SCHEMA_VERSION: Final[int] = 1
-"""Version of the scenario-config JSON schema. Bump on any incompatible change."""
+SCHEMA_VERSION: Final[int] = 2
+"""Version of the scenario-config JSON schema written by this code.
+
+Version 1 (Phase 1 M1) files are still read: they are migrated by adding ``hazards = null``,
+``p_false_positive = 0.0`` and ``recall_target = 1.0``, which reproduces M1 behaviour exactly
+(ADR-0007, ADR-0013).
+"""
+
+READABLE_SCHEMA_VERSIONS: Final[frozenset[int]] = frozenset({1, 2})
 
 MAX_GRID_SIDE: Final[int] = 1024
 MAX_TIME_LIMIT: Final[int] = 1_000_000
@@ -233,11 +240,71 @@ class TerrainConfig:
 
 
 @dataclass(frozen=True, slots=True)
+class HazardConfig:
+    """Static hazard layer (ADR-0011).
+
+    Each ``OPEN``/``DEBRIS`` non-base cell is hazardous with probability ``fraction``. An active
+    agent of an ``affected_layers`` layer that ends a step in a hazardous cell loses
+    ``energy_cost`` energy (capped at what it has) and, unless that empties it, is disabled with
+    probability ``disable_probability``.
+    """
+
+    fraction: float
+    affected_layers: tuple[Layer, ...]
+    energy_cost: int
+    disable_probability: float
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "fraction", _check_fraction(self.fraction, "hazards.fraction"))
+        object.__setattr__(
+            self,
+            "disable_probability",
+            _check_fraction(self.disable_probability, "hazards.disable_probability"),
+        )
+        _check_int(self.energy_cost, "hazards.energy_cost", minimum=0)
+        layers = tuple(self.affected_layers)
+        if not layers:
+            raise ConfigError("hazards.affected_layers: at least one layer is required")
+        for i, layer in enumerate(layers):
+            _check_layer(layer, f"hazards.affected_layers[{i}]")
+        if len(set(layers)) != len(layers):
+            raise ConfigError(f"hazards.affected_layers: duplicate layers in {layers}")
+        object.__setattr__(self, "affected_layers", tuple(sorted(layers)))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "fraction": self.fraction,
+            "affected_layers": [layer.name.lower() for layer in self.affected_layers],
+            "energy_cost": self.energy_cost,
+            "disable_probability": self.disable_probability,
+        }
+
+    @classmethod
+    def from_dict(cls, data: object, path: str = "hazards") -> HazardConfig:
+        d = _require_mapping(data, path)
+        _check_keys(
+            d, path, {"fraction", "affected_layers", "energy_cost", "disable_probability"}, set()
+        )
+        layers = _parse_list(d["affected_layers"], f"{path}.affected_layers")
+        return cls(
+            fraction=d["fraction"],
+            affected_layers=tuple(
+                _parse_layer(v, f"{path}.affected_layers[{i}]") for i, v in enumerate(layers)
+            ),
+            energy_cost=d["energy_cost"],
+            disable_probability=d["disable_probability"],
+        )
+
+
+@dataclass(frozen=True, slots=True)
 class ScenarioConfig:
     """A scenario family. Together with a root seed it fully determines an episode's scenario.
 
     Agent IDs are ``"<agent_type>_<k>"`` where ``k`` counts that type in roster order.
     ``base_position`` defaults to the grid centre ``(height // 2, width // 2)``.
+    ``hazards`` is ``None`` for no hazard layer (ADR-0011). ``p_false_positive`` is the per
+    footprint-cell false-report probability (ADR-0012). ``recall_target`` in ``(0, 1]`` is the
+    global recall at which the mission succeeds (ADR-0009). The defaults reproduce M1 exactly.
     """
 
     height: int
@@ -249,6 +316,9 @@ class ScenarioConfig:
     time_limit: int
     p_detect: float
     base_position: Position | None = None
+    hazards: HazardConfig | None = None
+    p_false_positive: float = 0.0
+    recall_target: float = 1.0
 
     def __post_init__(self) -> None:
         _check_int(self.height, "height", minimum=1, maximum=MAX_GRID_SIDE)
@@ -263,6 +333,15 @@ class ScenarioConfig:
             )
         _check_int(self.time_limit, "time_limit", minimum=1, maximum=MAX_TIME_LIMIT)
         object.__setattr__(self, "p_detect", _check_fraction(self.p_detect, "p_detect"))
+        object.__setattr__(
+            self, "p_false_positive", _check_fraction(self.p_false_positive, "p_false_positive")
+        )
+        target = _check_fraction(self.recall_target, "recall_target")
+        if target <= 0.0:
+            raise ConfigError(f"recall_target: must be in (0, 1], got {self.recall_target!r}")
+        object.__setattr__(self, "recall_target", target)
+        if self.hazards is not None and not isinstance(self.hazards, HazardConfig):
+            raise ConfigError(f"hazards: must be a HazardConfig or None, got {self.hazards!r}")
 
         object.__setattr__(self, "agent_types", tuple(self.agent_types))
         object.__setattr__(self, "roster", tuple(self.roster))
@@ -342,33 +421,38 @@ class ScenarioConfig:
             "roster": [r.to_dict() for r in self.roster],
             "time_limit": self.time_limit,
             "p_detect": self.p_detect,
+            "hazards": None if self.hazards is None else self.hazards.to_dict(),
+            "p_false_positive": self.p_false_positive,
+            "recall_target": self.recall_target,
         }
 
     @classmethod
     def from_dict(cls, data: object) -> ScenarioConfig:
-        """Build a config from its JSON representation. Strict: see module docstring."""
+        """Build a config from its JSON representation. Strict: see module docstring.
+
+        Schema version 1 is migrated to version 2 (see :data:`SCHEMA_VERSION`).
+        """
         d = _require_mapping(data, "config")
-        _check_keys(
-            d,
-            "config",
-            {
-                "schema_version",
-                "height",
-                "width",
-                "terrain",
-                "survivor_count",
-                "agent_types",
-                "roster",
-                "time_limit",
-                "p_detect",
-            },
-            {"base_position"},
-        )
-        version = d["schema_version"]
-        if version != SCHEMA_VERSION:
+        version = d.get("schema_version")
+        if version not in READABLE_SCHEMA_VERSIONS or isinstance(version, bool):
             raise ConfigError(
-                f"schema_version: this code reads version {SCHEMA_VERSION}, got {version!r}"
+                f"schema_version: this code reads versions {sorted(READABLE_SCHEMA_VERSIONS)}, "
+                f"got {version!r}"
             )
+        required = {
+            "schema_version",
+            "height",
+            "width",
+            "terrain",
+            "survivor_count",
+            "agent_types",
+            "roster",
+            "time_limit",
+            "p_detect",
+        }
+        if version >= 2:
+            required |= {"hazards", "p_false_positive", "recall_target"}
+        _check_keys(d, "config", required, {"base_position"})
         base_raw = d.get("base_position")
         base: Position | None = None
         if base_raw is not None:
@@ -376,6 +460,7 @@ class ScenarioConfig:
             if len(items) != 2:
                 raise ConfigError(f"base_position: must be [row, col], got {base_raw!r}")
             base = (items[0], items[1])
+        hazards_raw = d.get("hazards")
         return cls(
             height=d["height"],
             width=d["width"],
@@ -392,6 +477,9 @@ class ScenarioConfig:
             ),
             time_limit=d["time_limit"],
             p_detect=d["p_detect"],
+            hazards=None if hazards_raw is None else HazardConfig.from_dict(hazards_raw),
+            p_false_positive=d.get("p_false_positive", 0.0),
+            recall_target=d.get("recall_target", 1.0),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:

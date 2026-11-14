@@ -19,6 +19,7 @@ from swarm.scenarios.config import (
     SCHEMA_VERSION,
     AgentSpec,
     ConfigError,
+    HazardConfig,
     ScenarioConfig,
     TerrainConfig,
 )
@@ -136,9 +137,10 @@ def test_from_dict_rejects_missing_key() -> None:
         ScenarioConfig.from_dict(data)
 
 
-def test_from_dict_rejects_other_schema_version() -> None:
+@pytest.mark.parametrize("version", [0, 3, "2", True, None])
+def test_from_dict_rejects_unreadable_schema_version(version: object) -> None:
     with pytest.raises(ConfigError, match="schema_version"):
-        ScenarioConfig.from_dict(_dict() | {"schema_version": 2})
+        ScenarioConfig.from_dict(_dict() | {"schema_version": version})
 
 
 def test_from_dict_rejects_bad_layer_and_nested_unknown_key() -> None:
@@ -157,10 +159,21 @@ def test_from_json_rejects_invalid_json() -> None:
         ScenarioConfig.from_json("{not json")
 
 
-def test_example_config_in_repository_is_valid() -> None:
-    path = ROOT / "configs" / "m1_default.json"
+def test_m1_example_config_is_a_valid_version_1_file() -> None:
+    """configs/m1_default.json is kept at schema v1 on purpose: it is the migration fixture."""
+    text = (ROOT / "configs" / "m1_default.json").read_text(encoding="utf-8")
+    assert json.loads(text)["schema_version"] == 1
+    config = ScenarioConfig.from_json(text)
+    assert config.hazards is None
+    assert config.p_false_positive == 0.0
+    assert config.recall_target == 1.0
+
+
+def test_m2_example_config_is_canonical() -> None:
+    path = ROOT / "configs" / "m2_default.json"
     config = ScenarioConfig.from_json(path.read_text(encoding="utf-8"))
     assert config.to_json() == path.read_text(encoding="utf-8"), "keep the file canonical"
+    assert config.hazards is not None
 
 
 @given(
@@ -186,3 +199,86 @@ def test_round_trip_property(
     restored = ScenarioConfig.from_json(config.to_json())
     assert restored == config
     assert restored.config_hash() == config.config_hash()
+
+
+# ----------------------------------------------------------------- schema v2 (Phase 1 M2)
+
+
+def _hazards(**overrides: Any) -> HazardConfig:
+    values: dict[str, Any] = {
+        "fraction": 0.1,
+        "affected_layers": (Layer.GROUND,),
+        "energy_cost": 3,
+        "disable_probability": 0.05,
+    }
+    values.update(overrides)
+    return HazardConfig(**values)
+
+
+def test_v1_files_migrate_to_m1_equivalent_defaults() -> None:
+    v1 = _dict()
+    v1["schema_version"] = 1
+    for key in ("hazards", "p_false_positive", "recall_target"):
+        del v1[key]
+    migrated = ScenarioConfig.from_dict(v1)
+    assert migrated == make_config()
+    assert migrated.to_dict()["schema_version"] == SCHEMA_VERSION == 2
+
+
+def test_v1_files_may_not_contain_v2_keys_missing_from_v2() -> None:
+    v2 = _dict()
+    del v2["recall_target"]
+    with pytest.raises(ConfigError, match=r"missing required key\(s\) \['recall_target'\]"):
+        ScenarioConfig.from_dict(v2)
+
+
+def test_hazard_config_round_trip_and_layer_order() -> None:
+    hazards = _hazards(affected_layers=(Layer.GROUND, Layer.AIR))
+    assert hazards.affected_layers == (Layer.AIR, Layer.GROUND)
+    config = replace(make_config(), hazards=hazards, p_false_positive=0.01, recall_target=0.5)
+    restored = ScenarioConfig.from_json(config.to_json())
+    assert restored == config
+    assert restored.to_dict()["hazards"]["affected_layers"] == ["air", "ground"]
+
+
+@pytest.mark.parametrize(
+    ("overrides", "message"),
+    [
+        ({"fraction": 1.2}, "hazards.fraction: must be in [0, 1]"),
+        ({"disable_probability": -0.1}, "hazards.disable_probability: must be in [0, 1]"),
+        ({"energy_cost": -1}, "hazards.energy_cost: must be >= 0"),
+        ({"affected_layers": ()}, "hazards.affected_layers: at least one layer"),
+        ({"affected_layers": (Layer.AIR, Layer.AIR)}, "hazards.affected_layers: duplicate"),
+        ({"affected_layers": ("air",)}, "hazards.affected_layers[0]: must be a Layer"),
+    ],
+)
+def test_invalid_hazard_configs(overrides: dict[str, Any], message: str) -> None:
+    with pytest.raises(ConfigError, match=re.escape(message)):
+        _hazards(**overrides)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("recall_target", 0.0, "recall_target: must be in (0, 1]"),
+        ("recall_target", 1.01, "recall_target: must be in [0, 1]"),
+        ("recall_target", True, "recall_target: must be a number"),
+        ("p_false_positive", -0.01, "p_false_positive: must be in [0, 1]"),
+        ("p_false_positive", float("inf"), "p_false_positive: must be in [0, 1]"),
+    ],
+)
+def test_invalid_m2_scalars(field: str, value: object, message: str) -> None:
+    kwargs: dict[str, Any] = {field: value}
+    with pytest.raises(ConfigError, match=re.escape(message)):
+        replace(make_config(), **kwargs)
+
+
+def test_hazards_json_rejects_unknown_layer_and_keys() -> None:
+    data = replace(make_config(), hazards=_hazards()).to_dict()
+    data["hazards"]["affected_layers"] = ["sea"]
+    with pytest.raises(ConfigError, match=re.escape("hazards.affected_layers[0]")):
+        ScenarioConfig.from_dict(data)
+    data = replace(make_config(), hazards=_hazards()).to_dict()
+    data["hazards"]["damage"] = 1
+    with pytest.raises(ConfigError, match=r"hazards: unknown key"):
+        ScenarioConfig.from_dict(data)
