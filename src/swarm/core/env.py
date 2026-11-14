@@ -45,6 +45,7 @@ from swarm.core.observation import (
     footprint_offsets,
     in_footprint,
 )
+from swarm.core.oracle import OracleView
 from swarm.core.rng import episode_streams
 from swarm.core.types import (
     ACTION_DELTAS,
@@ -368,6 +369,16 @@ class SwarmEnv:
             for i, aid in enumerate(self.possible_agents)
         )
         return EnvSnapshot(self._step, scenario, agents, self._done, self._end_reason)
+
+    def oracle_view(self) -> OracleView:
+        """Ground truth for oracle baselines only (ADR-0014). Never give this to other policies."""
+        scenario = self._require_scenario()
+        return OracleView(
+            terrain=scenario.terrain,
+            hazards=scenario.hazard_grid,
+            survivors=scenario.survivors,
+            base=scenario.base,
+        )
 
     def action_mask(self, agent_id: AgentId) -> tuple[bool, ...]:
         """The current action mask for one agent (also included in its observation)."""

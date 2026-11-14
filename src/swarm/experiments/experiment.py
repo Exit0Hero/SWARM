@@ -32,10 +32,11 @@ from swarm.evaluation.statistics import (
 )
 from swarm.experiments.runner import (
     DESIGNATIONS,
+    describe_policy,
     environment_metadata,
     run_episode,
 )
-from swarm.policies.base import PolicyFactory
+from swarm.policies.base import PolicyFactory, TeamFactory
 from swarm.scenarios.config import SCHEMA_VERSION as CONFIG_SCHEMA_VERSION
 from swarm.scenarios.config import ScenarioConfig
 
@@ -59,9 +60,11 @@ class EpisodeRecord:
     event_stream_sha256: str | None = None
     metrics: dict[str, Any] | None = None
     error: dict[str, str] | None = None
+    policy_diagnostics: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
+            "policy_diagnostics": self.policy_diagnostics,
             "seed": self.seed,
             "status": self.status,
             "end_reason": self.end_reason,
@@ -87,6 +90,7 @@ class ExperimentResult:
     episodes: tuple[EpisodeRecord, ...]
     summary: dict[str, MetricSummary]
     metadata: dict[str, Any]
+    diagnostics_summary: dict[str, MetricSummary] | None = None
 
     @property
     def complete(self) -> bool:
@@ -113,6 +117,9 @@ class ExperimentResult:
             ),
             "bootstrap": self.bootstrap.to_dict(),
             "summary": {name: s.to_dict() for name, s in self.summary.items()},
+            "policy_diagnostics_summary": {
+                name: s.to_dict() for name, s in (self.diagnostics_summary or {}).items()
+            },
             "metric_definitions": {
                 name: {
                     "definition": d.definition,
@@ -150,6 +157,10 @@ class ExperimentResult:
             episodes=tuple(EpisodeRecord.from_dict(e) for e in d["episodes"]),
             summary={name: MetricSummary(**s) for name, s in d["summary"].items()},
             metadata=dict(d["metadata"]),
+            diagnostics_summary={
+                name: MetricSummary(**s)
+                for name, s in d.get("policy_diagnostics_summary", {}).items()
+            },
         )
 
 
@@ -185,7 +196,7 @@ def _validate_seeds(seeds: Sequence[int]) -> tuple[int, ...]:
 
 def run_experiment(
     config: ScenarioConfig,
-    policy_factory: PolicyFactory,
+    policy_factory: PolicyFactory | TeamFactory,
     seeds: Sequence[int],
     *,
     bootstrap: BootstrapSpec | None = None,
@@ -195,18 +206,14 @@ def run_experiment(
 
     Any exception raised while running a seed's episode is recorded as a failed episode
     (type, message, traceback) and counted in every summary; the experiment then reports
-    ``complete = False``. Invalid *inputs* (seeds, designation, an oracle policy) raise instead.
+    ``complete = False``. Invalid *inputs* (seeds, designation, an inconsistent policy) raise
+    instead. Oracle policies are allowed and labelled ``information = "oracle"`` (ADR-0014).
     """
     seed_list = _validate_seeds(seeds)
     spec = bootstrap or BootstrapSpec()
     if designation not in DESIGNATIONS:
         raise ValueError(f"designation: must be one of {sorted(DESIGNATIONS)}, got {designation!r}")
-    agents = config.agents()
-    first_id, (first_spec, _) = next(iter(agents.items()))
-    probe = policy_factory(first_id, first_spec)
-    if probe.uses_oracle:
-        raise ValueError("oracle policies need an OracleView, which arrives in Phase 2 (ADR-0008)")
-    policy = {"name": probe.name, "version": probe.version, "uses_oracle": probe.uses_oracle}
+    policy = describe_policy(policy_factory, config)
 
     started_wall = dt.datetime.now(dt.UTC)
     started = time.perf_counter()
@@ -236,6 +243,7 @@ def run_experiment(
                 scenario_sha256=result.scenario_sha256,
                 event_stream_sha256=result.event_stream_sha256,
                 metrics=result.metrics.to_dict(),
+                policy_diagnostics=result.policy_diagnostics,
             )
         )
 
@@ -249,6 +257,16 @@ def run_experiment(
             metric=name,
         )
         for name in METRIC_DEFINITIONS
+    }
+    diagnostic_names = sorted({k for e in completed for k in (e.policy_diagnostics or {})})
+    diagnostics_summary = {
+        name: summarize(
+            [(e.policy_diagnostics or {}).get(name) for e in completed],
+            n_failed=n_failed,
+            spec=spec,
+            metric=f"diagnostic:{name}",
+        )
+        for name in diagnostic_names
     }
     metadata = {
         "schema_versions": {
@@ -273,6 +291,7 @@ def run_experiment(
         episodes=tuple(episodes),
         summary=summary,
         metadata=metadata,
+        diagnostics_summary=diagnostics_summary,
     )
 
 

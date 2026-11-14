@@ -154,11 +154,11 @@ def test_undefined_metrics_are_counted_not_averaged() -> None:
     assert result.summary["mission_success"].n_undefined == 3
 
 
-def test_oracle_policy_rejected_up_front() -> None:
+def test_per_agent_oracle_policy_rejected_up_front() -> None:
     class Oracle(StayPolicy):
         uses_oracle = True
 
-    with pytest.raises(ValueError, match="OracleView"):
+    with pytest.raises(ValueError, match="cannot use the oracle"):
         run_experiment(make_config(), lambda a, s: Oracle(), [0], bootstrap=FAST)
 
 
