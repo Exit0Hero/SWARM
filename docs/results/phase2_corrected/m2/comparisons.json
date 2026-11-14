@@ -1,0 +1,1703 @@
+[
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "random_valid",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "astar_waypoint",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.14620875408806766,
+        "ci_low": 0.0857536779252361,
+        "mean_difference": 0.11715803345042286,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.10959250642625248
+      },
+      "agents_disabled": {
+        "ci_high": -1.4,
+        "ci_low": -1.94,
+        "mean_difference": -1.68,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.9987747595970592
+      },
+      "agents_disabled_energy": {
+        "ci_high": -1.32,
+        "ci_low": -1.74,
+        "mean_difference": -1.54,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.7879189847507243
+      },
+      "agents_disabled_hazard": {
+        "ci_high": -0.02,
+        "ci_low": -0.28,
+        "mean_difference": -0.14,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.45220547975269754
+      },
+      "coverage_sensed": {
+        "ci_high": 0.06185258767822468,
+        "ci_low": 0.006055224037846278,
+        "mean_difference": 0.03393431185984704,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.10182504059909664
+      },
+      "coverage_visited": {
+        "ci_high": -0.0062717038169646895,
+        "ci_low": -0.044288274450380555,
+        "mean_difference": -0.025472884142668045,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06971701803031166
+      },
+      "energy_efficiency": {
+        "ci_high": 2.138478867088572,
+        "ci_low": -3.630000590464063,
+        "mean_difference": -0.4208484080128314,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 10.552460203320672
+      },
+      "energy_used": {
+        "ci_high": 267.20149999999995,
+        "ci_low": 114.2385,
+        "mean_difference": 191.92,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 279.34046522157166
+      },
+      "false_positive_reports": {
+        "ci_high": 6.88,
+        "ci_low": 2.68,
+        "mean_difference": 4.8,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 7.724860476911871
+      },
+      "hazard_energy_lost": {
+        "ci_high": 14.2,
+        "ci_low": -36.1,
+        "mean_difference": -11.9,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 91.23243470859003
+      },
+      "hazard_exposures": {
+        "ci_high": 2.86,
+        "ci_low": -7.34,
+        "mean_difference": -2.38,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 18.246486941718008
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.3,
+        "ci_low": 0.02,
+        "mean_difference": 0.16,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.5095015571464859
+      },
+      "move_conflicts": {
+        "ci_high": 36.62,
+        "ci_low": 25.76,
+        "mean_difference": 31.16,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 20.201394172942923
+      },
+      "precision": {
+        "ci_high": 0.04017621867623391,
+        "ci_low": -0.03854557346885328,
+        "mean_difference": 0.0004554198576904556,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1430767866562845
+      },
+      "reachable_recall": {
+        "ci_high": 0.1175,
+        "ci_low": 0.0275,
+        "mean_difference": 0.0725,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.16577354236107394
+      },
+      "recall": {
+        "ci_high": 0.1175,
+        "ci_low": 0.0275,
+        "mean_difference": 0.0725,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.16577354236107394
+      },
+      "report_precision": {
+        "ci_high": 0.03125131230003589,
+        "ci_low": -0.03909635347388175,
+        "mean_difference": -0.003426531751529591,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.12796600985112233
+      },
+      "time_to_first_detection": {
+        "ci_high": 1.6604999999999925,
+        "ci_low": -3.82,
+        "mean_difference": -1.08,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 9.952622462323736
+      },
+      "time_to_recall_target": {
+        "ci_high": 19.428571428571427,
+        "ci_low": -30.428571428571427,
+        "mean_difference": -6.0,
+        "n_excluded": 43,
+        "n_pairs": 7,
+        "std": 37.30058087125901
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "astar_waypoint",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.024561212768564183,
+        "ci_low": -0.019317264138513417,
+        "mean_difference": 0.0019866904330027844,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.07998171495367905
+      },
+      "agents_disabled": {
+        "ci_high": 0.1,
+        "ci_low": -0.18,
+        "mean_difference": -0.04,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.5329930887479323
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.06,
+        "ci_low": -0.06,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.20203050891044214
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.1,
+        "ci_low": -0.18,
+        "mean_difference": -0.04,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.49321932861805906
+      },
+      "coverage_sensed": {
+        "ci_high": 0.13128660198766492,
+        "ci_low": 0.052812754707644384,
+        "mean_difference": 0.09226640804308359,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.14419876112326405
+      },
+      "coverage_visited": {
+        "ci_high": 0.12821869224817323,
+        "ci_low": 0.06596074521003457,
+        "mean_difference": 0.09698609756209498,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.11396003156411717
+      },
+      "energy_efficiency": {
+        "ci_high": 9.333928175046974,
+        "ci_low": 5.122536483283901,
+        "mean_difference": 7.254890042493432,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 7.8634332116154315
+      },
+      "energy_used": {
+        "ci_high": -285.65950000000004,
+        "ci_low": -462.90099999999995,
+        "mean_difference": -375.46,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 326.39554131108326
+      },
+      "false_positive_reports": {
+        "ci_high": -7.84,
+        "ci_low": -12.54,
+        "mean_difference": -10.22,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 8.569737928505475
+      },
+      "hazard_energy_lost": {
+        "ci_high": -5.7,
+        "ci_low": -69.7,
+        "mean_difference": -36.5,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 117.26148174929743
+      },
+      "hazard_exposures": {
+        "ci_high": -1.1395000000000073,
+        "ci_low": -14.1,
+        "mean_difference": -7.3,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 23.452296349859488
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.76,
+        "ci_low": 0.48,
+        "mean_difference": 0.62,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.49031435147801467
+      },
+      "move_conflicts": {
+        "ci_high": -14.32,
+        "ci_low": -25.64,
+        "mean_difference": -19.92,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 20.83936620133802
+      },
+      "precision": {
+        "ci_high": 0.20802329263388397,
+        "ci_low": 0.11768874754762494,
+        "mean_difference": 0.16465705622380683,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1631417402273528
+      },
+      "reachable_recall": {
+        "ci_high": 0.2025,
+        "ci_low": 0.1175,
+        "mean_difference": 0.1575,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.157325381010834
+      },
+      "recall": {
+        "ci_high": 0.2025,
+        "ci_low": 0.115,
+        "mean_difference": 0.1575,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.157325381010834
+      },
+      "report_precision": {
+        "ci_high": 0.06819903403997213,
+        "ci_low": 0.0038823396265846707,
+        "mean_difference": 0.03392278782217641,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1163012371424096
+      },
+      "time_to_first_detection": {
+        "ci_high": 2.5,
+        "ci_low": -3.82,
+        "mean_difference": -0.56,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 11.599014736482701
+      },
+      "time_to_recall_target": {
+        "ci_high": 4.611111111111111,
+        "ci_low": -45.22222222222222,
+        "mean_difference": -20.11111111111111,
+        "n_excluded": 32,
+        "n_pairs": 18,
+        "std": 55.66273321784554
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "prioritized_frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.08467193417378321,
+        "ci_low": 0.05149558177314325,
+        "mean_difference": 0.0670178856918803,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06100513718477774
+      },
+      "agents_disabled": {
+        "ci_high": -0.1,
+        "ci_low": -0.32,
+        "mean_difference": -0.2,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.4040610178208843
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": -0.06,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "agents_disabled_hazard": {
+        "ci_high": -0.08,
+        "ci_low": -0.3,
+        "mean_difference": -0.18,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.3880879344916036
+      },
+      "coverage_sensed": {
+        "ci_high": 0.046217260960926494,
+        "ci_low": -0.015391671416049846,
+        "mean_difference": 0.015931819359828903,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1142057324792023
+      },
+      "coverage_visited": {
+        "ci_high": 0.013699312197381646,
+        "ci_low": -0.035574474278232314,
+        "mean_difference": -0.011099206387248279,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.08912196777268308
+      },
+      "energy_efficiency": {
+        "ci_high": 24.000317886709507,
+        "ci_low": 13.729761251761596,
+        "mean_difference": 18.246442635264863,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 18.65603362258463
+      },
+      "energy_used": {
+        "ci_high": -208.95700000000005,
+        "ci_low": -297.9805,
+        "mean_difference": -251.92,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 163.21387496040845
+      },
+      "false_positive_reports": {
+        "ci_high": -5.38,
+        "ci_low": -7.88,
+        "mean_difference": -6.6,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 4.593695768803865
+      },
+      "hazard_energy_lost": {
+        "ci_high": -22.0,
+        "ci_low": -40.6,
+        "mean_difference": -31.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 34.00180067260544
+      },
+      "hazard_exposures": {
+        "ci_high": -4.379500000000007,
+        "ci_low": -8.120499999999995,
+        "mean_difference": -6.2,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 6.800360134521088
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.06,
+        "ci_low": 0.0,
+        "mean_difference": 0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "move_conflicts": {
+        "ci_high": -15.64,
+        "ci_low": -20.68099999999999,
+        "mean_difference": -18.12,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 9.358266017652141
+      },
+      "precision": {
+        "ci_high": 0.27826773125750276,
+        "ci_low": 0.1894689569004379,
+        "mean_difference": 0.23260137488481816,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1597448722702962
+      },
+      "reachable_recall": {
+        "ci_high": 0.015,
+        "ci_low": -0.005,
+        "mean_difference": 0.005,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.035355339059327376
+      },
+      "recall": {
+        "ci_high": 0.015,
+        "ci_low": -0.005,
+        "mean_difference": 0.005,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.035355339059327376
+      },
+      "report_precision": {
+        "ci_high": 0.03401335836766968,
+        "ci_low": -0.0003165661535175185,
+        "mean_difference": 0.01642252177214486,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06315976135031828
+      },
+      "time_to_first_detection": {
+        "ci_high": -0.84,
+        "ci_low": -6.48,
+        "mean_difference": -3.34,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 10.310703770591898
+      },
+      "time_to_recall_target": {
+        "ci_high": -42.53061224489796,
+        "ci_low": -59.57142857142857,
+        "mean_difference": -50.714285714285715,
+        "n_excluded": 1,
+        "n_pairs": 49,
+        "std": 30.738141344806998
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "prioritized_frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.0026967270593146906,
+        "ci_low": -0.007354450368285974,
+        "mean_difference": -0.0013872771473749978,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.01824796825812919
+      },
+      "agents_disabled": {
+        "ci_high": 0.06,
+        "ci_low": -0.06,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.20203050891044214
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.06,
+        "ci_low": -0.06,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.20203050891044214
+      },
+      "coverage_sensed": {
+        "ci_high": 0.013644798823841448,
+        "ci_low": -0.0313503344867029,
+        "mean_difference": -0.008659441623969038,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.08184019111277481
+      },
+      "coverage_visited": {
+        "ci_high": 0.015523764856037854,
+        "ci_low": -0.01023177596888337,
+        "mean_difference": 0.002189938232885745,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.04662560253330097
+      },
+      "energy_efficiency": {
+        "ci_high": 1.5121387463104874,
+        "ci_low": -2.4975683735383924,
+        "mean_difference": -0.2695074143030455,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 7.324459825856631
+      },
+      "energy_used": {
+        "ci_high": 4.900999999999986,
+        "ci_low": -17.120499999999996,
+        "mean_difference": -6.08,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 40.81958313538905
+      },
+      "false_positive_reports": {
+        "ci_high": 0.1,
+        "ci_low": -0.46,
+        "mean_difference": -0.16,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.9971387638065798
+      },
+      "hazard_energy_lost": {
+        "ci_high": 5.9,
+        "ci_low": -0.3,
+        "mean_difference": 2.8,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 11.346131229522731
+      },
+      "hazard_exposures": {
+        "ci_high": 1.18,
+        "ci_low": -0.06,
+        "mean_difference": 0.56,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 2.2692262459045462
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.02808563911578618,
+        "ci_low": -0.005109280425456899,
+        "mean_difference": 0.011241905153669856,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.060133500518469274
+      },
+      "reachable_recall": {
+        "ci_high": 0.0075,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.025253813613805267
+      },
+      "recall": {
+        "ci_high": 0.0075,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.025253813613805267
+      },
+      "report_precision": {
+        "ci_high": 0.007077196172228876,
+        "ci_low": -0.004441019550070761,
+        "mean_difference": 0.001516678117015846,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.02085042235757833
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.2,
+        "ci_low": -0.28,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.8919137873593124
+      },
+      "time_to_recall_target": {
+        "ci_high": 0.94,
+        "ci_low": -2.9,
+        "mean_difference": -0.98,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 7.040669031289802
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "frontier_hazard_aware",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.049078123347321735,
+        "ci_low": 0.012679968606498547,
+        "mean_difference": 0.029699888375909044,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06688740586295734
+      },
+      "agents_disabled": {
+        "ci_high": -0.16,
+        "ci_low": -0.42,
+        "mean_difference": -0.28,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.4965184913423648
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": -0.06,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "agents_disabled_hazard": {
+        "ci_high": -0.14,
+        "ci_low": -0.4,
+        "mean_difference": -0.26,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.48697315854455175
+      },
+      "coverage_sensed": {
+        "ci_high": 0.013901366430889309,
+        "ci_low": -0.02734257389458189,
+        "mean_difference": -0.005383368846622366,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.07675522766390593
+      },
+      "coverage_visited": {
+        "ci_high": 0.021986735206668155,
+        "ci_low": -0.016542477329936724,
+        "mean_difference": 0.003542625703998231,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.07072314413884608
+      },
+      "energy_efficiency": {
+        "ci_high": 1.1186216803172453,
+        "ci_low": -0.6374101508183926,
+        "mean_difference": 0.20634373230423564,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.1635110396534105
+      },
+      "energy_used": {
+        "ci_high": 21.02049999999999,
+        "ci_low": -49.520999999999994,
+        "mean_difference": -12.54,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 128.5476501821287
+      },
+      "false_positive_reports": {
+        "ci_high": 0.18,
+        "ci_low": -1.44,
+        "mean_difference": -0.56,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 2.928815320854743
+      },
+      "hazard_energy_lost": {
+        "ci_high": -42.0,
+        "ci_low": -61.5,
+        "mean_difference": -51.3,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 35.58275780572979
+      },
+      "hazard_exposures": {
+        "ci_high": -8.42,
+        "ci_low": -12.34,
+        "mean_difference": -10.26,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 7.116551561145958
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.06,
+        "ci_low": 0.0,
+        "mean_difference": 0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "move_conflicts": {
+        "ci_high": 1.8,
+        "ci_low": -3.32,
+        "mean_difference": -0.72,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 9.335121305902693
+      },
+      "precision": {
+        "ci_high": 0.033703419672937114,
+        "ci_low": -0.006601597687209812,
+        "mean_difference": 0.012255022067715574,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.07336678498228712
+      },
+      "reachable_recall": {
+        "ci_high": 0.0075,
+        "ci_low": 0.0,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.017677669529663688
+      },
+      "recall": {
+        "ci_high": 0.0075,
+        "ci_low": 0.0,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.017677669529663688
+      },
+      "report_precision": {
+        "ci_high": 0.009211722998117866,
+        "ci_low": -0.001865978861598209,
+        "mean_difference": 0.0036012538978665055,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.019910533218296562
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.64,
+        "ci_low": -0.24,
+        "mean_difference": 0.12,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 1.6738078303859214
+      },
+      "time_to_recall_target": {
+        "ci_high": 1.7142857142857142,
+        "ci_low": -10.020408163265307,
+        "mean_difference": -3.816326530612245,
+        "n_excluded": 1,
+        "n_pairs": 49,
+        "std": 21.338222228928924
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment_hazard_aware",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.021103653195200633,
+        "ci_low": 0.0008242424473130863,
+        "mean_difference": 0.009750592194368895,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0369810838710917
+      },
+      "agents_disabled": {
+        "ci_high": -0.02,
+        "ci_low": -0.16,
+        "mean_difference": -0.08,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.27404751561786966
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": -0.02,
+        "ci_low": -0.16,
+        "mean_difference": -0.08,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.27404751561786966
+      },
+      "coverage_sensed": {
+        "ci_high": 0.03781202997769449,
+        "ci_low": -0.016788795886519037,
+        "mean_difference": 0.008295697412894844,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.09964497443975011
+      },
+      "coverage_visited": {
+        "ci_high": 0.021537589555615428,
+        "ci_low": -0.01617689841305778,
+        "mean_difference": 0.000861600633113902,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06779097490653199
+      },
+      "energy_efficiency": {
+        "ci_high": 0.5941031727450489,
+        "ci_low": -4.528656179704337,
+        "mean_difference": -1.5954399309710932,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 9.31632369285593
+      },
+      "energy_used": {
+        "ci_high": 22.120499999999993,
+        "ci_low": -5.06,
+        "mean_difference": 7.6,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 49.85407276671156
+      },
+      "false_positive_reports": {
+        "ci_high": 0.44,
+        "ci_low": -0.18,
+        "mean_difference": 0.12,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 1.136410388648648
+      },
+      "hazard_energy_lost": {
+        "ci_high": -20.7,
+        "ci_low": -29.5,
+        "mean_difference": -25.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 15.87579340778062
+      },
+      "hazard_exposures": {
+        "ci_high": -4.16,
+        "ci_low": -5.9,
+        "mean_difference": -5.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.175158681556124
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.008952702852702844,
+        "ci_low": -0.03504951176274705,
+        "mean_difference": -0.012089661972014908,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.08028009160280289
+      },
+      "reachable_recall": {
+        "ci_high": 0.0125,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.03984984572218106
+      },
+      "recall": {
+        "ci_high": 0.012562499999999092,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.03984984572218106
+      },
+      "report_precision": {
+        "ci_high": 0.005543391313032316,
+        "ci_low": -0.0059553188031591315,
+        "mean_difference": -0.00018544718524980962,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.02086794780654979
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.14,
+        "ci_low": -1.08,
+        "mean_difference": -0.34,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 2.2911542407926277
+      },
+      "time_to_recall_target": {
+        "ci_high": 3.6204999999999927,
+        "ci_low": -1.2,
+        "mean_difference": 1.04,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 8.85244114839033
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "oracle",
+      "name": "assignment_oracle",
+      "uses_oracle": true,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "8db09395238eb1222d8129d00cc5e37d9634eb613d1e66c31d52d07b8f77455d",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.004825114158375882,
+        "ci_low": -0.01674139817445833,
+        "mean_difference": -0.006590842803209212,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.03966810566958474
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": -0.14,
+        "mean_difference": -0.06,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.23989793748209523
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": -0.14,
+        "mean_difference": -0.06,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.23989793748209523
+      },
+      "coverage_sensed": {
+        "ci_high": -0.25251440447023993,
+        "ci_low": -0.33233085353984604,
+        "mean_difference": -0.29283745124149063,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.14332114091595965
+      },
+      "coverage_visited": {
+        "ci_high": -0.20194820181500983,
+        "ci_low": -0.25217018209064906,
+        "mean_difference": -0.22737470443849744,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.09130516408415049
+      },
+      "energy_efficiency": {
+        "ci_high": 58.82334904886447,
+        "ci_low": 48.17043462913166,
+        "mean_difference": 53.413205121204776,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 19.298577909560972
+      },
+      "energy_used": {
+        "ci_high": -123.97900000000001,
+        "ci_low": -158.66049999999998,
+        "mean_difference": -141.48,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 63.75534871519345
+      },
+      "false_positive_reports": {
+        "ci_high": -1.96,
+        "ci_low": -3.14,
+        "mean_difference": -2.54,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 2.149608412369707
+      },
+      "hazard_energy_lost": {
+        "ci_high": -15.797500000000037,
+        "ci_low": -26.1,
+        "mean_difference": -20.8,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 18.690824989162735
+      },
+      "hazard_exposures": {
+        "ci_high": -3.16,
+        "ci_low": -5.2,
+        "mean_difference": -4.16,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.738164997832547
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.2131587925962926,
+        "ci_low": 0.1393112946693829,
+        "mean_difference": 0.17539468701233407,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1330112822504694
+      },
+      "reachable_recall": {
+        "ci_high": 0.015,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.03984984572218106
+      },
+      "recall": {
+        "ci_high": 0.015,
+        "ci_low": -0.0075,
+        "mean_difference": 0.0025,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.03984984572218106
+      },
+      "report_precision": {
+        "ci_high": 0.040212199273644944,
+        "ci_low": 0.004066199399226802,
+        "mean_difference": 0.02199613944015273,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06589206830389997
+      },
+      "time_to_first_detection": {
+        "ci_high": -0.72,
+        "ci_low": -2.68,
+        "mean_difference": -1.6,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.5970509462897633
+      },
+      "time_to_recall_target": {
+        "ci_high": -20.82,
+        "ci_low": -27.020499999999995,
+        "mean_difference": -24.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 11.235875486991821
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  }
+]

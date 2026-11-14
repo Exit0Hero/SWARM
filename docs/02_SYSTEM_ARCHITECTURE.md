@@ -38,7 +38,7 @@ Subpackages are created only when they contain working, tested code (see
 [repository conventions](decisions/README.md#repository-conventions)). The list above is the target layout, not
 the current one.
 
-## Implemented modules (Phase 1 M1 and M2)
+## Implemented modules (Phases 1 and 2)
 For M1, agent models and observations live in `swarm.core` and `swarm.scenarios` rather than in separate
 `swarm.agents` and `swarm.observations` packages. Agent types are configuration data (ADR-0002), so a separate
 package would be empty. Dependencies point downward only: `experiments` → `policies`, `evaluation`,
@@ -54,13 +54,17 @@ package would be empty. Dependencies point downward only: `experiments` → `pol
 | `src/swarm/core/env.py` | `SwarmEnv`, `StepResult`, `EnvSnapshot` (ADR-0010) |
 | `src/swarm/scenarios/config.py` | Frozen configs, strict JSON, config hash, default agent types (ADR-0007) |
 | `src/swarm/scenarios/generator.py` | `Scenario` ground truth with hazard overlay, seeded generator, ASCII maps, reachability |
-| `src/swarm/policies/` | `Policy` protocol and the random valid-action baseline |
+| `src/swarm/core/oracle.py` | `OracleView`: the only channel to ground truth for policies (ADR-0014) |
+| `src/swarm/navigation/` | Known map, A* and cost fields, energy model, reservation tables and prioritized planning (ADR-0015, ADR-0016) |
+| `src/swarm/coordination/assignment.py` | Pure-Python Hungarian assignment (ADR-0016) |
+| `src/swarm/policies/` | `Policy` and `TeamPolicy` protocols, `MissionBrief`, decentralized and centralized baselines, registry (ADR-0014, ADR-0016) |
 | `src/swarm/evaluation/metrics.py` | Event-replay metric registry with ground-truth cross-checks (ADR-0009) |
 | `src/swarm/evaluation/statistics.py` | Summaries, percentile bootstrap, paired differences (ADR-0009) |
 | `src/swarm/experiments/runner.py` | `run_episode`, result record, metadata |
 | `src/swarm/experiments/run_episode.py` | Command-line entry point (one episode) |
 | `src/swarm/experiments/experiment.py` | `run_experiment`, `compare_experiments`, result records |
 | `src/swarm/experiments/run_experiment.py`, `src/swarm/experiments/compare.py` | Command-line entry points (multi-seed, comparison) |
+| `src/swarm/experiments/run_baselines.py` | All registered policies on identical seeds, plus pre-registered comparisons |
 | `src/swarm/visualization/text.py` | Read-only text renderer |
 
 ## Event stream

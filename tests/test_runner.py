@@ -140,7 +140,12 @@ def test_result_record_contains_required_metadata() -> None:
     assert record["result_schema_version"] == RESULT_SCHEMA_VERSION
     assert record["designation"] == "evaluation"
     assert record["seed"] == 0
-    assert record["policy"] == {"name": "random_valid", "version": "1", "uses_oracle": False}
+    assert record["policy"] == {
+        "name": "random_valid",
+        "version": "1",
+        "uses_oracle": False,
+        "information": "decentralized",
+    }
     assert ScenarioConfig.from_dict(record["config"]) == default_config()
     assert record["config_hash"] == default_config().config_hash()
     assert set(record["metrics"]) == set(METRIC_DEFINITIONS)
@@ -164,8 +169,9 @@ def test_written_event_stream_matches_recorded_hash(tmp_path: Path) -> None:
     )
 
 
-def test_oracle_policies_are_rejected_until_phase_2() -> None:
-    with pytest.raises(ValueError, match="OracleView"):
+def test_per_agent_oracle_policies_are_rejected() -> None:
+    """Oracle access goes only through a TeamPolicy with an OracleView (ADR-0014)."""
+    with pytest.raises(ValueError, match="cannot use the oracle"):
         run_episode(make_config(), oracle_factory, 0)
 
 

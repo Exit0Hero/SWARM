@@ -34,7 +34,14 @@ from swarm.evaluation.metrics import (
     EpisodeMetrics,
     compute_metrics,
 )
-from swarm.policies.base import Policy, PolicyFactory
+from swarm.policies.base import (
+    MissionBrief,
+    PolicyFactory,
+    TeamFactory,
+    TeamPolicy,
+    build_team,
+    policy_identity,
+)
 from swarm.scenarios.config import SCHEMA_VERSION as CONFIG_SCHEMA_VERSION
 from swarm.scenarios.config import ScenarioConfig
 
@@ -61,6 +68,8 @@ class EpisodeResult:
     metadata: dict[str, Any]
     final_snapshot: EnvSnapshot
     """Final state including ground truth; for rendering and checks, not serialized."""
+    policy_diagnostics: dict[str, Any] | None = None
+    decision_log: tuple[dict[str, Any], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         """Versioned JSON-ready record. Events are written separately (JSON Lines)."""
@@ -90,6 +99,8 @@ class EpisodeResult:
                 for name, d in METRIC_DEFINITIONS.items()
             },
             "metadata": self.metadata,
+            "policy_diagnostics": self.policy_diagnostics or {},
+            "decision_log": list(self.decision_log),
         }
 
     def to_json(self) -> str:
@@ -101,16 +112,21 @@ class EpisodeResult:
 
 def run_episode(
     config: ScenarioConfig,
-    policy_factory: PolicyFactory,
+    policy_factory: PolicyFactory | TeamFactory,
     seed: int,
     *,
     designation: str = "evaluation",
 ) -> EpisodeResult:
-    """Run one episode of ``config`` with one policy per agent built by ``policy_factory``.
+    """Run one episode of ``config`` with the policy built by ``policy_factory``.
+
+    ``policy_factory`` is either a per-agent :data:`~swarm.policies.base.PolicyFactory` (wrapped
+    in an ``IndependentTeam``, Phase 1 behaviour) or a :class:`~swarm.policies.base.TeamFactory`
+    (ADR-0014). Oracle teams receive :meth:`SwarmEnv.oracle_view` after reset; no other policy
+    does.
 
     Raises:
-        ValueError: on an invalid seed or designation, a policy that requires oracle access
-            (not available before Phase 2), or a policy that returns an invalid action type.
+        ValueError: on an invalid seed or designation, an inconsistent policy identity, or
+            actions for the wrong set of agents.
     """
     validate_seed(seed)
     if designation not in DESIGNATIONS:
@@ -119,19 +135,19 @@ def run_episode(
     started = time.perf_counter()
 
     env = SwarmEnv(config)
-    agents = config.agents()
-    policies: dict[str, Policy] = {
-        aid: policy_factory(aid, spec) for aid, (spec, _) in agents.items()
-    }
-    _check_policies(policies)
+    team = build_team(policy_factory, MissionBrief.from_config(config))
     policy_rngs = episode_streams(seed, env.possible_agents).policies
 
     observations, _ = env.reset(seed)
+    if team.uses_oracle:
+        team.attach_oracle(env.oracle_view())
     events: list[Event] = []
     while not env.done:
-        actions = {
-            aid: policies[aid].act(observations[aid], policy_rngs[aid]) for aid in env.agents
-        }
+        actions = team.act(observations, policy_rngs)
+        if set(actions) != set(env.agents):
+            raise ValueError(
+                f"{team.name}: returned actions for {sorted(actions)}, expected {list(env.agents)}"
+            )
         result = env.step(actions)
         events.extend(result.events)
         observations = result.observations
@@ -139,15 +155,14 @@ def run_episode(
     snapshot = env.snapshot()
     assert snapshot.end_reason is not None
     metrics = compute_metrics(config, snapshot.scenario, events)
-    first = next(iter(policies.values()))
     return EpisodeResult(
         config=config,
         seed=seed,
-        policy={"name": first.name, "version": first.version, "uses_oracle": first.uses_oracle},
+        policy=policy_identity(team),
         designation=designation,
         steps=snapshot.step,
         end_reason=snapshot.end_reason,
-        terminated=snapshot.end_reason == "all_disabled",
+        terminated=snapshot.end_reason != "time_limit",
         truncated=snapshot.end_reason == "time_limit",
         scenario_sha256=snapshot.scenario.fingerprint(),
         event_stream_sha256=event_stream_sha256(events),
@@ -155,7 +170,17 @@ def run_episode(
         events=tuple(events),
         metadata=_metadata(seed, env.possible_agents, started_wall, time.perf_counter() - started),
         final_snapshot=snapshot,
+        policy_diagnostics=dict(team.diagnostics()),
+        decision_log=tuple(team.decision_log()),
     )
+
+
+def describe_policy(
+    policy_factory: PolicyFactory | TeamFactory, config: ScenarioConfig
+) -> dict[str, Any]:
+    """The policy identity record, without running an episode."""
+    team: TeamPolicy = build_team(policy_factory, MissionBrief.from_config(config))
+    return policy_identity(team)
 
 
 def write_result(result: EpisodeResult, out: Path, events_out: Path | None = None) -> None:
@@ -165,16 +190,6 @@ def write_result(result: EpisodeResult, out: Path, events_out: Path | None = Non
     if events_out is not None:
         events_out.parent.mkdir(parents=True, exist_ok=True)
         events_out.write_text(result.events_jsonl(), encoding="utf-8")
-
-
-def _check_policies(policies: dict[str, Policy]) -> None:
-    identities = {(p.name, p.version, p.uses_oracle) for p in policies.values()}
-    if len(identities) != 1:
-        raise ValueError(
-            f"policy_factory: all agents must use one policy identity in M1, got {identities}"
-        )
-    if any(p.uses_oracle for p in policies.values()):
-        raise ValueError("oracle policies need an OracleView, which arrives in Phase 2 (ADR-0008)")
 
 
 def _git_state() -> dict[str, Any]:

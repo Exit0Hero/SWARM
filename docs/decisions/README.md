@@ -21,9 +21,12 @@ truth when a numbered document in `docs/` and an ADR disagree; fix the document.
 | [0011](0011-static-hazards.md) | Static hazards | Accepted |
 | [0012](0012-false-positive-detections-and-precision.md) | False-positive detections, report association and precision | Accepted |
 | [0013](0013-environment-rng-substreams.md) | Environment RNG sub-streams per stochastic process | Accepted |
+| [0014](0014-team-policies-and-information-models.md) | Team policies, mission brief, oracle view and information labels | Accepted |
+| [0015](0015-path-planning-and-reservation-tables.md) | Path planning and prioritized planning with reservation tables | Accepted |
+| [0016](0016-energy-feasibility-and-classical-baselines.md) | Energy feasibility and the classical baseline policies | Accepted |
 
 ADR-0001 to ADR-0010 were accepted on 2026-11-15 from the Phase 0 repository audit; ADR-0011 to ADR-0013 and
-ADR-0009 revision 2 with Phase 1 M2. Parameter values
+ADR-0009 revision 2 with Phase 1 M2; ADR-0014 to ADR-0016 with Phase 2. Parameter values
 marked *default* are starting points that Phase 1 may tune without a new ADR. Changing a
 rule (not a default) requires a new ADR that supersedes the old one.
 

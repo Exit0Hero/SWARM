@@ -48,3 +48,9 @@ Observations gain `local_hazard`: hazards inside the footprint, aligned with `lo
 ([ADR-0011](0011-static-hazards.md)). `detections` merges true and false reports with no labels
 ([ADR-0012](0012-false-positive-detections-and-precision.md)). Required tests now also cover hazards outside every
 footprint, which must not change observations.
+
+## Amendment (Phase 2)
+`OracleView` is implemented (`swarm.core.oracle`, `SwarmEnv.oracle_view()`). Only team policies with
+`uses_oracle = True` receive it, and every result records `policy.information`
+([ADR-0014](0014-team-policies-and-information-models.md)). Lockstep tests check that every non-oracle policy's actions
+depend only on observations, with an oracle positive control.

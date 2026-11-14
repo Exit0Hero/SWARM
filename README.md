@@ -5,21 +5,28 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: Phase 1, milestone M2 (in review)
+## Current status: Phase 2 (navigation and classical baselines) — in review
 
 | What | Status |
 |---|---|
-| Docs, 13 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
-| M1: deterministic 2D grid, two layers, heterogeneous agents, simultaneous moves, masks, energy, detection, events, random baseline, episode runner, text renderer | Complete |
-| M2: static hazards, false-positive reports and precision, mission-success termination, full metric registry | Implemented, in review |
-| M2: multi-seed experiment runner with bootstrap confidence intervals and paired comparison | Implemented, in review |
-| Path planning, informed baselines, coordination, communication | Planned (Phases 2–3) |
-| MARL, perception models, dashboard, 3D | Planned (Phases 4–8) |
+| Docs, 16 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
+| Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Implemented, in review |
+| Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded); fresh-seed validation not yet run. See `docs/16_PHASE2_BASELINE_STUDY.md` |
+| Communication, belief maps, auctions (Phase 3); MARL, perception models, dashboard, 3D (Phases 4–8) | Planned |
 
-The only policy is a **random** baseline. It is a sanity check, not a search strategy, and any numbers it produces
-describe that baseline on these synthetic maps only. All agents move one cell per step, so nothing here shows that
-drones outperform ground robots, or the reverse. Hazards and false reports are simple probabilistic models, not
-physical ones. The simulator is a simplified abstraction, not a realistic model
+**Policies** (`python -m swarm.experiments.run_episode --policy <name>`):
+
+| Policy | Information model |
+|---|---|
+| `random_valid` | decentralized (sanity baseline) |
+| `astar_waypoint`, `frontier`, `frontier_hazard_aware` | decentralized (own observations only) |
+| `prioritized_frontier`, `assignment`, `assignment_hazard_aware` | centralized_pooled (all agents' observations; perfect communication assumed) |
+| `assignment_oracle` | **oracle** (reads hidden survivor locations; reference only, never reported as non-oracle performance) |
+
+All results are simulation results on synthetic maps with illustrative parameters. All agents move one cell per
+step, so nothing here shows that drones outperform ground robots, or the reverse. Hazards and false reports are simple
+probabilistic models. The simulator is a simplified abstraction, not a realistic model
 (see `docs/15_RISK_REGISTER_AND_LIMITATIONS.md`). Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
 
 ## Run an episode
@@ -33,6 +40,16 @@ This writes a versioned JSON result (config, seed derivation, software versions,
 definitions and units, and event-stream hash) and prints a summary. Re-running with the same config and seed
 reproduces the same `event_stream_sha256` and metrics. `configs/m1_default.json` is the M1 scenario: a schema-v1
 file that still loads and reproduces its M1 results exactly.
+
+## Run the baseline study
+
+```bash
+python -m swarm.experiments.run_baselines --config configs/m2_default.json --seeds 0-49 \
+    --out-dir runs/phase2/m2
+```
+
+This runs every registered policy on identical seeds, writes one experiment JSON per policy, the pre-registered paired
+comparisons, and generated summary tables.
 
 ## Run a multi-seed experiment
 
@@ -82,7 +99,8 @@ added in the phase that needs them (`docs/decisions/README.md`).
 | `docs/` | Requirements, specifications, roadmap, risks (numbered 01–15) |
 | `docs/decisions/` | Architecture Decision Records |
 | `.claude/skills/` | Project-specific Claude Code skills |
-| `src/swarm/` | Python package: `core`, `scenarios`, `policies`, `evaluation`, `experiments`, `visualization` |
+| `src/swarm/` | Python package: `core`, `scenarios`, `navigation`, `coordination`, `policies`, `evaluation`, `experiments`, `visualization` |
+| `docs/results/` | Archived generated results of pre-registered studies |
 | `configs/` | Example scenario configs (`m1_default.json` schema v1, `m2_default.json` schema v2) |
 | `tests/` | Test suite |
 | `.github/workflows/ci.yml` | Continuous integration |

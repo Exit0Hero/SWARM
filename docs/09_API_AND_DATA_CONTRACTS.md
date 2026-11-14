@@ -12,7 +12,7 @@ Phase 1, but the shape may not change without a new ADR.
 - `Policy.act(observation, rng)`: return a valid action for one agent.
 - `run_episode(config, policy_factory, seed)` and `run_experiment(experiment_config)`: execute and persist runs.
 
-### As implemented in Phase 1 (M1 and M2)
+### As implemented (Phases 1 and 2)
 - `SwarmEnv(config).reset(seed, *, scenario=None)`. The optional `scenario` supplies explicit ground truth for
   tests or fixed benchmark maps.
 - `SwarmEnv.step(actions) -> StepResult(observations, terminations, truncations, infos, events)`. Actions may be
@@ -22,6 +22,10 @@ Phase 1, but the shape may not change without a new ADR.
 - `Policy.act(observation, rng) -> int`, plus `name`, `version`, `uses_oracle`.
   `PolicyFactory = Callable[[AgentId, AgentTypeSpec], Policy]`.
 - `run_episode(config, policy_factory, seed, *, designation="evaluation") -> EpisodeResult`.
+- Team policies (Phase 2, [ADR-0014](decisions/0014-team-policies-and-information-models.md)): `TeamFactory(name, build)`
+  builds a `TeamPolicy` from a `MissionBrief`. `act(observations, rngs) -> {agent: action}` covers every active agent;
+  `diagnostics()` and `decision_log()` are recorded. Oracle teams get `attach_oracle(OracleView)`. `run_episode` and
+  `run_experiment` accept a per-agent `PolicyFactory` or a `TeamFactory`. Results record `policy.information`.
 - `run_experiment(config, policy_factory, seeds, *, bootstrap=None, designation="evaluation") -> ExperimentResult`
   and `compare_experiments(baseline, candidate, *, bootstrap=None) -> dict` (Phase 1 M2).
 - M2 additions: `Observation.local_hazard`, `ScenarioConfig.hazards / p_false_positive / recall_target`,
