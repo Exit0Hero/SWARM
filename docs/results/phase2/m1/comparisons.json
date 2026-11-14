@@ -1,0 +1,1703 @@
+[
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "random_valid",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "astar_waypoint",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.16325592391304344,
+        "ci_low": 0.13521554347826084,
+        "mean_difference": 0.14985543478260868,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.050190681564258564
+      },
+      "agents_disabled": {
+        "ci_high": -1.66,
+        "ci_low": -1.94,
+        "mean_difference": -1.82,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.5225526045191966
+      },
+      "agents_disabled_energy": {
+        "ci_high": -1.66,
+        "ci_low": -1.94,
+        "mean_difference": -1.82,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.5225526045191966
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.06398843651177037,
+        "ci_low": 0.007059893638484631,
+        "mean_difference": 0.03575025117604297,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.10418197866211013
+      },
+      "coverage_visited": {
+        "ci_high": -0.01611959775795108,
+        "ci_low": -0.052602397712815926,
+        "mean_difference": -0.03412971765092558,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.06608740627906182
+      },
+      "energy_efficiency": {
+        "ci_high": 0.08490579034846137,
+        "ci_low": -1.3901443213304556,
+        "mean_difference": -0.7020142154109608,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 2.677178867099388
+      },
+      "energy_used": {
+        "ci_high": 322.96099999999996,
+        "ci_low": 248.1995,
+        "mean_difference": 288.64,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 137.98916845986463
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.14,
+        "ci_low": 0.0,
+        "mean_difference": 0.06,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.23989793748209523
+      },
+      "move_conflicts": {
+        "ci_high": 49.02,
+        "ci_low": 37.17900000000001,
+        "mean_difference": 43.1,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 21.50581316760657
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.135,
+        "ci_low": 0.035,
+        "mean_difference": 0.085,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1846121140474298
+      },
+      "recall": {
+        "ci_high": 0.135,
+        "ci_low": 0.035,
+        "mean_difference": 0.085,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1846121140474298
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": 1.6604999999999925,
+        "ci_low": -3.82,
+        "mean_difference": -1.08,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 9.952622462323736
+      },
+      "time_to_recall_target": {
+        "ci_high": null,
+        "ci_low": null,
+        "mean_difference": null,
+        "n_excluded": 50,
+        "n_pairs": 0,
+        "std": null
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "astar_waypoint",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.009885019813650824,
+        "ci_low": -0.0063149054218342715,
+        "mean_difference": 0.0014483223074800565,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.029488641447024008
+      },
+      "agents_disabled": {
+        "ci_high": 0.06,
+        "ci_low": -0.12,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.31879876577744853
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.06,
+        "ci_low": -0.12,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.31879876577744853
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.2827623741616613,
+        "ci_low": 0.23052781849452647,
+        "mean_difference": 0.25705622964635977,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.09453727242127208
+      },
+      "coverage_visited": {
+        "ci_high": 0.30446863822246073,
+        "ci_low": 0.24311948903582262,
+        "mean_difference": 0.27460767573315453,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.11370758813852735
+      },
+      "energy_efficiency": {
+        "ci_high": 6.372941961669847,
+        "ci_low": 3.9870972069790955,
+        "mean_difference": 5.131748099403308,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 4.327518676120137
+      },
+      "energy_used": {
+        "ci_high": -124.91800000000003,
+        "ci_low": -239.461,
+        "mean_difference": -180.52,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 211.75556181404934
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.74,
+        "ci_low": 0.46,
+        "mean_difference": 0.6,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.5345224838248488
+      },
+      "move_conflicts": {
+        "ci_high": -16.92,
+        "ci_low": -31.8,
+        "mean_difference": -24.36,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 26.67319987996818
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.3775,
+        "ci_low": 0.265,
+        "mean_difference": 0.32,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.2084931359903775
+      },
+      "recall": {
+        "ci_high": 0.3775,
+        "ci_low": 0.2625,
+        "mean_difference": 0.32,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.2084931359903775
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": 2.5,
+        "ci_low": -3.82,
+        "mean_difference": -0.56,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 11.599014736482701
+      },
+      "time_to_recall_target": {
+        "ci_high": -22.0,
+        "ci_low": -39.0,
+        "mean_difference": -30.5,
+        "n_excluded": 48,
+        "n_pairs": 2,
+        "std": 12.020815280171307
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "prioritized_frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.032669891421484284,
+        "ci_low": 0.020424837920589824,
+        "mean_difference": 0.026221337875492957,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.022293815092514654
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": -0.06,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": -0.06,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.1414213562373095
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.03492349966884265,
+        "ci_low": -0.0066048041247596815,
+        "mean_difference": 0.013353201123940353,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.07612271637616927
+      },
+      "coverage_visited": {
+        "ci_high": -0.05767162958386948,
+        "ci_low": -0.10749240807018552,
+        "mean_difference": -0.08306606689349921,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.09229878467957098
+      },
+      "energy_efficiency": {
+        "ci_high": 17.181178201495783,
+        "ci_low": 14.631545110363753,
+        "mean_difference": 15.876325459146567,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 4.639860978270801
+      },
+      "energy_used": {
+        "ci_high": -469.4775000000001,
+        "ci_low": -585.7615,
+        "mean_difference": -529.56,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 213.0425999366209
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.48,
+        "ci_low": 0.22,
+        "mean_difference": 0.34,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.4785181206984064
+      },
+      "move_conflicts": {
+        "ci_high": -22.24,
+        "ci_low": -28.76,
+        "mean_difference": -25.4,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 11.84422704467093
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.085,
+        "ci_low": 0.0325,
+        "mean_difference": 0.0575,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0917864091135457
+      },
+      "recall": {
+        "ci_high": 0.0825,
+        "ci_low": 0.0325,
+        "mean_difference": 0.0575,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0917864091135457
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": -0.84,
+        "ci_low": -6.48,
+        "mean_difference": -3.34,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 10.310703770591898
+      },
+      "time_to_recall_target": {
+        "ci_high": -70.21212121212122,
+        "ci_low": -91.78863636363636,
+        "mean_difference": -81.12121212121212,
+        "n_excluded": 17,
+        "n_pairs": 33,
+        "std": 32.18768939338219
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "prioritized_frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": -0.00032225442690697,
+        "ci_low": -0.005453188142996912,
+        "mean_difference": -0.002326485530411815,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.009700229122316712
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.00967081271425728,
+        "ci_low": -0.021961138599790212,
+        "mean_difference": -0.005576793291212603,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.05791206087875233
+      },
+      "coverage_visited": {
+        "ci_high": 0.024073185461013613,
+        "ci_low": -0.003742235639353452,
+        "mean_difference": 0.009754892528484034,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.05035609463255284
+      },
+      "energy_efficiency": {
+        "ci_high": 1.900997788657172,
+        "ci_low": -0.28044609281926264,
+        "mean_difference": 0.7929065180617257,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.9701146001015184
+      },
+      "energy_used": {
+        "ci_high": 3.6004999999999927,
+        "ci_low": -22.160499999999995,
+        "mean_difference": -9.18,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 47.068638547273466
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.2,
+        "ci_low": -0.28,
+        "mean_difference": -0.02,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.8919137873593124
+      },
+      "time_to_recall_target": {
+        "ci_high": 0.74,
+        "ci_low": -4.16,
+        "mean_difference": -1.68,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 8.77482484271955
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "decentralized",
+      "name": "frontier",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "decentralized",
+      "name": "frontier_hazard_aware",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_visited": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "energy_efficiency": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "energy_used": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_recall_target": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 17,
+        "n_pairs": 33,
+        "std": 0.0
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment_hazard_aware",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_visited": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "energy_efficiency": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "energy_used": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_recall_target": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  },
+  {
+    "baseline_policy": {
+      "information": "centralized_pooled",
+      "name": "assignment",
+      "uses_oracle": false,
+      "version": "1"
+    },
+    "bootstrap": {
+      "booleans": "counted as 0/1",
+      "confidence": 0.95,
+      "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+      "method": "percentile bootstrap of the mean",
+      "quantile_method": "numpy linear",
+      "resamples": 10000,
+      "seed": 0,
+      "std": "sample standard deviation, ddof=1"
+    },
+    "candidate_policy": {
+      "information": "oracle",
+      "name": "assignment_oracle",
+      "uses_oracle": true,
+      "version": "1"
+    },
+    "comparison_schema_version": 1,
+    "config_hash": "fec0dca1c6f801fc2cbf853ec3a41e582c700cba89be52228d6afb023526fcfc",
+    "designation": "evaluation",
+    "difference": "candidate - baseline, paired by seed",
+    "excluded_failed_seeds": [],
+    "metrics": {
+      "agent_utilization": {
+        "ci_high": -0.023209670856153154,
+        "ci_low": -0.04836498815354967,
+        "mean_difference": -0.03513805171681622,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.04494789512864905
+      },
+      "agents_disabled": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_energy": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "agents_disabled_hazard": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "coverage_sensed": {
+        "ci_high": -0.38055409358085335,
+        "ci_low": -0.4363431071329559,
+        "mean_difference": -0.40819164205324726,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.10130693803934478
+      },
+      "coverage_visited": {
+        "ci_high": -0.31613491568167956,
+        "ci_low": -0.3586901291003682,
+        "mean_difference": -0.337941031316323,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0783851916391214
+      },
+      "energy_efficiency": {
+        "ci_high": 56.83519996351302,
+        "ci_low": 47.324065213647565,
+        "mean_difference": 51.95702947452463,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 17.15166686833051
+      },
+      "energy_used": {
+        "ci_high": -190.6995,
+        "ci_low": -228.42199999999997,
+        "mean_difference": -209.14,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 69.18859467175974
+      },
+      "false_positive_reports": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_energy_lost": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "hazard_exposures": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "invalid_actions": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "mission_success": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "move_conflicts": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "reachable_recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "recall": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "report_precision": {
+        "ci_high": 0.0,
+        "ci_low": 0.0,
+        "mean_difference": 0.0,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 0.0
+      },
+      "time_to_first_detection": {
+        "ci_high": -0.72,
+        "ci_low": -2.68,
+        "mean_difference": -1.6,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 3.5970509462897633
+      },
+      "time_to_recall_target": {
+        "ci_high": -31.42,
+        "ci_low": -38.26,
+        "mean_difference": -34.74,
+        "n_excluded": 0,
+        "n_pairs": 50,
+        "std": 12.369828335964266
+      }
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+    ]
+  }
+]

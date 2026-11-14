@@ -45,11 +45,11 @@ seed list or designation differ.
   ([docs/11](11_REPRODUCIBILITY_AND_EXPERIMENT_LOGGING.md)).
 - Do not compare methods across different scenario difficulties without explaining the protocol.
 
-## Initial baselines
-1. Random valid-action policy (sanity baseline, Phase 1).
-2. Greedy nearest-unsearched-area policy (Phase 2).
-3. Centralized assignment. Oracle information is clearly labelled where used (Phase 2).
-4. Communication-limited decentralized heuristic (Phase 3).
+## Baselines
+Implemented through Phase 2 ([ADR-0016](decisions/0016-energy-feasibility-and-classical-baselines.md)):
+`random_valid`, `astar_waypoint`, `frontier`, `frontier_hazard_aware` (decentralized); `prioritized_frontier`,
+`assignment`, `assignment_hazard_aware` (centralized_pooled); and `assignment_oracle` (oracle, reference only).
+Results: [docs/16](16_PHASE2_BASELINE_STUDY.md). Planned: communication-limited decentralized heuristics (Phase 3).
 
 ## Reporting
 Every chart and table states the metric definition, sample count, seeds, whether results are from training or

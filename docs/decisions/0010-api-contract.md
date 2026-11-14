@@ -84,3 +84,8 @@ by a pluggable reward function. It must pass PettingZoo's `parallel_api_test`.
 `compare_experiments(baseline, candidate, *, bootstrap=None)` are implemented in the experiments package.
 `episode_end` may report `mission_success` ([ADR-0009](0009-mission-objectives-and-metrics.md)), which sets
 `terminations` for every acting agent. The reset and step signatures are unchanged.
+
+## Amendment (Phase 2)
+Team policies ([ADR-0014](0014-team-policies-and-information-models.md)) extend the policy side of this contract. The
+`Policy` protocol is unchanged. The runner wraps per-agent factories in `IndependentTeam`, which calls them in the
+Phase 1 order, so Phase 1 event streams and golden hashes are unchanged.
