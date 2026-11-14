@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-from swarm.core.types import Layer
+from collections.abc import Mapping
+
+import numpy as np
+
+from swarm.core.observation import Observation
+from swarm.core.types import AgentId, Layer
 from swarm.scenarios.config import (
     DRONE,
     GROUND,
@@ -11,6 +16,7 @@ from swarm.scenarios.config import (
     ScenarioConfig,
     TerrainConfig,
 )
+from swarm.scenarios.generator import Scenario, parse_ascii_map
 
 
 def make_config(
@@ -64,3 +70,39 @@ def spec(
         stay_cost=stay,
         recharge_rate=recharge,
     )
+
+
+def config_for(
+    scenario_rows: list[str],
+    agent_types: tuple[AgentTypeSpec, ...],
+    roster: tuple[AgentSpec, ...],
+    *,
+    time_limit: int = 20,
+    p_detect: float = 1.0,
+) -> tuple[ScenarioConfig, Scenario]:
+    """Config plus explicit scenario for a hand-drawn ASCII map (see parse_ascii_map)."""
+    scenario = parse_ascii_map(scenario_rows)
+    h, w = scenario.shape
+    config = ScenarioConfig(
+        height=h,
+        width=w,
+        base_position=scenario.base,
+        terrain=TerrainConfig(debris_fraction=0.0, structure_fraction=0.0),
+        survivor_count=len(scenario.survivors),
+        agent_types=agent_types,
+        roster=roster,
+        time_limit=time_limit,
+        p_detect=p_detect,
+    )
+    return config, scenario
+
+
+def mask_random_actions(
+    observations: Mapping[AgentId, Observation], rng: np.random.Generator
+) -> dict[AgentId, int]:
+    """Uniform random valid action per agent (test helper, independent of swarm.policies)."""
+    actions: dict[AgentId, int] = {}
+    for aid in sorted(observations):
+        valid = [a for a, ok in enumerate(observations[aid].action_mask) if ok]
+        actions[aid] = valid[int(rng.integers(len(valid)))]
+    return actions
