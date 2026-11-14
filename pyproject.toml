@@ -30,7 +30,7 @@ classifiers = [
 [project.optional-dependencies]
 dev = [
     "pytest>=9.0",
-    "hypothesis>=6.100",
+    "hypothesis==6.170.15",  # exact: generation depends on the version (docs/10)
     "ruff>=0.15",
     "mypy>=2.0",
 ]
