@@ -130,17 +130,22 @@ def plan_space_time(
     table: ReservationTable,
     owner: AgentId,
     enter_cost: npt.NDArray[np.int64] | None = None,
+    wait_cost: npt.NDArray[np.int64] | None = None,
 ) -> TimedPath | None:
     """Space-time A* from ``start`` to ``goal`` around ``table``'s reservations, or ``None``.
 
-    Waiting costs 1; a move costs ``enter_cost`` of the entered cell (1 if omitted). The goal is
-    accepted at time ``T`` only when no other agent uses it after ``T``. The search is bounded by
-    ``table.horizon`` and preceded by a static reachability check.
+    A move costs ``enter_cost`` of the entered cell (1 if omitted); waiting in a cell costs
+    ``wait_cost`` of that cell (1 if omitted). The goal is accepted at time ``T`` only when no
+    other agent uses it after ``T``. The search is bounded by ``table.horizon`` and preceded by a
+    static reachability check (:func:`statically_reachable`).
     """
     shape = passable.shape
-    if start != goal and (not passable[goal] or cost_field(passable, start)[goal] == UNREACHABLE):
+    if not statically_reachable(passable, start, goal):
         return None
     cost = np.ones(shape, dtype=np.int64) if enter_cost is None else enter_cost
+    waiting = np.ones(shape, dtype=np.int64) if wait_cost is None else wait_cost
+    if bool((waiting < 0).any()):
+        raise ValueError("wait_cost must be non-negative")
     h0 = manhattan(start, goal)
     heap: list[tuple[int, int, int, int, int]] = [(h0, h0, 0, start[0], start[1])]
     g: dict[tuple[Position, int], int] = {(start, 0): 0}
@@ -168,7 +173,7 @@ def plan_space_time(
             nstate = (nxt, nt)
             if nstate in closed:
                 continue
-            step = 1 if nxt == (r, c) else int(cost[nxt])
+            step = int(waiting[nxt]) if nxt == (r, c) else int(cost[nxt])
             tentative = g[state] + step
             if tentative < g.get(nstate, tentative + 1):
                 g[nstate] = tentative
@@ -176,6 +181,13 @@ def plan_space_time(
                 h = manhattan(nxt, goal)
                 heapq.heappush(heap, (tentative + h, h, nt, nxt[0], nxt[1]))
     return None
+
+
+def statically_reachable(passable: npt.NDArray[np.bool_], start: Position, goal: Position) -> bool:
+    """Whether ``goal`` is reachable from ``start`` ignoring reservations (no time bound)."""
+    if start == goal:
+        return True
+    return bool(passable[goal]) and cost_field(passable, start)[goal] != UNREACHABLE
 
 
 def _timed_path(
@@ -198,14 +210,20 @@ class PlanRequest:
     goal: Position
     passable: npt.NDArray[np.bool_]
     enter_cost: npt.NDArray[np.int64] | None = None
+    wait_cost: npt.NDArray[np.int64] | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class PlanRound:
-    """Plans for one round. ``paths[a]`` is ``None`` when agent ``a``'s plan failed."""
+    """Plans for one round. ``paths[a]`` is ``None`` when agent ``a``'s plan failed.
+
+    ``unreachable`` lists failed agents whose goal is statically unreachable on their map; every
+    other failure is temporary (reservations or the planning horizon).
+    """
 
     order: tuple[AgentId, ...]
     paths: dict[AgentId, TimedPath | None]
+    unreachable: frozenset[AgentId] = frozenset()
 
     @property
     def failed(self) -> tuple[AgentId, ...]:
@@ -224,16 +242,19 @@ def plan_prioritized(
         tables[r.layer].reserve_provisional(r.agent_id, r.start)
     order = priority_order(list(by_id), round_index)
     paths: dict[AgentId, TimedPath | None] = {}
+    unreachable: set[AgentId] = set()
     for aid in order:
         r = by_id[aid]
         table = tables[r.layer]
-        path = plan_space_time(r.passable, r.start, r.goal, table, aid, r.enter_cost)
+        path = plan_space_time(r.passable, r.start, r.goal, table, aid, r.enter_cost, r.wait_cost)
         paths[aid] = path
         if path is None:
+            if not statically_reachable(r.passable, r.start, r.goal):
+                unreachable.add(aid)
             table.reserve_stationary(aid, r.start)
         else:
             table.reserve_path(aid, path)
-    return PlanRound(order=order, paths=paths)
+    return PlanRound(order=order, paths=paths, unreachable=frozenset(unreachable))
 
 
 def find_conflicts(

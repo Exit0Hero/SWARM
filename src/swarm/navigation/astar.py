@@ -129,6 +129,43 @@ def cost_field(
     return dist
 
 
+def cost_field_with_secondary(
+    passable: npt.NDArray[np.bool_],
+    source: Position,
+    enter_cost: npt.NDArray[np.int64] | None,
+    secondary: npt.NDArray[np.int64],
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64]]:
+    """Lexicographic Dijkstra from ``source``: minimum ``enter_cost`` total, then minimum
+    ``secondary`` total among those routes. Returns ``(primary, secondary)`` fields, both
+    ``UNREACHABLE`` where there is no path.
+
+    Used to know the energy (secondary) of a route chosen by planning cost (primary).
+    """
+    cost = _costs(passable, enter_cost)
+    if secondary.shape != passable.shape:
+        raise ValueError(f"secondary shape {secondary.shape} != passable {passable.shape}")
+    dist = np.full(passable.shape, UNREACHABLE, dtype=np.int64)
+    sec = np.full(passable.shape, UNREACHABLE, dtype=np.int64)
+    dist[source] = 0
+    sec[source] = 0
+    heap: list[tuple[int, int, int, int]] = [(0, 0, source[0], source[1])]
+    done = np.zeros(passable.shape, dtype=np.bool_)
+    while heap:
+        d, e, r, c = heapq.heappop(heap)
+        if done[r, c]:
+            continue
+        done[r, c] = True
+        for dr, dc in _NEIGHBOURS:
+            nr, nc = r + dr, c + dc
+            if not _in_grid((nr, nc), passable.shape) or not passable[nr, nc] or done[nr, nc]:
+                continue
+            key = (d + int(cost[nr, nc]), e + int(secondary[nr, nc]))
+            if dist[nr, nc] == UNREACHABLE or key < (int(dist[nr, nc]), int(sec[nr, nc])):
+                dist[nr, nc], sec[nr, nc] = key
+                heapq.heappush(heap, (key[0], key[1], nr, nc))
+    return dist, sec
+
+
 def cost_to_target_field(
     passable: npt.NDArray[np.bool_],
     target: Position,

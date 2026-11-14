@@ -1,5 +1,11 @@
 """Centralized baselines: ``prioritized_frontier``, ``assignment`` and ``assignment_oracle``.
 
+Energy feasibility (ADR-0016 rules 4 and 16) is checked on the route the planner actually executes:
+allocation screens targets with the energy of a planning-cost-optimal route, and after every
+planning round each exploring agent's planned timed path (moves, waits and known-hazard exposure)
+plus the minimum energy back to base must satisfy the commit rule, otherwise the agent returns.
+Returning agents plan on energy costs, matching the energy-to-base field.
+
 One planner sees every agent's observations (``centralized_pooled``: perfect communication is
 assumed, no hidden state), or additionally the ground truth through an ``OracleView``
 (``oracle``). Targets are chosen greedily in priority order or by minimum-cost assignment, and all
@@ -19,11 +25,12 @@ from swarm.coordination.assignment import min_cost_assignment
 from swarm.core.observation import Observation, footprint_offsets
 from swarm.core.oracle import OracleView
 from swarm.core.types import AgentId, AgentStatus, Layer, Position
-from swarm.navigation.astar import UNREACHABLE, cost_field
+from swarm.navigation.astar import UNREACHABLE, cost_field_with_secondary
 from swarm.navigation.energy import EnergyModel
 from swarm.navigation.known_map import KnownMap
 from swarm.navigation.prioritized import (
     PlanRequest,
+    PlanRound,
     default_horizon,
     first_action,
     plan_prioritized,
@@ -36,7 +43,7 @@ from swarm.policies.base import (
     MissionBrief,
     TeamFactory,
 )
-from swarm.policies.planning import Counters, FieldCache, block_cells, planning_costs
+from swarm.policies.planning import Counters, FieldCache, planning_costs
 
 
 @dataclass
@@ -89,6 +96,8 @@ class PooledPlannerTeam:
         self.reported: set[Position] = set()
         self.horizon = default_horizon(brief.grid_shape)
         self._active_last: frozenset[AgentId] = frozenset()
+        self.last_round: PlanRound | None = None
+        """The final planning round of the latest step (for diagnostics and tests)."""
 
     # ----------------------------------------------------------------- oracle
 
@@ -101,11 +110,28 @@ class PooledPlannerTeam:
     # ----------------------------------------------------------------- helpers
 
     def _passable(self, layer: Layer) -> npt.NDArray[np.bool_]:
-        static = self.cache.passable_for(self.known, layer)
-        blocked = [
-            pos for aid, pos in self.disabled.items() if self.brief.agents[aid].layer == layer
-        ]
-        return block_cells(static, blocked, self.brief.base)
+        """Known passable cells; disabled agents are blocked in the known map itself, so the
+        energy-to-base field treats them as obstacles too (ADR-0016 rule 15)."""
+        return self.cache.passable_for(self.known, layer)
+
+    def _route_fields(self, aid: AgentId) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64]]:
+        """Planning cost from the agent to every cell, and the energy of that planning-optimal
+        route (minimum energy among equally cheap routes)."""
+        st = self.states[aid]
+        layer = self.brief.agents[aid].layer
+        return cost_field_with_secondary(
+            self._passable(layer),
+            st.position,
+            self._costs(layer),
+            st.model.enter_energy(self.known),
+        )
+
+    def _plan_feasible(self, aid: AgentId, path: list[Position]) -> bool:
+        """Commit rule on the planned timed path itself (ADR-0016 rule 16)."""
+        st = self.states[aid]
+        route = st.model.route_energy(path, st.model.enter_energy(self.known))
+        to_base = self.cache.to_base_for(self.known, st.model)
+        return st.model.can_commit(st.energy, route, int(to_base[path[-1]]))
 
     def _costs(self, layer: Layer) -> npt.NDArray[np.int64] | None:
         return planning_costs(self.known, layer, self.brief.hazard_layers, self.hazard_aware)
@@ -172,11 +198,7 @@ class PooledPlannerTeam:
         tasks = self._tasks()
         options: dict[tuple[AgentId, int], tuple[Position, int]] = {}
         for aid in agents:
-            st = self.states[aid]
-            layer = self.brief.agents[aid].layer
-            passable = self._passable(layer)
-            dist = cost_field(passable, st.position, self._costs(layer))
-            energy_field = cost_field(passable, st.position, st.model.enter_energy(self.known))
+            dist, energy_field = self._route_fields(aid)
             for j, task in enumerate(tasks):
                 choice = self._target_for(aid, task, dist)
                 if choice is not None and self._feasible(aid, choice[0], energy_field):
@@ -244,8 +266,9 @@ class PooledPlannerTeam:
             self.reported.update(obs.detections)
             if obs.status is AgentStatus.ACTIVE:
                 active.append(aid)
-            else:
+            elif aid not in self.disabled:
                 self.disabled[aid] = obs.position
+                self.known.mark_blocked(self.brief.agents[aid].layer, obs.position)
         base = self.brief.base
 
         triggers: list[str] = []
@@ -271,8 +294,7 @@ class PooledPlannerTeam:
                 st.task = st.target = None
                 triggers.append("target_reached")
             else:
-                passable = self._passable(self.brief.agents[aid].layer)
-                energy_field = cost_field(passable, st.position, st.model.enter_energy(self.known))
+                _, energy_field = self._route_fields(aid)
                 if not self._feasible(aid, st.target, energy_field):
                     st.task = st.target = None
                     st.returning = st.position != base
@@ -284,17 +306,7 @@ class PooledPlannerTeam:
         if triggers and explorers:
             self._allocate(step, explorers, triggers[0])
 
-        requests = []
-        for aid in active:
-            st = self.states[aid]
-            layer = self.brief.agents[aid].layer
-            goal = base if st.returning else (st.target or st.position)
-            requests.append(
-                PlanRequest(
-                    aid, layer, st.position, goal, self._passable(layer), self._costs(layer)
-                )
-            )
-        plans = plan_prioritized(requests, base, self.horizon, step)
+        plans = self._plan_round(active, step)
         actions: dict[AgentId, int] = {}
         for aid in active:
             path = plans.paths[aid]
@@ -302,6 +314,10 @@ class PooledPlannerTeam:
             goal = base if st.returning else (st.target or st.position)
             if path is None:
                 self.counters.failed_plans += 1
+                if aid in plans.unreachable:
+                    self.counters.failed_plans_unreachable += 1
+                else:
+                    self.counters.failed_plans_temporary += 1
                 actions[aid] = 0
                 continue
             action = first_action(path)
@@ -309,6 +325,64 @@ class PooledPlannerTeam:
                 self.counters.planned_waits += 1
             actions[aid] = int(action)
         return actions
+
+    def _plan_round(self, active: list[AgentId], step: int) -> PlanRound:
+        """Plan jointly; any explorer whose planned route breaks the commit rule gives up its
+        target and returns (or waits on the base), then everyone is replanned. Terminates: each
+        repeat removes at least one target."""
+        base = self.brief.base
+        while True:
+            requests = []
+            for aid in active:
+                st = self.states[aid]
+                layer = self.brief.agents[aid].layer
+                if st.returning:
+                    # Return on energy costs, as assumed by the energy-to-base field. Waits cost at
+                    # least 1 so earlier arrival is preferred, plus known-hazard exposure.
+                    hz = st.model.hazard_energy(self.known)
+                    requests.append(
+                        PlanRequest(
+                            aid,
+                            layer,
+                            st.position,
+                            base,
+                            self._passable(layer),
+                            st.model.enter_energy(self.known),
+                            max(1, st.model.stay_cost) + hz,
+                        )
+                    )
+                else:
+                    costs = self._costs(layer)
+                    requests.append(
+                        PlanRequest(
+                            aid,
+                            layer,
+                            st.position,
+                            st.target or st.position,
+                            self._passable(layer),
+                            costs,
+                            costs,  # hazard-aware variants also avoid *waiting* in hazards
+                        )
+                    )
+            plans = plan_prioritized(requests, base, self.horizon, step)
+            violators = [
+                aid
+                for aid in active
+                if not self.states[aid].returning
+                and self.states[aid].target is not None
+                and (path := plans.paths[aid]) is not None
+                and not self._plan_feasible(aid, path)
+            ]
+            if not violators:
+                self.last_round = plans
+                return plans
+            for aid in violators:
+                st = self.states[aid]
+                self._log(step, aid, None, None, "energy_route_infeasible")
+                st.task = st.target = None
+                st.returning = st.position != base
+                self.counters.energy_route_aborts += 1
+                self.counters.returns_to_base += int(st.returning)
 
     def diagnostics(self) -> Diagnostics:
         return self.counters.as_dict()

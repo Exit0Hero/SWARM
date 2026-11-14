@@ -102,6 +102,9 @@ class Counters:
     targets_reached: int = 0
     target_invalidations: int = 0
     failed_plans: int = 0
+    failed_plans_unreachable: int = 0
+    failed_plans_temporary: int = 0
+    energy_route_aborts: int = 0
     planned_waits: int = 0
     returns_to_base: int = 0
     reassignments: int = 0
@@ -119,6 +122,9 @@ class Counters:
             "targets_reached": self.targets_reached,
             "target_invalidations": self.target_invalidations,
             "failed_plans": self.failed_plans,
+            "failed_plans_unreachable": self.failed_plans_unreachable,
+            "failed_plans_temporary": self.failed_plans_temporary,
+            "energy_route_aborts": self.energy_route_aborts,
             "planned_waits": self.planned_waits,
             "returns_to_base": self.returns_to_base,
             "reassignments": self.reassignments,

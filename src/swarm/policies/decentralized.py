@@ -1,8 +1,9 @@
 """Decentralized navigation baselines: ``astar_waypoint`` and ``frontier`` (ADR-0016).
 
 Each agent keeps its own :class:`~swarm.navigation.known_map.KnownMap` built only from its own
-observations, plans with A* on known cells (unknown cells impassable), treats visible same-layer
-agents as obstacles for the next move, and follows the energy commit rule. No information is
+observations, plans with A* on known cells (unknown cells and cells of agents it has *seen* disabled
+are impassable), treats visible active same-layer agents as traffic for the next move, and follows
+the energy commit rule. No information is
 shared between agents.
 """
 
@@ -157,8 +158,12 @@ class NavigatorAgent:
                 self.counters.backoff_waits += 1
                 return Action.STAY
         static = self.cache.passable_for(self.known, self.layer)
+        # Disabled agents are permanent obstacles already recorded in the known map (ADR-0016
+        # rule 15); only active agents are transient traffic.
         visible = [
-            v.position for v in obs.visible_agents if v.layer == self.layer and v.position != here
+            v.position
+            for v in obs.visible_agents
+            if v.layer == self.layer and v.position != here and v.status is AgentStatus.ACTIVE
         ]
         # Plan on the static known map. Visible agents are transient: replanning a detour around
         # their *current* cells every step livelocks (two agents oscillating near the base until
@@ -182,6 +187,7 @@ class NavigatorAgent:
             path = self._plan(passable, here, self.target)
             if path is None:
                 self.counters.failed_plans += 1
+                self.counters.failed_plans_unreachable += 1  # static A*: no route on known map
                 self.counters.target_invalidations += 1
                 self.blacklist[self.target] = obs.step + BLACKLIST_STEPS
                 self.target, self.path = None, []
@@ -202,11 +208,16 @@ class NavigatorAgent:
                 self.returning = True
                 self.counters.returns_to_base += 1
 
+        if self.target is None and not self.returning:
+            # Idle (on the base with nothing feasible): drop any path left from an earlier return.
+            self.path = []
+
         if self.returning:
             enter = self.model.enter_energy(self.known)
             path = astar(static, here, base, enter)
             if path is None:
                 self.counters.failed_plans += 1
+                self.counters.failed_plans_unreachable += 1
                 return Action.STAY
             self.path = path
 

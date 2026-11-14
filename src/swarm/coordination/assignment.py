@@ -7,8 +7,11 @@ are small (agents x candidate tasks), so no SciPy dependency is needed.
 Semantics: among assignments that use only feasible pairs, the result has the **maximum number
 of assigned pairs** and, among those, the **minimum total cost**. This is achieved by giving
 infeasible pairs a cost larger than any feasible total and dropping them from the result.
-Ties are resolved deterministically by row then column order of the input matrix, so callers
-order rows by agent ID and columns by task ID.
+The result is deterministic for a given input matrix, but among several optimal assignments
+*which* one is returned is not specified (it follows the algorithm's processing order: rows in
+index order, columns scanned in ascending index order with strict ``<`` comparisons). It is not
+guaranteed to be lexicographically smallest. Callers order rows by agent ID and columns by task ID
+so that the same situation always gives the same result.
 """
 
 from __future__ import annotations
