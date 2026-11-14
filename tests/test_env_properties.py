@@ -7,7 +7,7 @@ from dataclasses import replace
 from fractions import Fraction
 
 import numpy as np
-from hypothesis import assume, given
+from hypothesis import assume, example, given
 from hypothesis import strategies as st
 
 from swarm.core.env import EnvSnapshot, SwarmEnv
@@ -97,6 +97,31 @@ def run(
     return events, snapshots
 
 
+# Regression example: a hazard disablement leaves energy > 0 (ADR-0011). Found by Hypothesis when
+# the M1 invariant "disabled => energy == 0" was still in place; pinned so it always runs.
+_HAZARD_KEEPS_ENERGY = replace(
+    make_config(
+        height=1,
+        width=3,
+        structure=0.0,
+        debris=0.0,
+        survivors=0,
+        agent_types=(
+            spec("air", Layer.AIR, capacity=1),
+            spec("gnd", Layer.GROUND, capacity=2),
+        ),
+        roster=(AgentSpec("gnd"),) * 3,
+        time_limit=1,
+        p_detect=0.0,
+    ),
+    hazards=HazardConfig(
+        fraction=0.5, affected_layers=(Layer.GROUND,), energy_cost=0, disable_probability=1.0
+    ),
+    recall_target=0.3,
+)
+
+
+@example(config=_HAZARD_KEEPS_ENERGY, seed=0, invalid_rate=0.0)
 @given(config=configs(), seed=st.integers(0, 10_000), invalid_rate=st.sampled_from([0.0, 0.3]))
 def test_invariants_hold_every_step(config: ScenarioConfig, seed: int, invalid_rate: float) -> None:
     try:
@@ -105,6 +130,9 @@ def test_invariants_hold_every_step(config: ScenarioConfig, seed: int, invalid_r
         assume(False)
     scenario = snapshots[0].scenario
     h, w = scenario.shape
+    hazard_disabled = {
+        e.agent_id for e in events if isinstance(e, AgentDisabled) and e.reason == "hazard"
+    }
     for before, after in itertools.pairwise(snapshots):
         cells: dict[tuple[Layer, tuple[int, int]], str] = {}
         for prev, agent in zip(before.agents, after.agents, strict=True):
@@ -118,7 +146,8 @@ def test_invariants_hold_every_step(config: ScenarioConfig, seed: int, invalid_r
                 assert agent.status is AgentStatus.DISABLED
                 assert agent.position == prev.position
             if agent.status is AgentStatus.DISABLED:
-                assert agent.energy == 0
+                # Depletion leaves 0 energy; only a hazard can disable an agent with energy left.
+                assert agent.energy == 0 or agent.agent_id in hazard_disabled
                 assert agent.position != scenario.base
             if agent.position != scenario.base:
                 key = (agent.layer, agent.position)
