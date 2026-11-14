@@ -56,3 +56,7 @@ configuration, not scattered conditionals.
 - Scenario generation must guarantee the base is reachable and must report cells that no
   agent type can reach.
 - A third agent type (for example, a large UAV) is a new spec, not new code.
+
+## Amendment (Phase 1 M2)
+Rule 4 (hazards) is made precise by [ADR-0011](0011-static-hazards.md), which governs placement, affected layers,
+per-step exposure, damage, disablement draws and observability.

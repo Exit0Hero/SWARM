@@ -1,6 +1,6 @@
 # ADR-0006: Random number generation and reproducibility
 
-- **Status:** Accepted
+- **Status:** Accepted; rule 1 amended by [ADR-0013](0013-environment-rng-substreams.md) (environment sub-streams)
 - **Date:** 2026-11-15
 - **Phase:** 1
 

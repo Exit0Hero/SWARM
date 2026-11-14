@@ -39,3 +39,11 @@ shared mechanism, each consumer would reach into environment internals.
 - Event streams can be large. Logging granularity (all events or summaries) is a runner option.
 - The PettingZoo adapter (Phase 4) supplies the reward dictionary that the core leaves out
   ([ADR-0010](0010-api-contract.md)).
+
+## Amendment (Phase 1 M2)
+New event kind `hazard_exposure` ([ADR-0011](0011-static-hazards.md)). `agent_disabled.reason` may also be `hazard`.
+`detection` events now include false reports (`true_positive: false`, `survivor_index: null`;
+[ADR-0012](0012-false-positive-detections-and-precision.md)). `episode_end.reason` may also be `mission_success`
+([ADR-0009](0009-mission-objectives-and-metrics.md)). Phase order: 1 validation, 2 movement, 3 energy, 4 hazards,
+5 sensing (true reports, then false reports, per agent in sorted order), 6 mission state. The event schema version
+stays 1: these are additions, and no existing field changes meaning.

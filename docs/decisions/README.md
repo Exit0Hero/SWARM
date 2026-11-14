@@ -13,13 +13,17 @@ truth when a numbered document in `docs/` and an ADR disagree; fix the document.
 | [0003](0003-simultaneous-movement-and-collision-resolution.md) | Simultaneous movement and collision resolution | Accepted |
 | [0004](0004-action-masks-and-invalid-actions.md) | Action masks and invalid actions | Accepted |
 | [0005](0005-event-driven-simulation.md) | Event-driven simulation architecture | Accepted |
-| [0006](0006-random-number-generation-and-reproducibility.md) | Random number generation and reproducibility | Accepted |
+| [0006](0006-random-number-generation-and-reproducibility.md) | Random number generation and reproducibility | Accepted, amended by 0013 |
 | [0007](0007-configuration-and-serialization.md) | Configuration and serialization | Accepted |
 | [0008](0008-observation-and-hidden-state-boundaries.md) | Observation and hidden-state boundaries | Accepted |
-| [0009](0009-mission-objectives-and-metrics.md) | Mission objectives and metrics | Accepted |
+| [0009](0009-mission-objectives-and-metrics.md) | Mission objectives and metrics | Accepted, revision 2 |
 | [0010](0010-api-contract.md) | API contract | Accepted |
+| [0011](0011-static-hazards.md) | Static hazards | Accepted |
+| [0012](0012-false-positive-detections-and-precision.md) | False-positive detections, report association and precision | Accepted |
+| [0013](0013-environment-rng-substreams.md) | Environment RNG sub-streams per stochastic process | Accepted |
 
-All ten were accepted on 2026-11-15 from the Phase 0 repository audit. Parameter values
+ADR-0001 to ADR-0010 were accepted on 2026-11-15 from the Phase 0 repository audit; ADR-0011 to ADR-0013 and
+ADR-0009 revision 2 with Phase 1 M2. Parameter values
 marked *default* are starting points that Phase 1 may tune without a new ADR. Changing a
 rule (not a default) requires a new ADR that supersedes the old one.
 

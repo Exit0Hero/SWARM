@@ -46,3 +46,31 @@ def test_fixed_seed_episode_matches_golden_hashes(seed: int) -> None:
     scenario_hash, stream_hash = GOLDEN[seed]
     assert result.scenario_sha256 == scenario_hash, "scenario generation changed"
     assert result.event_stream_sha256 == stream_hash, "episode dynamics or event schema changed"
+
+
+# Phase 1 M2: configs/m2_default.json (hazards, false positives, recall target 0.75) with the
+# random_valid policy. Seed 0 ends in mission success; seeds 1-2 hit the time limit.
+M2_CONFIG = CONFIG.parent / "m2_default.json"
+GOLDEN_M2: dict[int, tuple[str, str]] = {
+    0: (
+        "780649c6f0d56aafd0d7d5a03229714e5137bf194c397e2355eb7af163842b64",
+        "4a642d11cbdfbce9e3d0c41f657564ed420227abcf77d1b954f3233985fc00c4",
+    ),
+    1: (
+        "9aab79bd7f127653a6ebc81d1d6646b47773e79eb3fa5607c75a6db866814606",
+        "538055081ac8a3f12ba2ccffdcc4fada3c424b3148c9abbe7d094c8f0ec2a0e6",
+    ),
+    2: (
+        "6132bf81ae792094a8264b7fc35b1a1e78fe27480b62588fdbcd1f2e3bcee634",
+        "940fd50fc449dedeb8fb263ea04a3e97c5cc6cf17fa3436ae94816286cb5dc16",
+    ),
+}
+
+
+@pytest.mark.parametrize("seed", sorted(GOLDEN_M2))
+def test_m2_fixed_seed_episode_matches_golden_hashes(seed: int) -> None:
+    config = ScenarioConfig.from_json(M2_CONFIG.read_text(encoding="utf-8"))
+    result = run_episode(config, random_valid_factory, seed)
+    scenario_hash, stream_hash = GOLDEN_M2[seed]
+    assert result.scenario_sha256 == scenario_hash, "scenario generation changed"
+    assert result.event_stream_sha256 == stream_hash, "episode dynamics or event schema changed"

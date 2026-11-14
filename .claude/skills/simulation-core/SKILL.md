@@ -17,7 +17,9 @@ description: Implement or modify the SWARM 2D environment core - scenario genera
 ## Rules
 - State is NumPy arrays plus frozen config objects. Positions and energy are integers.
 - `step()` follows the documented phase order. Events within a phase are sorted by agent ID.
-- Never read global RNG state. Each stochastic draw uses the `dynamics` stream, in a fixed iteration order.
+- Never read global RNG state. Each stochastic process has its own stream (ADR-0013): true detections use
+  `dynamics`, hazard draws `hazard`, false reports `false_positive`. Draw in a fixed iteration order. A new
+  process gets a new child stream, never a share of an existing one.
 - The core computes no reward and imports nothing from policies, learning, evaluation or visualization.
 - Contract violations (bad agent IDs, out-of-space actions, stepping after the episode ends) raise
   exceptions. Masked-but-valid actions become `STAY` plus an event.

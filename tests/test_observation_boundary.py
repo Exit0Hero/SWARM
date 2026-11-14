@@ -10,7 +10,7 @@ from hypothesis import strategies as st
 from swarm.core.env import SwarmEnv
 from swarm.core.observation import Observation, in_footprint
 from swarm.core.types import Action, Layer
-from swarm.scenarios.config import AgentSpec
+from swarm.scenarios.config import AgentSpec, HazardConfig
 from swarm.scenarios.generator import Scenario
 from tests.helpers import config_for, spec
 
@@ -36,7 +36,11 @@ def _seen(cell: tuple[int, int]) -> bool:
     return any(in_footprint(p, cell, RADIUS[aid]) for aid, path in TRAJECTORY.items() for p in path)
 
 
-UNSEEN = [(r, c) for r in range(SIZE) for c in range(SIZE) if not _seen((r, c))]
+UNSEEN_ALL = [(r, c) for r in range(SIZE) for c in range(SIZE) if not _seen((r, c))]
+# A fixed, never-seen anchor survivor keeps recall below the 1.0 target, so mission success
+# (Phase 1 M2) cannot end the scripted episode early. Probed survivors exclude the anchor.
+ANCHOR = UNSEEN_ALL[-1]
+UNSEEN = UNSEEN_ALL[:-1]
 SEEN = [(r, c) for r in range(SIZE) for c in range(SIZE) if _seen((r, c)) and (r, c) != CENTER]
 
 
@@ -44,12 +48,25 @@ def _rows(survivor: tuple[int, int]) -> list[str]:
     rows = [["."] * SIZE for _ in range(SIZE)]
     rows[CENTER[0]][CENTER[1]] = "B"
     rows[survivor[0]][survivor[1]] = "S"
+    rows[ANCHOR[0]][ANCHOR[1]] = "S"
     return ["".join(r) for r in rows]
 
 
-def _trace(survivor: tuple[int, int], seed: int = 0) -> list[dict[str, Observation]]:
+def _trace(
+    survivor: tuple[int, int], seed: int = 0, hazard_cells: tuple[tuple[int, int], ...] = ()
+) -> list[dict[str, Observation]]:
     config, scenario = config_for(
-        _rows(survivor), (AIR, GND), (AgentSpec("air"), AgentSpec("gnd")), p_detect=1.0
+        _rows(survivor),
+        (AIR, GND),
+        (AgentSpec("air"), AgentSpec("gnd")),
+        p_detect=1.0,
+        hazard_cells=hazard_cells,
+        hazards=HazardConfig(
+            fraction=0.0,
+            affected_layers=(Layer.AIR, Layer.GROUND),
+            energy_cost=1,
+            disable_probability=0.0,
+        ),
     )
     env = SwarmEnv(config)
     trace = [env.reset(seed, scenario=scenario)[0]]
@@ -83,3 +100,17 @@ def test_observation_has_no_ground_truth_fields() -> None:
     for f in fields(Observation):
         value = getattr(obs, f.name)
         assert not isinstance(value, Scenario | SwarmEnv)
+
+
+@given(cells=st.lists(st.sampled_from(UNSEEN), max_size=6, unique=True), seed=st.integers(0, 50))
+def test_unseen_hazards_do_not_change_any_observation(
+    cells: list[tuple[int, int]], seed: int
+) -> None:
+    """Hazards outside every footprint are invisible (ADR-0008, ADR-0011)."""
+    cells = [c for c in cells if c != UNSEEN[0]]
+    assert _trace(UNSEEN[0], seed, tuple(cells)) == _trace(UNSEEN[0], seed)
+
+
+def test_positive_control_a_seen_hazard_changes_observations() -> None:
+    near = (4, 5)  # inside the drone's footprint at the start
+    assert _trace(UNSEEN[0], 0, (near,)) != _trace(UNSEEN[0], 0)

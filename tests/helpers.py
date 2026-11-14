@@ -13,6 +13,7 @@ from swarm.scenarios.config import (
     GROUND,
     AgentSpec,
     AgentTypeSpec,
+    HazardConfig,
     ScenarioConfig,
     TerrainConfig,
 )
@@ -79,9 +80,13 @@ def config_for(
     *,
     time_limit: int = 20,
     p_detect: float = 1.0,
+    hazard_cells: tuple[tuple[int, int], ...] = (),
+    hazards: HazardConfig | None = None,
+    p_false_positive: float = 0.0,
+    recall_target: float = 1.0,
 ) -> tuple[ScenarioConfig, Scenario]:
     """Config plus explicit scenario for a hand-drawn ASCII map (see parse_ascii_map)."""
-    scenario = parse_ascii_map(scenario_rows)
+    scenario = parse_ascii_map(scenario_rows, hazards=hazard_cells)
     h, w = scenario.shape
     config = ScenarioConfig(
         height=h,
@@ -93,6 +98,9 @@ def config_for(
         roster=roster,
         time_limit=time_limit,
         p_detect=p_detect,
+        hazards=hazards,
+        p_false_positive=p_false_positive,
+        recall_target=recall_target,
     )
     return config, scenario
 

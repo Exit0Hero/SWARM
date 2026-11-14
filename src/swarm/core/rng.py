@@ -4,6 +4,10 @@
 ``policies``; ``policies`` is spawned again into one child per agent in sorted agent-ID order.
 Changing the policy therefore cannot change the scenario, and policy draws can never shift
 environment draws.
+
+The ``dynamics`` sequence drives true-detection draws (as in M1) and is additionally spawned into
+``hazard`` and ``false_positive`` children (ADR-0013). Spawning children does not change the
+parent's generator, so M1 streams are reproduced exactly.
 """
 
 from __future__ import annotations
@@ -17,6 +21,7 @@ import numpy as np
 from swarm.core.types import AgentId
 
 SPAWN_ORDER: Final[tuple[str, str, str]] = ("scenario", "dynamics", "policies")
+DYNAMICS_CHILDREN: Final[tuple[str, str]] = ("hazard", "false_positive")
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,6 +31,11 @@ class EpisodeStreams:
     root_seed: int
     scenario: np.random.Generator
     dynamics: np.random.Generator
+    """True-detection draws (ADR-0012 rule 1)."""
+    hazard: np.random.Generator
+    """Hazard disablement draws (ADR-0011)."""
+    false_positive: np.random.Generator
+    """False-report draws (ADR-0012 rule 2)."""
     policies: dict[AgentId, np.random.Generator]
 
 
@@ -44,10 +54,13 @@ def episode_streams(root_seed: int, agent_ids: Sequence[AgentId]) -> EpisodeStre
     if len(set(ids)) != len(ids):
         raise ValueError(f"agent_ids: must be unique, got {list(agent_ids)}")
     children = policies_seq.spawn(len(ids))
+    hazard_seq, false_positive_seq = dynamics_seq.spawn(len(DYNAMICS_CHILDREN))
     return EpisodeStreams(
         root_seed=root_seed,
         scenario=np.random.default_rng(scenario_seq),
         dynamics=np.random.default_rng(dynamics_seq),
+        hazard=np.random.default_rng(hazard_seq),
+        false_positive=np.random.default_rng(false_positive_seq),
         policies={aid: np.random.default_rng(seq) for aid, seq in zip(ids, children, strict=True)},
     )
 
@@ -56,8 +69,12 @@ def seed_derivation(root_seed: int, agent_ids: Sequence[AgentId]) -> dict[str, A
     """Describe how every stream was derived, for run metadata (ADR-0006, docs/11)."""
     return {
         "root_seed": validate_seed(root_seed),
-        "method": "numpy.random.SeedSequence(root_seed).spawn(3); policies child spawned per agent",
+        "method": (
+            "numpy.random.SeedSequence(root_seed).spawn(3); dynamics child spawned into "
+            "(hazard, false_positive); policies child spawned per agent"
+        ),
         "spawn_order": list(SPAWN_ORDER),
+        "dynamics_children": list(DYNAMICS_CHILDREN),
         "policy_stream_order": sorted(agent_ids),
         "bit_generator": "PCG64",
     }

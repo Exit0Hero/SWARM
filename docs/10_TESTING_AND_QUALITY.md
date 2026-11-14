@@ -25,5 +25,11 @@ pytest                # tests, with warnings treated as errors
 - No unexplained nondeterminism in deterministic mode.
 - Documentation updated for changed contracts.
 
+## Property-test determinism
+The Hypothesis profile (`tests/conftest.py`) uses `derandomize=True`, so a given commit always runs the same
+examples in the full suite. Hypothesis (6.170 here) also mines literal constants from loaded project modules into
+generation, so running a *subset* of test files can produce different examples than the full suite. CI runs the
+full suite. A counterexample found once is pinned with `@example` so it runs regardless of the generated set.
+
 ## Test design
 Test edge cases: simultaneous movement conflicts, agent failure, zero survivors, all cells blocked, no communication peers, depleted battery, episode time limit, and false detections.

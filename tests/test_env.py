@@ -256,7 +256,9 @@ def test_detection_probability_zero_never_reports() -> None:
 
 
 def test_detection_probability_is_respected_statistically() -> None:
-    env = make_env(["BS"], AgentSpec("gnd"), types=(GND,), p_detect=0.3, time_limit=4000)
+    # The far survivor at (0, 4) is never in range, so recall cannot reach the target and mission
+    # success (Phase 1 M2) cannot end the episode before 4000 draws are taken.
+    env = make_env(["BS..S"], AgentSpec("gnd"), types=(GND,), p_detect=0.3, time_limit=4000)
     hits = 0
     for _ in range(4000):
         result = env.step({"gnd_0": S})

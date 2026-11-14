@@ -85,6 +85,7 @@ def _obs_with_mask(mask: tuple[bool, ...]) -> Observation:
         grid_shape=(1, 1),
         base_position=(0, 0),
         local_terrain=np.zeros((3, 3), dtype=np.int8),
+        local_hazard=np.zeros((3, 3), dtype=np.bool_),
         visible_agents=(),
         detections=(),
         action_mask=mask,

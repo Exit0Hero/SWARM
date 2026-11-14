@@ -16,11 +16,24 @@ Exact metric definitions, undefined-value handling, the mission objective and th
 - **Agent utilization:** active agent-steps ÷ available agent-steps.
 - **Message delivery rate:** delivered ÷ attempted messages (Phase 3).
 
-### Implemented in Phase 1 M1
-`recall`, `time_to_first_detection`, `coverage_sensed`, `coverage_visited`, `energy_used`, `move_conflicts`,
-`invalid_actions`, and the auxiliary count `agents_disabled`. Each result file embeds the definition, unit and
-undefined case of every metric (`src/swarm/evaluation/metrics.py`). Precision, mission success, time to recall
-target, energy efficiency, agent utilization and multi-seed aggregation are planned for M2.
+### Implemented (Phase 1 M2)
+All metrics in the ADR-0009 registry: `recall`, `reachable_recall`, `precision`, `report_precision`,
+`false_positive_reports`, `mission_success`, `time_to_first_detection`, `time_to_recall_target`,
+`coverage_sensed`, `coverage_visited`, `energy_used`, `energy_efficiency`, `hazard_exposures`,
+`hazard_energy_lost`, `move_conflicts`, `invalid_actions`, `agent_utilization`, and the diagnostics
+`agents_disabled`, `agents_disabled_energy`, `agents_disabled_hazard`. Message delivery rate arrives with
+communication in Phase 3. Every episode and experiment result embeds each metric's definition, unit, undefined
+case and role (`src/swarm/evaluation/metrics.py`).
+
+### Running and comparing experiments
+```bash
+python -m swarm.experiments.run_experiment --config configs/m2_default.json \
+    --policy random_valid --seeds 0-29 --out runs/random.json
+python -m swarm.experiments.compare --baseline runs/a.json --candidate runs/b.json --out runs/a_vs_b.json
+```
+The experiment runner records every seed. Failed episodes are listed with their error, counted in every summary,
+and flagged with `complete: false` and exit code 3. The comparison CLI refuses experiments whose config hash,
+seed list or designation differ.
 
 ## Experiment protocol
 - Compare policies on identical evaluation seed lists and config hashes.
