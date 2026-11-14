@@ -107,6 +107,9 @@ class Counters:
     reassignments: int = 0
     move_failures: int = 0
     backoff_waits: int = 0
+    detours: int = 0
+    deadlock_abandons: int = 0
+    depot_yields: int = 0
     completion_times: list[int] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, int | float | None]:
@@ -121,5 +124,8 @@ class Counters:
             "reassignments": self.reassignments,
             "move_failures": self.move_failures,
             "backoff_waits": self.backoff_waits,
+            "detours": self.detours,
+            "deadlock_abandons": self.deadlock_abandons,
+            "depot_yields": self.depot_yields,
             "mean_completion_time": (sum(times) / len(times)) if times else None,
         }

@@ -43,7 +43,7 @@ explicit (task-allocation skill).
 |---|---|---|---|
 | `random_valid` | decentralized | none (uniform valid action) | none |
 | `astar_waypoint` | decentralized | uniform random known, reachable, feasible cell (policy stream) | A*, own map |
-| `frontier` | decentralized | nearest feasible frontier | A*, own map, visible same-layer agents avoided |
+| `frontier` | decentralized | nearest feasible frontier | A*, own map; wait behind visible agents, detour after 3 steps |
 | `frontier_hazard_aware` | decentralized | as `frontier`, with hazard-aware costs | hazard-aware A* |
 | `prioritized_frontier` | centralized_pooled | greedy: agents in priority order take the nearest unclaimed feasible frontier | prioritized planning |
 | `assignment` | centralized_pooled | min-cost assignment of agents to distinct frontier cells | prioritized planning |
@@ -64,6 +64,21 @@ explicit (task-allocation skill).
     collide every step and deadlock forever. A development-seed smoke test showed 800 conflicts in 200 steps
     with zero targets reached. Centralized planners do not need backoff, because reservations prevent
     within-team conflicts.
+13. **Waiting behind visible agents and right of way (decentralized only):** paths are planned on the static known
+    map. If the next cell is occupied by a visible same-layer agent (and is not the base), the agent waits. After
+    3 consecutive blocked steps:
+    - a **returning** agent detours around visible agents if a detour exists, otherwise it keeps waiting;
+    - an **exploring** agent gives way: it abandons its target (blacklisted for 5 steps) and picks a target
+      reachable without passing the blocker.
+
+    The first Phase 2 evaluation run showed why both parts are needed. Replanning detours around agents' *current*
+    cells every step livelocked two drones near the base until one was stranded, on 2 of 50 seeds of
+    `configs/m1_default.json`. Mirrored detours between a returning and an exploring drone, and head-on meetings in
+    one-cell corridors, also livelocked (see docs/16).
+14. **Depot convention (decentralized only):** an agent on the base yields when a visible same-layer agent
+    outside the base is next to its exit cell, for at most 3 steps. Departing agents give way to agents that are
+    likely returning. This is a deterministic traffic rule, needed because returning agents' unbudgeted waits at
+    the base entrance stranded a drone in the first evaluation run.
 
 ## Alternatives considered
 - **Pure return-when-low thresholds:** ignore the target's distance from the base and strand agents far away.

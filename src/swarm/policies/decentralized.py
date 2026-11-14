@@ -31,6 +31,8 @@ from swarm.policies.planning import (
 from swarm.scenarios.config import AgentTypeSpec
 
 _DELTA_TO_ACTION = {delta: action for action, delta in ACTION_DELTAS.items()}
+DETOUR_AFTER = 3
+"""Consecutive steps an agent waits behind a visible agent before planning a detour."""
 BACKOFF_PROBABILITY = 0.5
 """Probability of waiting after a planned move did not happen (ADR-0016 rule 12)."""
 _MAX_CANDIDATES = 12
@@ -71,6 +73,7 @@ class NavigatorAgent:
         self.returning = False
         self.blacklist: dict[Position, int] = {}
         self.expected: Position | None = None
+        self.blocked_steps = 0
 
     # ----------------------------------------------------------------- helpers
 
@@ -157,7 +160,10 @@ class NavigatorAgent:
         visible = [
             v.position for v in obs.visible_agents if v.layer == self.layer and v.position != here
         ]
-        passable = block_cells(static, visible, base)
+        # Plan on the static known map. Visible agents are transient: replanning a detour around
+        # their *current* cells every step livelocks (two agents oscillating near the base until
+        # one is stranded). Instead wait, and detour only after DETOUR_AFTER blocked steps.
+        passable = static
         to_base = self.cache.to_base_for(self.known, self.model)
 
         # Target bookkeeping: reached, exhausted, or no longer energetically safe.
@@ -198,18 +204,57 @@ class NavigatorAgent:
 
         if self.returning:
             enter = self.model.enter_energy(self.known)
-            path = astar(passable, here, base, enter) or astar(static, here, base, enter)
+            path = astar(static, here, base, enter)
             if path is None:
                 self.counters.failed_plans += 1
                 return Action.STAY
             self.path = path
 
         if len(self.path) < 2:
+            self.blocked_steps = 0
             return Action.STAY
         nxt = self.path[1]
-        if not passable[nxt]:
-            self.counters.planned_waits += 1
-            return Action.STAY
+        # Depot convention: an agent leaving the base yields to visible same-layer agents next to
+        # its exit cell (they are likely returning), for at most DETOUR_AFTER steps.
+        if here == base and any(
+            abs(v[0] - nxt[0]) + abs(v[1] - nxt[1]) == 1 for v in visible if v != base
+        ):
+            self.blocked_steps += 1
+            if self.blocked_steps <= DETOUR_AFTER:
+                self.counters.planned_waits += 1
+                self.counters.depot_yields += 1
+                return Action.STAY
+        if nxt != base and nxt in visible:
+            self.blocked_steps += 1
+            if self.blocked_steps <= DETOUR_AFTER:
+                self.counters.planned_waits += 1
+                return Action.STAY
+            around = block_cells(static, visible, base)
+            if self.returning or self.target is None:
+                # Returning agents have right of way: detour if possible, otherwise keep waiting.
+                detour = astar(around, here, base, self.model.enter_energy(self.known))
+                if detour is None or len(detour) < 2:
+                    self.counters.planned_waits += 1
+                    return Action.STAY
+                self.counters.detours += 1
+                self.path = detour
+                nxt = detour[1]
+            else:
+                # Exploring agents give way (ADR-0016 rule 13): abandon the target and choose one
+                # reachable without passing the blocker. Mirrored detours would livelock.
+                self.counters.deadlock_abandons += 1
+                self.counters.target_invalidations += 1
+                self.blacklist[self.target] = obs.step + BLACKLIST_STEPS
+                self.target, self.path = None, []
+                choice = self._select_target(obs, rng, around, to_base)
+                if choice is None or len(choice[1]) < 2:
+                    self.counters.planned_waits += 1
+                    return Action.STAY
+                self.target, self.path = choice
+                self.target_since = obs.step
+                self.counters.targets_selected += 1
+                nxt = self.path[1]
+        self.blocked_steps = 0
         return step_action(here, nxt)
 
 

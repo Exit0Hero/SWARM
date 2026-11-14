@@ -352,3 +352,38 @@ def test_known_map_of_a_policy_matches_only_observed_cells() -> None:
     known_cells = {(int(r), int(c)) for r, c in np.argwhere(nav.known.known)}
     assert known_cells <= seen
     assert isinstance(nav.known, KnownMap)
+
+
+# ----------------------------------------------------------------- livelock regressions (docs/16)
+
+M1 = ScenarioConfig.from_json((ROOT / "configs" / "m1_default.json").read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize(
+    ("name", "config_name", "seed"),
+    [
+        ("frontier", "m1", 9),  # two drones oscillating at the base entrance (void run)
+        ("frontier", "m1", 42),  # depart/return collision at the base exit
+        ("astar_waypoint", "m1", 1000),  # mirrored detours between returning and exploring drones
+    ],
+)
+def test_decentralized_livelock_regressions(name: str, config_name: str, seed: int) -> None:
+    config = M1 if config_name == "m1" else M2
+    result = run_episode(config, POLICIES[name], seed)
+    assert result.metrics.agents_disabled_energy == 0
+    assert result.metrics.invalid_actions == 0
+
+
+def test_corridor_head_on_meeting_resolves() -> None:
+    """Two ground robots meeting head-on in a one-cell corridor must not wait forever."""
+    result = run_episode(M1, POLICIES["frontier"], 9)
+    diagnostics = result.policy_diagnostics or {}
+    assert diagnostics["deadlock_abandons"] >= 1
+    assert diagnostics["planned_waits"] < 200  # was ~380 before the right-of-way rule
+
+
+@pytest.mark.parametrize("name", ["astar_waypoint", "frontier", "frontier_hazard_aware"])
+def test_decentralized_planners_never_strand_agents_on_dev_seeds(name: str) -> None:
+    for seed in range(1000, 1008):
+        for config in (M1, M2):
+            assert run_episode(config, POLICIES[name], seed).metrics.agents_disabled_energy == 0
