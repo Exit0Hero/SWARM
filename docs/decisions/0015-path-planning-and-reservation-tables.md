@@ -54,6 +54,13 @@ Phase 2 adds single-agent A* and prioritized multi-agent planning. Planners must
     `k mod n` (`n` = agents planning that round). Over any `n` consecutive rounds each agent holds each rank exactly
     once. There is no permanent ID bias, and the order is deterministic.
 
+### Amendment (PR #5 review, 2026-11-15)
+- The space-time search accepts a per-cell **wait cost** (default 1, the original behaviour). Pooled planners use
+  the hazard-aware penalty for waits in hazard-aware variants, and `max(1, stay_cost)` plus known-hazard exposure
+  for returning agents, which also plan moves on energy costs ([ADR-0016](0016-energy-feasibility-and-classical-baselines.md) rule 16).
+- A failed plan is classified as **unreachable** (no route on the planner's map, ignoring reservations) or
+  **temporary** (reservations or the horizon).
+
 ## Alternatives considered
 - **Optimistic unknown cells:** shorter plans, but planned moves can hit masked terrain, which counts as invalid
   actions. That is also a form of guessing.

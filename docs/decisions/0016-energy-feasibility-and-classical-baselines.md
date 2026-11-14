@@ -12,10 +12,14 @@ explicit (task-allocation skill).
 ## Decision
 
 ### Energy model and feasibility rule
-1. **Energy of a route** under planner assumptions: `move_cost` per move, plus `stay_cost` per planned wait, plus the
-   hazard `energy_cost` for each move into a *known* hazard cell if the agent's layer is affected (from the mission
-   brief, [ADR-0014](0014-team-policies-and-information-models.md)). Hazard *disablement* risk is not converted into
-   energy. The hazard-aware variants reduce exposure instead.
+1. **Energy of a route** under planner assumptions: every step costs `move_cost` if the agent moves and
+   `stay_cost` if it waits, plus the hazard `energy_cost` whenever the step *ends* in a *known* hazard cell and the
+   agent's layer is affected (from the mission brief, [ADR-0014](0014-team-policies-and-information-models.md)).
+   This matches the environment ([ADR-0011](0011-static-hazards.md)), which charges exposure on **every step spent in
+   a hazard, including waits**, so waiting in a known hazard is never free. Reactive (unplanned) waits are not
+   budgeted; the reserve absorbs them. Hazard *disablement* risk is not converted into energy. The hazard-aware
+   variants reduce exposure instead. *(Amended after the PR #5 review: the original text charged hazards only on
+   entry.)*
 2. **Energy to base** from any known cell is the minimum route energy to the base over the known map. It is computed
    for all cells at once by a reverse Dijkstra from the base. Recharging happens only on the base and is never
    assumed en route.
@@ -23,7 +27,8 @@ explicit (task-allocation skill).
 4. **Commit rule:** an agent may commit to target `T` along route `P` only if
    `energy − reserve ≥ E(P) + E_to_base(T)`.
    The rule is re-checked every step against the remaining route. If it fails, the agent switches to returning to
-   base along a minimum-energy route.
+   base along a minimum-energy route. `P` is the route the agent will actually follow (rule 16 for pooled
+   planners).
 5. **At the base:** an agent with no feasible target stays and recharges. It departs as soon as a target becomes
    feasible.
 6. **Geometric versus energetic feasibility:** a target can be reachable on the map yet infeasible under the rule.
@@ -56,7 +61,8 @@ explicit (task-allocation skill).
 10. **Reassignment triggers:** an assigned target stops being valid (exhausted, or for the oracle, reported); an
     agent is disabled; an agent reaches its target; an agent becomes energy-infeasible. Every assignment change is
     logged with step, agent, target, cost and trigger.
-11. **Policy diagnostics:** failed plans, planned waits, targets assigned and reached, mean completion time (steps
+11. **Policy diagnostics:** failed plans (split into `failed_plans_unreachable` and `failed_plans_temporary`
+    after the PR #5 review; `energy_route_aborts` counts rule 16 aborts), planned waits, targets assigned and reached, mean completion time (steps
     from assignment to arrival), reassignments, returns to base, detected move failures and backoff waits.
 12. **Randomized backoff (decentralized only):** when an agent's previous planned move did not happen (its
     position is not the expected cell), it waits this step with probability 0.5, using one draw from its own
@@ -79,6 +85,20 @@ explicit (task-allocation skill).
     outside the base is next to its exit cell, for at most 3 steps. Departing agents give way to agents that are
     likely returning. This is a deterministic traffic rule, needed because returning agents' unbudgeted waits at
     the base entrance stranded a drone in the first evaluation run.
+
+### Review corrections (PR #5 review, 2026-11-15)
+15. **Disabled agents are obstacles.** A cell where an agent has been *seen* disabled (in the agent's own
+    observation, or, for pooled planners, any pooled observation) is a permanent obstacle for that layer in the known
+    map, never the base. Frontier cells, paths and the energy-to-base field all exclude it. Decentralized traffic
+    rules (12–14) apply to visible *active* agents only. No information outside observations is used.
+16. **Pooled planners check the executed route.** Allocation screens targets with the energy of a planning-cost-
+    optimal route (minimum energy among equally cheap routes, including known-hazard costs). After every joint
+    planning round, each exploring agent's planned timed path (moves, waits and known-hazard exposure, rule 1) plus
+    the energy to base from its target must satisfy rule 4; otherwise the agent gives up its target and returns (or
+    waits on the base), and the round is replanned. Returning agents plan on energy costs, so the return route is
+    the one the energy-to-base field assumes. Hazard-aware variants also charge their hazard penalty for waiting in
+    a hazard. Previously the pooled planners checked the minimum-energy route but executed a different, step-cost
+    route, so rule 4 was not enforced for them on maps with known hazards.
 
 ## Alternatives considered
 - **Pure return-when-low thresholds:** ignore the target's distance from the base and strand agents far away.

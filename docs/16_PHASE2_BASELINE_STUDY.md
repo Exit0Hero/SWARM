@@ -63,6 +63,47 @@ rules 13–14) and verified on development seeds 1000–1019. **All results from
 below comes from the full re-run of the same pre-registered protocol. Inspecting four evaluation seeds while debugging is
 a deviation from strict train/test separation. The fixes are generic conventions, not tuned parameters.
 
+### Post-review correction (PR #5 review, 2026-11-15)
+The code review of PR #5 found that the pooled planners checked the energy commit rule on the minimum-energy route
+but executed a different, step-cost route (including the return to base), that the energy model charged hazard
+exposure only on entry while the environment charges it on every step spent in a hazard, that agents seen disabled
+were not treated as obstacles (also in the energy-to-base field), and that an idle agent on the base could keep a
+stale path. These were corrected at commit `48955758` (ADR-0016 rules 1, 15 and 16; ADR-0015 amendment), with
+regression tests in `tests/test_review_corrections.py`. No parameter was changed and nothing was tuned on evaluation
+seeds.
+
+The same pre-registered protocol (same command, configurations, seeds 0–49 and bootstrap seed) was re-run on the
+corrected code (commit `48955758`, clean tree; every policy completed all 50 seeds on both configurations). Archived
+outputs: `docs/results/phase2_corrected/{m1,m2}/`. **The original outputs in `docs/results/phase2/` and the tables
+in this section's subsections below are superseded**; they are kept unchanged as a record
+(`docs/results/phase2/SUPERSEDED.md`).
+
+Effect (episodes whose event stream changed, out of 50):
+
+| policy | M1 config | M2 config |
+|---|---|---|
+| random_valid | 0 | 0 |
+| astar_waypoint | 1 | 15 |
+| frontier | 1 | 7 |
+| frontier_hazard_aware | 1 | 0 |
+| prioritized_frontier | 2 | 0 |
+| assignment | 1 | 0 |
+| assignment_hazard_aware | 1 | 0 |
+| assignment_oracle | 1 | 5 |
+
+- The pooled non-oracle planners produced identical episodes on the M2 configuration: with its battery capacities
+  the corrected commit rule never bound on these seeds. The change is a correctness fix, not a performance change on
+  these scenarios. The two-route regression test shows it does bind with small batteries.
+- Every changed policy mean moved by at most 0.002 in recall and 0 in mission success. Example: `frontier →
+  prioritized_frontier` time to recall target on the M2 configuration moved from −50.9 [−59.7, −42.7] to −50.7
+  [−59.6, −42.5] steps (49 pairs).
+- One pre-registered paired conclusion changed, on a secondary metric. On the M2 configuration,
+  `random_valid → astar_waypoint` hazard disablements went from −0.12 [−0.26, 0.00] (interval touching 0) to −0.14
+  [−0.28, −0.02] (interval excluding 0). No other pair changed sign or whether its interval excludes 0.
+- The interpretation below was written from the original run. Its conclusions still hold on the corrected run; for
+  exact values use the corrected files.
+- Fresh validation on seeds 100–149 has **not** been run.
+
 ### Primary configuration (`configs/m2_default.json`)
 Config hash `8db09395238eb122`, seeds 0-49 (n = 50), designation `evaluation`, commit `c0d72320` (dirty: False).
 
