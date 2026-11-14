@@ -265,3 +265,30 @@ def test_compare_cli_refuses_mismatched_seeds(
     )
     assert code == 2
     assert "seed lists differ" in capsys.readouterr().err
+
+
+def test_run_baselines_cli_small(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    from swarm.experiments import run_baselines
+
+    code = run_baselines.main(
+        [
+            "--config",
+            str(M2_CONFIG),
+            "--seeds",
+            "1000-1001",
+            "--out-dir",
+            str(tmp_path),
+            "--policies",
+            "random_valid,astar_waypoint,frontier",
+            "--resamples",
+            "200",
+        ]
+    )
+    capsys.readouterr()
+    assert code == 0
+    comparisons = json.loads((tmp_path / "comparisons.json").read_text())
+    pairs = [(c["baseline_policy"]["name"], c["candidate_policy"]["name"]) for c in comparisons]
+    assert pairs == [("random_valid", "astar_waypoint"), ("astar_waypoint", "frontier")]
+    assert all(c["seeds"] == [1000, 1001] for c in comparisons)
+    summary = (tmp_path / "summary.md").read_text()
+    assert "| frontier | decentralized | True |" in summary
