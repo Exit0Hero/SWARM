@@ -1,0 +1,51 @@
+{
+  "agent_types": [
+    {
+      "energy_capacity": 200,
+      "layer": "air",
+      "move_cost": 2,
+      "name": "drone",
+      "recharge_rate": 25,
+      "sensor_radius": 3,
+      "stay_cost": 1
+    },
+    {
+      "energy_capacity": 600,
+      "layer": "ground",
+      "move_cost": 1,
+      "name": "ground",
+      "recharge_rate": 25,
+      "sensor_radius": 1,
+      "stay_cost": 0
+    }
+  ],
+  "base_position": null,
+  "height": 20,
+  "p_detect": 0.9,
+  "roster": [
+    {
+      "agent_type": "drone",
+      "initial_energy": null
+    },
+    {
+      "agent_type": "drone",
+      "initial_energy": null
+    },
+    {
+      "agent_type": "ground",
+      "initial_energy": null
+    },
+    {
+      "agent_type": "ground",
+      "initial_energy": null
+    }
+  ],
+  "schema_version": 1,
+  "survivor_count": 8,
+  "terrain": {
+    "debris_fraction": 0.15,
+    "structure_fraction": 0.15
+  },
+  "time_limit": 200,
+  "width": 20
+}
