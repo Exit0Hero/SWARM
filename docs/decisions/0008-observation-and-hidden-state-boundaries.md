@@ -42,3 +42,9 @@ A boundary enforced only by convention is easy to break by accident and hard to 
 - Requires `sensor_radius ≥ 1` (also needed by ADR-0004).
 - The Phase 4 MAPPO critic may use a centralized state. That is allowed in training only, and it is documented
   under centralized training with decentralized execution in [docs/06](../06_MARL_RESEARCH_PLAN.md).
+
+## Amendment (Phase 1 M2)
+Observations gain `local_hazard`: hazards inside the footprint, aligned with `local_terrain`
+([ADR-0011](0011-static-hazards.md)). `detections` merges true and false reports with no labels
+([ADR-0012](0012-false-positive-detections-and-precision.md)). Required tests now also cover hazards outside every
+footprint, which must not change observations.

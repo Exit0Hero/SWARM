@@ -17,8 +17,11 @@
 ## Limitations
 Modelling limitations accepted for Phase 1 (see the ADRs): a 4-connected grid; all agents move at most one cell per step,
 so drones are not faster than ground robots; static survivors; no occlusion; no prior map; and a single base.
-In M1 there are also no hazards, no false-positive detections, no communication and no mission-success
-termination. Detection is an independent Bernoulli draw per step and survivor in range. Agent-type parameters
+Hazards are static, have a single type per scenario, and act through energy loss and a disablement probability.
+They are not physical fire, gas or flood models. Detection is an independent Bernoulli draw per step and survivor
+in range. False reports are independent per footprint cell and step, with no localization error and no
+confirmation rule, so location-level precision falls in long episodes under any non-zero false-positive rate.
+There is still no communication. Agent-type parameters
 (costs, capacities, sensor radii) are illustrative defaults, not calibrated to any real platform. Results from the
 random baseline describe that baseline on these synthetic maps only, and are not evidence about drones or
 ground robots in general.

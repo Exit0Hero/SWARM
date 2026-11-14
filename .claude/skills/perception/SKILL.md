@@ -14,7 +14,9 @@ description: Implement or evaluate SWARM perception - the synthetic sensor model
 - Perception is a replaceable component with one interface: given the agent's footprint and the true world state,
   return detection reports (cell, optional confidence). Only the environment calls it. Policies see only its output.
 - Every detection report records, for evaluation only, whether it was true or false. That flag never reaches a policy.
-- All stochastic draws use the `dynamics` RNG stream, in sorted (agent ID, cell) order (ADR-0006).
+- True detections draw from the `dynamics` stream and false reports from the `false_positive` stream
+  (ADR-0013), in sorted agent order and then survivor or row-major cell order. Keeping them separate preserves
+  common random numbers when sweeping `p_false_positive`.
 - Detections are uncertain observations, never ground truth (CLAUDE.md safety rules).
 
 ## Procedure

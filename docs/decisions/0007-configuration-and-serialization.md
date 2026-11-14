@@ -33,3 +33,8 @@ versioned JSON. The runtime dependency policy allows NumPy only
 ## Consequences
 - Hand-written validation code needs tests for every rule, including boundary values.
 - Schema changes need a version bump and a migration note.
+
+## Amendment (Phase 1 M2)
+Schema version 2 adds `hazards` (object or `null`), `p_false_positive` and `recall_target`, all required in v2
+files. Version-1 files are still read and migrated with `hazards = null`, `p_false_positive = 0.0` and
+`recall_target = 1.0`, which reproduces M1 behaviour exactly. The serializer always writes the current version.

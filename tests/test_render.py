@@ -58,3 +58,15 @@ def test_rendering_does_not_change_state() -> None:
     after = env.snapshot()
     assert before.agents == after.agents
     assert before.step == after.step
+
+
+def test_hazards_are_drawn_under_agents_and_survivors() -> None:
+    config, scenario = config_for(
+        ["B.S~"], (AIR,), (AgentSpec("air"),), hazard_cells=((0, 1), (0, 2), (0, 3))
+    )
+    env = SwarmEnv(config)
+    env.reset(0, scenario=scenario)
+    hidden = render_snapshot_text(env.snapshot(), legend=False).splitlines()[1]
+    shown = render_snapshot_text(env.snapshot(), show_survivors=True, legend=False).splitlines()[1]
+    assert hidden == "A!!!"
+    assert shown == "A!S!"

@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import Final
 
+import numpy as np
+
 from swarm.core.env import EnvSnapshot
 from swarm.core.types import AgentStatus, Layer, Terrain
 
@@ -18,7 +20,7 @@ TERRAIN_CHARS: Final[dict[int, str]] = {
     Terrain.BASE: "B",
 }
 LEGEND: Final[str] = (
-    "legend: . open  ~ debris  # structure  B base  S survivor (ground truth)  "
+    "legend: . open  ~ debris  # structure  B base  ! hazard  S survivor (ground truth)  "
     "A air agent  G ground agent  * air+ground  x disabled"
 )
 
@@ -29,12 +31,14 @@ def render_snapshot_text(
     """Render a snapshot as a character grid with a status header.
 
     Precedence per cell: agents (``x`` if any agent there is disabled, ``*`` if both layers are
-    present, otherwise ``A``/``G``), then survivors if shown, then terrain. Agents on the base
-    are drawn over the ``B``.
+    present, otherwise ``A``/``G``), then survivors if shown, then hazards (``!``), then terrain.
+    Agents on the base are drawn over the ``B``.
     """
     scenario = snapshot.scenario
     h, w = scenario.shape
     grid = [[TERRAIN_CHARS[int(scenario.terrain[r, c])] for c in range(w)] for r in range(h)]
+    for r, c in zip(*np.nonzero(scenario.hazard_grid), strict=True):
+        grid[int(r)][int(c)] = "!"
     if show_survivors:
         for r, c in scenario.survivors:
             grid[r][c] = "S"

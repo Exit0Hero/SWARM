@@ -2,6 +2,10 @@
 
 ## Perception stages
 MVP: synthetic sensor model with range limits, detection probability, false-positive probability, and optional occlusion.
+Implemented (Phase 1 M2): Euclidean range, per-survivor detection probability, and a per-cell false-positive
+probability, with no occlusion and no localization error
+([ADR-0012](decisions/0012-false-positive-detections-and-precision.md)). Policies cannot tell true reports from
+false ones.
 Later: image-based perception module behind the same observation interface.
 
 ## Communication model

@@ -78,3 +78,9 @@ by a pluggable reward function. It must pass PettingZoo's `parallel_api_test`.
 ## Consequences
 - Exact type names may be refined during Phase 1 implementation. The *shape* (dicts keyed by agent ID,
   separate termination and truncation, events, no core reward) is fixed.
+
+## Amendment (Phase 1 M2)
+`run_experiment(config, policy_factory, seeds, *, bootstrap=None, designation="evaluation")` and
+`compare_experiments(baseline, candidate, *, bootstrap=None)` are implemented in the experiments package.
+`episode_end` may report `mission_success` ([ADR-0009](0009-mission-objectives-and-metrics.md)), which sets
+`terminations` for every acting agent. The reset and step signatures are unchanged.
