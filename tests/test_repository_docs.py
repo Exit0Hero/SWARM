@@ -18,7 +18,16 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_DIRS = {".git", ".venv", "venv", "node_modules", ".pytest_cache", ".mypy_cache"}
+EXCLUDED_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "node_modules",
+    ".pytest_cache",
+    ".mypy_cache",
+    "runs",  # local, git-ignored experiment outputs
+    "artifacts",
+}
 
 EXPECTED_SKILLS = {
     "architecture-review",
