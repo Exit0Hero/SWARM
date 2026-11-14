@@ -1,28 +1,37 @@
 # Experiments and Metrics
 
+Exact metric definitions, undefined-value handling, the mission objective and the aggregation method are in
+[ADR-0009](decisions/0009-mission-objectives-and-metrics.md). This document summarizes them and sets the protocol.
+
 ## Required metrics
-- Survivor recall: unique survivors detected / total survivors.
-- Time to first detection: elapsed simulation steps until the first valid detection.
-- Mission completion rate: fraction of scenarios meeting the defined mission objective.
-- Coverage: proportion of eligible map area visited or scanned, with the exact denominator documented.
-- Energy efficiency: detections or coverage per energy unit; define zero-denominator behavior.
-- Collision count: number of collision events under the simulator's collision definition.
-- Communication delivery rate: delivered messages / attempted messages.
-- Agent utilization: active agent-steps / available agent-steps.
+- **Survivor recall:** unique survivors found ÷ total survivors.
+- **Detection precision:** true detection reports ÷ all detection reports (once false positives exist).
+- **Mission success rate:** fraction of episodes meeting the recall target before the time limit.
+- **Time to first detection** and **time to recall target**, in simulation steps.
+- **Coverage:** sensed and visited, over *eligible* cells (not `STRUCTURE` and reachable from base by some agent type).
+- **Energy used** and **energy efficiency** (survivors found per 1000 energy units).
+- **Move conflicts:** blocked simultaneous moves. This replaces "collision count": physical collisions are impossible by
+  construction ([ADR-0003](decisions/0003-simultaneous-movement-and-collision-resolution.md)).
+- **Invalid actions:** masked actions submitted by a policy.
+- **Agent utilization:** active agent-steps ÷ available agent-steps.
+- **Message delivery rate:** delivered ÷ attempted messages (Phase 3).
 
 ## Experiment protocol
-- Compare policies on identical scenario seeds.
-- Use multiple seeds and report mean, standard deviation, and sample count.
-- Keep training and evaluation seeds separate.
-- Record config, code revision, dependency versions, policy checkpoint, and timestamp.
-- Report confidence intervals when appropriate.
-- Do not compare methods using different scenario difficulty without explaining the protocol.
+- Compare policies on identical evaluation seed lists and config hashes.
+- Use multiple seeds and report n, mean, sample standard deviation and a 95% bootstrap confidence interval. Report
+  undefined (`null`) values separately.
+- Use paired, per-seed differences when comparing two policies.
+- Keep training, validation and evaluation seeds disjoint.
+- Record config, config hash, code revision, dependency versions, policy name and version, checkpoint and timestamp
+  ([docs/11](11_REPRODUCIBILITY_AND_EXPERIMENT_LOGGING.md)).
+- Do not compare methods across different scenario difficulties without explaining the protocol.
 
 ## Initial baselines
-1. Random valid-action policy (sanity baseline).
-2. Greedy nearest-unsearched-area policy.
-3. Centralized nearest-survivor/task assignment (oracle information clearly labelled if used).
-4. Communication-limited decentralized heuristic.
+1. Random valid-action policy (sanity baseline, Phase 1).
+2. Greedy nearest-unsearched-area policy (Phase 2).
+3. Centralized assignment. Oracle information is clearly labelled where used (Phase 2).
+4. Communication-limited decentralized heuristic (Phase 3).
 
 ## Reporting
-Every chart/table must state metric definition, sample count, seeds, and whether results are training or evaluation results.
+Every chart and table states the metric definition, sample count, seeds, whether results are from training or
+evaluation, and whether any policy used oracle information.

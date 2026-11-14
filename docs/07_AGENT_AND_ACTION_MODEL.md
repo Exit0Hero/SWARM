@@ -1,13 +1,24 @@
 # Agent and Action Model
 
 ## Heterogeneous agents
-Model drone and ground-robot differences as configuration, not scattered conditionals. Example capabilities include movement speed, traversable terrain, sensor footprint, energy cost, communication range, and payload capacity.
+Drone and ground-robot differences are configuration (`AgentTypeSpec`), not scattered conditionals: layer,
+traversable terrain, sensor radius, energy capacity, per-action energy cost, recharge rate, and later
+communication range and payload ([ADR-0002](decisions/0002-two-layer-world-model.md)). In Phase 1 every agent
+moves at most one cell per step. Speed differences are a documented limitation
+([ADR-0001](decisions/0001-grid-and-discrete-time.md)).
 
 ## Action contract
-A policy receives an observation and returns an action for a specific agent. The environment validates the action and resolves conflicts.
+A policy receives one agent's observation and its own RNG stream, and returns an integer action. The environment
+validates all actions and resolves conflicts ([ADR-0010](decisions/0010-api-contract.md)).
 
 ## Invalid actions
-Define one consistent strategy: reject with a recorded invalid-action event, map to stay, or mask before policy selection. Do not silently apply inconsistent behavior.
+One consistent strategy ([ADR-0004](decisions/0004-action-masks-and-invalid-actions.md)):
+- the observation carries an action mask so that policies can avoid invalid actions;
+- a masked action that is still submitted becomes `STAY` and is recorded as an `invalid_action` event;
+- input outside the contract (unknown action integer, wrong agent IDs) raises an exception.
 
 ## Resource model
-Energy consumption should be parameterized by action and agent type. Return-to-base behavior must have a documented feasibility rule. An agent with insufficient energy must not continue indefinitely.
+Energy is an integer, parameterized by action and agent type. Agents recharge on the base cell. An agent that reaches
+zero energy away from base is disabled for the rest of the episode. Return-to-base is a policy behaviour. Its
+feasibility rule (start returning when remaining energy covers the planned path cost plus a margin) is defined and
+tested with the Phase 2 planner.

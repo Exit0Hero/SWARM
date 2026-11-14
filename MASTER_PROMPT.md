@@ -25,29 +25,44 @@ The platform must support comparative experiments across:
 - perception noise and false-positive/false-negative detections.
 
 ## Development strategy
-### Stage 0 — Repository and research foundation
-Inspect the repository, document its current state, define interfaces, pin dependencies, and establish tests and reproducibility conventions.
+Phases are numbered 0–8. Acceptance criteria and current status are in `docs/14_ROADMAP.md`, which is
+the single source of truth. Design rules are in the ADRs in `docs/decisions/`.
 
-### Stage 1 — 2D simulator
-Implement a grid- or continuous 2D environment with terrain, obstacles, hazards, survivor locations, agent state, battery, time steps, and deterministic seeded scenarios.
+### Phase 0 — Foundation
+Repository structure, tooling, CI, project skills, and ADRs for the core design decisions.
 
-### Stage 2 — Classical baselines
-Implement random/greedy search, nearest-target assignment, centralized assignment, and a collision-aware path planner. Establish baseline metrics.
+### Phase 1 — Deterministic 2D core
+A 4-connected grid with air and ground layers, terrain, survivors, heterogeneous agents, integer energy,
+simultaneous movement resolution, action masks, passive noisy sensing, a typed event stream and seeded
+scenarios (ADR-0001 to ADR-0008). Delivered as milestones M1 ("one honest episode") and M2.
 
-### Stage 3 — Multi-agent coordination
-Add decentralized local observations, message passing, communication range/dropout/latency, task reassignment, and robust handling of agent failure.
+### Phase 2 — Navigation and classical baselines
+A* and multi-agent path planning, return-to-base feasibility, greedy exploration, centralized assignment,
+and baseline metrics on fixed evaluation seeds.
 
-### Stage 4 — MARL
-Add a PettingZoo-compatible multi-agent interface where appropriate. Implement a simple training baseline before MAPPO. Keep algorithm code modular and document observation, action, reward, and termination definitions. Do not claim MAPPO is implemented until it is implemented and tested.
+### Phase 3 — Coordination under constraints
+Local beliefs, message passing with range, dropout and latency, decentralized and auction-based task
+allocation, reassignment, and robust handling of agent failure.
 
-### Stage 5 — Perception
-Introduce synthetic sensor observations and a replaceable perception interface. Start with controlled noise models; add computer vision only when there is a clear dataset/simulation need.
+### Phase 4 — Multi-agent reinforcement learning
+A PettingZoo-compatible adapter, event-based rewards, an independent-learner baseline, then MAPPO. Document
+observation, action, reward and termination definitions. Do not claim MAPPO is implemented until it is
+implemented and tested.
 
-### Stage 6 — Visualization and analysis
-Provide a lightweight dashboard or renderer for scenarios, trajectories, detections, communication, agent status, and experiment comparisons. Visualization must not be coupled to simulation correctness.
+### Phase 5 — Perception
+A replaceable perception interface and synthetic sensor benchmarks. Add computer vision only when there is a
+clear dataset and evaluation need.
 
-### Stage 7 — 3D extension
-Only after 2D benchmarks are stable, evaluate a 3D simulator such as a robotics simulator. Document integration cost and scientific value before adoption.
+### Phase 6 — Visualization dashboard and analytics
+Live and replay views of scenarios, trajectories, detections, communication, agent status and experiment
+comparisons. Visualization must not be coupled to simulation correctness.
+
+### Phase 7 — Research experiments and reporting
+Pre-registered experiments on the research questions, with confidence intervals and documented limitations.
+
+### Phase 8 — 3D feasibility study
+Only after 2D benchmarks are stable, evaluate a 3D robotics simulator. Document integration cost and scientific
+value before adoption.
 
 ## Required engineering outcomes
 - Reproducible scenario generation using explicit seeds.
@@ -68,12 +83,9 @@ Only after 2D benchmarks are stable, evaluate a 3D simulator such as a robotics 
 6. Deliver work in small milestones with acceptance criteria.
 7. After each milestone, report changed files, tests run, results, known limitations, and next step.
 
-## First task
-Inspect the current repository and report:
-- current file tree and stack;
-- existing implementation and tests;
-- gaps against the staged architecture;
-- recommended minimal next milestone;
-- risks and dependency choices.
-
-Do not start a large implementation until the inspection report is complete.
+## Starting or resuming work
+1. Check the current phase and milestone in `docs/14_ROADMAP.md`.
+2. Read the ADRs that govern the area you will touch (`docs/decisions/README.md`) and the matching skill in
+   `.claude/skills/`.
+3. Inspect the relevant code and tests before proposing changes.
+4. Propose the next small milestone with acceptance criteria, and get approval before large or destructive changes.
