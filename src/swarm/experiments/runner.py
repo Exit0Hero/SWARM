@@ -199,6 +199,18 @@ def _git_state() -> dict[str, Any]:
     return {"commit": commit, "dirty": dirty}
 
 
+def environment_metadata() -> dict[str, Any]:
+    """Software versions and source revision, shared by episode and experiment records."""
+    return {
+        "software": {
+            "swarm": swarm.__version__,
+            "python": sys.version.split()[0],
+            "numpy": np.__version__,
+        },
+        "code": _git_state(),
+    }
+
+
 def _metadata(
     seed: int, agent_ids: tuple[str, ...], started: dt.datetime, duration: float
 ) -> dict[str, Any]:
@@ -210,12 +222,7 @@ def _metadata(
             "metrics": METRIC_SCHEMA_VERSION,
             "result": RESULT_SCHEMA_VERSION,
         },
-        "software": {
-            "swarm": swarm.__version__,
-            "python": sys.version.split()[0],
-            "numpy": np.__version__,
-        },
-        "code": _git_state(),
+        **environment_metadata(),
         "run": {
             "run_id": uuid.uuid4().hex,
             "started_at": started.isoformat(timespec="seconds"),
