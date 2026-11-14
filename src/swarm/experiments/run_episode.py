@@ -13,16 +13,14 @@ import json
 import sys
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Final
 
 from swarm.experiments.runner import run_episode, write_result
-from swarm.policies.base import PolicyFactory
-from swarm.policies.random_valid import random_valid_factory
+from swarm.policies.registry import POLICIES
 from swarm.scenarios.config import ConfigError, ScenarioConfig
 from swarm.scenarios.generator import ScenarioError
 from swarm.visualization.text import render_snapshot_text
 
-POLICIES: Final[dict[str, PolicyFactory]] = {"random_valid": random_valid_factory}
+__all__ = ["POLICIES", "build_parser", "main"]
 
 
 def build_parser() -> argparse.ArgumentParser:

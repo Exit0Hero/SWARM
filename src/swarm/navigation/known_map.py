@@ -27,6 +27,8 @@ class KnownMap:
         self.terrain: npt.NDArray[np.int8] = np.full(shape, UNKNOWN, dtype=np.int8)
         self.hazards: npt.NDArray[np.bool_] = np.zeros(shape, dtype=np.bool_)
         self.terrain[base] = Terrain.BASE  # the base location is public (mission brief)
+        self.version = 0
+        """Incremented whenever an update reveals new information (for cache invalidation)."""
 
     @classmethod
     def from_ground_truth(
@@ -53,8 +55,12 @@ class KnownMap:
         view = observation.local_terrain[rs - top : re - top, cs - left : ce - left]
         hz = observation.local_hazard[rs - top : re - top, cs - left : ce - left]
         seen = view >= 0
-        self.terrain[rs:re, cs:ce][seen] = view[seen]
-        self.hazards[rs:re, cs:ce][seen] = hz[seen]
+        window_t = self.terrain[rs:re, cs:ce]
+        window_h = self.hazards[rs:re, cs:ce]
+        if bool((window_t[seen] != view[seen]).any() or (window_h[seen] != hz[seen]).any()):
+            window_t[seen] = view[seen]
+            window_h[seen] = hz[seen]
+            self.version += 1
 
     def update_all(self, observations: Iterable[Observation]) -> None:
         for obs in observations:

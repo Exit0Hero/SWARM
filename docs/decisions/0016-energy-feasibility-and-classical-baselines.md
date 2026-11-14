@@ -57,7 +57,13 @@ explicit (task-allocation skill).
     agent is disabled; an agent reaches its target; an agent becomes energy-infeasible. Every assignment change is
     logged with step, agent, target, cost and trigger.
 11. **Policy diagnostics:** failed plans, planned waits, targets assigned and reached, mean completion time (steps
-    from assignment to arrival), reassignments, and returns to base.
+    from assignment to arrival), reassignments, returns to base, detected move failures and backoff waits.
+12. **Randomized backoff (decentralized only):** when an agent's previous planned move did not happen (its
+    position is not the expected cell), it waits this step with probability 0.5, using one draw from its own
+    policy stream. Without this, identical deterministic agents leaving the base towards the same frontier
+    collide every step and deadlock forever. A development-seed smoke test showed 800 conflicts in 200 steps
+    with zero targets reached. Centralized planners do not need backoff, because reservations prevent
+    within-team conflicts.
 
 ## Alternatives considered
 - **Pure return-when-low thresholds:** ignore the target's distance from the base and strand agents far away.
