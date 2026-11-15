@@ -84,6 +84,10 @@ class BeliefMap(KnownMap):
             out.setdefault(cell, {})[observer] = value
         return out
 
+    def disabled_agents(self) -> frozenset[AgentId]:
+        """Agents this agent knows to be disabled (own sightings or received records)."""
+        return frozenset(self._disabled)
+
     def records(self) -> tuple[Record, ...]:
         """Every record held, sorted by key (a canonical snapshot of the belief)."""
         return tuple(self._encode(k) for k in sorted(self._all_keys()))
