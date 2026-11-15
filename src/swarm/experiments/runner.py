@@ -28,7 +28,7 @@ import swarm
 from swarm.core.env import EnvSnapshot, SwarmEnv
 from swarm.core.events import EVENT_SCHEMA_VERSION, Event, event_stream_sha256, events_to_jsonl
 from swarm.core.rng import episode_streams, seed_derivation, validate_seed
-from swarm.evaluation.comms_metrics import compute_comm_metrics
+from swarm.evaluation.comms_metrics import compute_comm_metrics, compute_failure_metrics
 from swarm.evaluation.metrics import (
     METRIC_DEFINITIONS,
     METRIC_SCHEMA_VERSION,
@@ -188,7 +188,8 @@ def run_episode(
         decision_log=tuple(team.decision_log()),
         comm_metrics=None
         if config.comms is None
-        else compute_comm_metrics(config, snapshot.scenario, events),
+        else compute_comm_metrics(config, snapshot.scenario, events)
+        | compute_failure_metrics(config, events, team.decision_log()),
     )
 
 

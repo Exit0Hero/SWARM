@@ -5,16 +5,22 @@ search sectors, and explores frontier cells inside the sector it holds, falling 
 frontier rule when it holds none. ``auction_no_reassign`` is the H5 control: identical bidding,
 renewal and release, but leases never expire and disabled holders are not released, and its
 fallback skips sectors held by others. Agents see only their own observation and inbox.
+
+Failure detection (ADR-0020): each agent runs a :class:`~swarm.coordination.failure.FailureDetector`
+on relayed heartbeats and tombstones. The team's decision log records only what agents observe and
+decide (detector transitions and sector holdings), for evaluation; no agent reads it.
 """
 
 from __future__ import annotations
 
 from collections.abc import Mapping
+from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 
 from swarm.coordination.auction import SUSPICION_STEPS, LeaseAuction, sector_masks
+from swarm.coordination.failure import FailureDetector, Transition
 from swarm.core.messages import Message
 from swarm.core.observation import Observation
 from swarm.core.types import AgentId
@@ -37,13 +43,24 @@ class AuctionAgent(SharedNavigatorAgent):
         counters: Counters,
         *,
         honor_failures: bool,
+        suspicion_steps: int = SUSPICION_STEPS,
     ) -> None:
         super().__init__(agent_id, spec, brief, counters)
-        self.auction = LeaseAuction(agent_id, honor_failures=honor_failures)
+        self.auction = LeaseAuction(
+            agent_id, honor_failures=honor_failures, suspicion_steps=suspicion_steps
+        )
         self.sectors = sector_masks(brief.grid_shape)
         self._held_by_others: npt.NDArray[np.bool_] | None = None
-        self.suspected: set[AgentId] = set()
-        self.suspicions = 0
+        comms = brief.comms
+        # Normal heartbeat age on this channel: sent each step, delayed by latency + jitter.
+        contact = 1 if comms is None else 1 + comms.latency + comms.jitter
+        self.detector = FailureDetector(
+            agent_id,
+            brief.agents,
+            suspicion_steps=suspicion_steps,
+            contact_steps=min(contact, suspicion_steps),
+        )
+        self.transitions: list[Transition] = []
 
     def act(self, obs: Observation, rng: np.random.Generator) -> int:
         for delivery in obs.inbox:
@@ -73,15 +90,7 @@ class AuctionAgent(SharedNavigatorAgent):
                 bids[k] = int(dist[cells].min())
         disabled = self.belief.disabled_agents()
         self.auction.decide(now, bids, frozenset(done), disabled)
-        for peer, last in self.auction.table.heard().items():
-            if peer == self.agent_id or peer in disabled:
-                continue
-            if now - last > SUSPICION_STEPS:
-                if peer not in self.suspected:
-                    self.suspected.add(peer)
-                    self.suspicions += 1
-            else:
-                self.suspected.discard(peer)
+        self.transitions = self.detector.update(now, self.auction.table.heard(), disabled)
         self._held_by_others = None
         if self.auction.holding is None and not self.auction.honor_failures:
             held = np.zeros(self.known.shape, dtype=np.bool_)
@@ -121,6 +130,10 @@ class AuctionTeam(SharedFrontierTeam):
             for aid, spec in brief.agents.items()
         }
         self.duplicate_claim_steps = 0
+        self._log: list[dict[str, Any]] = [
+            {"kind": "detector", "step": 0, "suspicion_steps": SUSPICION_STEPS}
+        ]
+        self._held: dict[AgentId, int | None] = {aid: None for aid in self.agents}
 
     def act(
         self,
@@ -128,6 +141,23 @@ class AuctionTeam(SharedFrontierTeam):
         rngs: Mapping[AgentId, np.random.Generator],
     ) -> dict[AgentId, int]:
         actions = super().act(observations, rngs)
+        for aid in actions:  # policy-observable facts only, for evaluation (ADR-0020)
+            agent, step = self.agents[aid], observations[aid].step
+            for t, peer, _, new in agent.transitions:
+                self._log.append(
+                    {
+                        "kind": "peer_state",
+                        "step": t,
+                        "observer": aid,
+                        "peer": peer,
+                        "state": str(new),
+                    }
+                )
+            if agent.auction.holding != self._held[aid]:
+                self._held[aid] = agent.auction.holding
+                self._log.append(
+                    {"kind": "hold", "step": step, "agent": aid, "sector": agent.auction.holding}
+                )
         held = [self.agents[a].auction.holding for a in actions]
         held_sectors = [k for k in held if k is not None]
         if len(held_sectors) != len(set(held_sectors)):
@@ -145,9 +175,13 @@ class AuctionTeam(SharedFrontierTeam):
             "takeovers_after_failure",
         ):
             out[f"auction_{key}"] = sum(a.auction.stats[key] for a in self.agents.values())
-        out["auction_suspicions"] = sum(a.suspicions for a in self.agents.values())
+        out["auction_suspicions"] = sum(a.detector.suspicions for a in self.agents.values())
+        out["auction_recoveries"] = sum(a.detector.recoveries for a in self.agents.values())
         out["auction_duplicate_claim_steps"] = self.duplicate_claim_steps
         return out
+
+    def decision_log(self) -> list[dict[str, Any]]:
+        return list(self._log)
 
 
 def _factory(name: str, honor_failures: bool) -> TeamFactory:
