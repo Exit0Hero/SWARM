@@ -86,8 +86,15 @@ class NavigatorAgent:
     ) -> Path | None:
         return astar(passable, here, goal, self._costs())
 
+    def _scope(self) -> np.ndarray[Any, np.dtype[np.bool_]] | None:
+        """Cells this agent may target; ``None`` = anywhere. Phase 2 agents never restrict it."""
+        return None
+
     def _target_valid(self) -> bool:
         assert self.target is not None
+        scope = self._scope()
+        if scope is not None and not scope[self.target]:
+            return False
         if self.target_rule == "frontier":
             return bool(self.cache.frontier_for(self.known, self.layer)[self.target])
         return True
@@ -114,6 +121,9 @@ class NavigatorAgent:
         else:
             candidates = feasible & self.cache.passable_for(self.known, self.layer)
         candidates[here] = False
+        scope = self._scope()
+        if scope is not None:
+            candidates &= scope
         for cell, until in list(self.blacklist.items()):
             if until <= obs.step:
                 del self.blacklist[cell]
