@@ -161,8 +161,13 @@ class Learner:
         onehot[self.agents.index(agent)] = 1.0
         return np.concatenate([self.env.state(), onehot]).astype(np.float32)
 
-    @torch.no_grad()
     def _act(
+        self, observations: dict[str, dict[str, Any]], agents: Sequence[str]
+    ) -> tuple[dict[str, int], dict[str, Transition]]:
+        with torch.no_grad():
+            return self._act_no_grad(observations, agents)
+
+    def _act_no_grad(
         self, observations: dict[str, dict[str, Any]], agents: Sequence[str]
     ) -> tuple[dict[str, int], dict[str, Transition]]:
         ids = list(agents)
@@ -287,7 +292,7 @@ class Learner:
                 entropy = -(torch.exp(all_logp) * all_logp).sum(-1).mean()
                 loss = policy_loss + c.value_coef * value_loss - c.entropy_coef * entropy
                 self.optimizer.zero_grad()
-                loss.backward()  # type: ignore[no-untyped-call]
+                loss.backward()  # type: ignore[no-untyped-call,unused-ignore]
                 nn.utils.clip_grad_norm_(self.model.parameters(), c.max_grad_norm)
                 self.optimizer.step()
                 logs["policy_loss"].append(policy_loss.item())
