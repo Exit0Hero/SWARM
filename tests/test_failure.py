@@ -235,6 +235,22 @@ def test_unreassigned_sectors_and_duplicates_are_explicit() -> None:
     assert m["disabled_detection_unresolved"] == 2  # nobody marked it
 
 
+def test_an_observer_already_suspecting_a_peer_when_it_fails_is_aware_at_once() -> None:
+    config = make_config(drones=1, grounds=2)
+    events: list[Event] = [
+        AgentDisabled(8, "ground_0", (1, 1), "hazard"),
+        AgentDisabled(8, "ground_1", (2, 2), "hazard"),  # simultaneous failures
+        EpisodeEnd(20, "time_limit", False, True),
+    ]
+    suspicion = {"kind": "peer_state", "step": 5, "observer": "drone_0", "peer": "ground_0"}
+    log = _log(suspicion | {"state": "suspected"})  # before the failure; no change after it
+    m = compute_failure_metrics(config, events, log)
+    assert m["failure_pairs"] == 2  # only drone_0 observes; each failed agent excludes the other
+    assert m["false_suspicions"] == 1  # ground_0 was alive at step 5
+    assert m["suspicion_detection_delay_mean"] == 0  # still suspected at the failure
+    assert m["suspicion_detection_unresolved"] == 1  # nobody became aware of ground_1
+
+
 def test_policies_without_a_detector_report_none() -> None:
     config = make_config()
     m = compute_failure_metrics(config, [EpisodeEnd(5, "time_limit", False, True)], [])

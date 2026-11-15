@@ -12,7 +12,8 @@ Failure detection and reassignment (ADR-0020). Simulator truth (``agent_disabled
 used here only, never by policies. It is joined with what agents *logged* (detector transitions
 and sector holdings in the team's decision log). Pairs are (failed agent, observer still active
 when it failed). Awareness that is never reached and abandoned sectors that are never reassigned
-are counted as unresolved, never as successes. Detection and reassignment metrics are ``None``
+are counted as unresolved, never as successes. An observer already suspecting an agent when it
+actually fails is aware at once (delay 0). Detection and reassignment metrics are ``None``
 for policies without a failure detector.
 
 These metrics exist only for scenarios with a communication channel; they are not part of the
@@ -200,7 +201,7 @@ def compute_failure_metrics(
 
     # Detection: first observer marks per (observer, peer).
     first_disabled: dict[tuple[AgentId, AgentId], int] = {}
-    first_aware: dict[tuple[AgentId, AgentId], int] = {}
+    history: dict[tuple[AgentId, AgentId], list[tuple[int, str]]] = {}
     previous: dict[tuple[AgentId, AgentId], str] = {}
     false_suspicions = recoveries = 0
     holds: list[tuple[int, AgentId, int | None]] = []
@@ -211,8 +212,7 @@ def compute_failure_metrics(
             if state == "disabled":
                 first_disabled.setdefault(key, step)
             peer = entry["peer"]
-            if state in ("suspected", "disabled") and peer in failed and step >= failed[peer]:
-                first_aware.setdefault(key, step)
+            history.setdefault(key, []).append((step, state))
             if state == "suspected" and alive(peer, step):
                 false_suspicions += 1
             if previous.get(key) == "suspected" and state in ("active", "disconnected"):
@@ -223,7 +223,11 @@ def compute_failure_metrics(
 
     pairs = [(d, o) for d, t in sorted(failed.items()) for o in agents if o != d and alive(o, t)]
     det = [first_disabled[(o, d)] - failed[d] for d, o in pairs if (o, d) in first_disabled]
-    aware = [first_aware[(o, d)] - failed[d] for d, o in pairs if (o, d) in first_aware]
+    aware = [
+        delay
+        for d, o in pairs
+        if (delay := _awareness_delay(history.get((o, d), []), failed[d])) is not None
+    ]
 
     # Holdings over time (as logged by agents).
     holds.sort(key=lambda h: (h[0], h[1]))
@@ -280,3 +284,19 @@ def compute_failure_metrics(
         "duplicate_ownership_steps": dup_steps,
         "duplicate_ownership_sector_steps": dup_sector_steps,
     }
+
+
+def _awareness_delay(transitions: list[tuple[int, str]], failed_at: int) -> int | None:
+    """Steps from a failure until the observer suspects or marks the agent: 0 if its logged state
+    at the failure step is already ``suspected`` or ``disabled``; ``None`` if never."""
+    state = "active"
+    for step, new in sorted(transitions):
+        if step > failed_at:
+            break
+        state = new
+    if state in ("suspected", "disabled"):
+        return 0
+    for step, new in sorted(transitions):
+        if step > failed_at and new in ("suspected", "disabled"):
+            return step - failed_at
+    return None
