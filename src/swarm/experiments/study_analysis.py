@@ -118,18 +118,55 @@ class StudyData:
                     raise ValueError(f"{c.id}/{p}: result seeds do not match the spec")
                 self._cells[(c.id, p)] = record
 
+        # Pooled policies (Phase 4): one value per scenario seed, the mean over member policies
+        # (for example, one learned policy per training seed). Undefined if any member is.
+        self.pooled: dict[str, list[str]] = dict(study.raw.get("pooled_policies", {}))
+
+    def available(self, cid: str, policy: str) -> bool:
+        """Whether ``policy`` (or every member of a pooled policy) ran in condition ``cid``."""
+        return all((cid, m) in self._cells for m in self.pooled.get(policy, [policy]))
+
+    def members(self, cid: str, policy: str) -> list[str]:
+        if policy not in self.pooled:
+            return [policy]
+        members = self.pooled[policy]
+        missing = [m for m in members if (cid, m) not in self._cells]
+        if missing:
+            raise ValueError(f"pooled policy {policy}: no {cid} results for {missing}")
+        return members
+
     def cell(self, cid: str, policy: str) -> dict[str, Any]:
         return self._cells[(cid, policy)]
 
     def values(self, cid: str, policy: str, metric: str) -> list[Any]:
         limit = self.study.condition(cid).config.time_limit
-        return [_value(ep, metric, limit) for ep in self.cell(cid, policy)["episodes"]]
+        columns = [
+            [_value(ep, metric, limit) for ep in self.cell(cid, m)["episodes"]]
+            for m in self.members(cid, policy)
+        ]
+        if len(columns) == 1:
+            return columns[0]
+        return [
+            None if any(v is None for v in row) else float(np.mean([float(v) for v in row]))
+            for row in zip(*columns, strict=True)
+        ]
 
     def failed(self, cid: str, policy: str) -> int:
-        return sum(ep["status"] != "completed" for ep in self.cell(cid, policy)["episodes"])
+        return sum(
+            ep["status"] != "completed"
+            for m in self.members(cid, policy)
+            for ep in self.cell(cid, m)["episodes"]
+        )
 
     def scenarios(self, cid: str, policy: str) -> list[str | None]:
-        return [ep["scenario_sha256"] for ep in self.cell(cid, policy)["episodes"]]
+        columns = [
+            [ep["scenario_sha256"] for ep in self.cell(cid, m)["episodes"]]
+            for m in self.members(cid, policy)
+        ]
+        for col in columns[1:]:
+            if col != columns[0]:
+                raise PairingError(f"pooled policy {policy}: members ran different scenarios")
+        return columns[0]
 
 
 def compare(
@@ -230,7 +267,7 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
         if c.id == "nominal":
             continue
         for policy in ex.get("vs_nominal_policies", []):
-            if policy not in c.policies:
+            if not data.available(c.id, policy):
                 continue
             for metric in ex.get("vs_nominal_metrics", []):
                 exploratory.append(
@@ -247,7 +284,7 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
                 )
     for c in study.conditions:
         for pa, pb in ex.get("pairs", []):
-            if pa not in c.policies or pb not in c.policies:
+            if not (data.available(c.id, pa) and data.available(c.id, pb)):
                 continue
             for metric in ex.get("pair_metrics", []):
                 exploratory.append(
@@ -299,6 +336,22 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
                 "config_hash": cell["config_hash"],
                 "n_failed": n_failed,
                 "end_reasons": cell["end_reasons"],
+                "metrics": per_metric,
+            }
+        for pooled, members in data.pooled.items():
+            if not all(m in c.policies for m in members):
+                continue
+            per_metric = {}
+            for metric in ("time_censored", "mission_success", "recall", "energy_used"):
+                values = [v for v in data.values(c.id, pooled, metric) if v is not None]
+                per_metric[metric] = summarize(
+                    values, n_failed=data.failed(c.id, pooled), spec=spec, metric=metric
+                ).to_dict()
+            summaries[f"{c.id}/{pooled}"] = {
+                "condition": c.id,
+                "policy": pooled,
+                "pooled_members": members,
+                "n_failed": data.failed(c.id, pooled),
                 "metrics": per_metric,
             }
     return {

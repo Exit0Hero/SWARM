@@ -51,6 +51,7 @@ OPTIONAL_SPEC_KEYS = {
     "thresholds",
     "bootstrap",
     "learned_policies",
+    "pooled_policies",
 }
 
 

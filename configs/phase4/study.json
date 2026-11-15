@@ -1,0 +1,327 @@
+{
+  "name": "phase4_marl",
+  "description": "Phase 4 MARL evaluation; pre-registered in docs/19_PHASE4_MARL_STUDY.md",
+  "base_config": "../phase3/nominal.json",
+  "seeds": "400-449",
+  "designation": "evaluation",
+  "learned_policies": {
+    "mappo_s0": "../../docs/results/phase4/models/mappo_s0",
+    "mappo_s1": "../../docs/results/phase4/models/mappo_s1",
+    "mappo_s2": "../../docs/results/phase4/models/mappo_s2",
+    "ippo_s0": "../../docs/results/phase4/models/ippo_s0",
+    "ippo_s1": "../../docs/results/phase4/models/ippo_s1",
+    "ippo_s2": "../../docs/results/phase4/models/ippo_s2",
+    "mappo_nocov_s0": "../../docs/results/phase4/models/mappo_nocov_s0",
+    "mappo_nocov_s1": "../../docs/results/phase4/models/mappo_nocov_s1",
+    "mappo_nocov_s2": "../../docs/results/phase4/models/mappo_nocov_s2"
+  },
+  "pooled_policies": {
+    "mappo": [
+      "mappo_s0",
+      "mappo_s1",
+      "mappo_s2"
+    ],
+    "ippo": [
+      "ippo_s0",
+      "ippo_s1",
+      "ippo_s2"
+    ],
+    "mappo_nocov": [
+      "mappo_nocov_s0",
+      "mappo_nocov_s1",
+      "mappo_nocov_s2"
+    ]
+  },
+  "conditions": [
+    {
+      "id": "nominal",
+      "overrides": {},
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "assignment_oracle",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2",
+        "mappo_nocov_s0",
+        "mappo_nocov_s1",
+        "mappo_nocov_s2"
+      ]
+    },
+    {
+      "id": "drop_30",
+      "overrides": {
+        "comms": {
+          "p_drop": 0.3
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2"
+      ]
+    },
+    {
+      "id": "delay_2_1",
+      "overrides": {
+        "comms": {
+          "latency": 2,
+          "jitter": 1
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2"
+      ]
+    },
+    {
+      "id": "fail_2_early",
+      "overrides": {
+        "failures": {
+          "count": 2,
+          "start": 5,
+          "end": 25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2"
+      ]
+    },
+    {
+      "id": "map_30",
+      "overrides": {
+        "height": 30,
+        "width": 30,
+        "survivor_count": 18,
+        "time_limit": 300
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2"
+      ]
+    },
+    {
+      "id": "team_3x3",
+      "overrides": {
+        "roster": [
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          }
+        ]
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "ippo_s0",
+        "ippo_s1",
+        "ippo_s2"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "P1",
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "nominal",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "P2",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "nominal",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "P3",
+      "a": [
+        "nominal",
+        "ippo"
+      ],
+      "b": [
+        "nominal",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "P4",
+      "a": [
+        "nominal",
+        "mappo_nocov"
+      ],
+      "b": [
+        "nominal",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "P5",
+      "a": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "b": [
+        "fail_2_early",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "P6",
+      "a": [
+        "map_30",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_30",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "P7",
+      "a": [
+        "team_3x3",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_3x3",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    }
+  ],
+  "exploratory": {
+    "vs_nominal_policies": [
+      "frontier_shared",
+      "auction_comm",
+      "mappo",
+      "ippo"
+    ],
+    "vs_nominal_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall"
+    ],
+    "pairs": [
+      [
+        "frontier_shared",
+        "mappo"
+      ],
+      [
+        "auction_comm",
+        "mappo"
+      ],
+      [
+        "ippo",
+        "mappo"
+      ],
+      [
+        "frontier_shared",
+        "ippo"
+      ]
+    ],
+    "pair_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall",
+      "energy_used"
+    ]
+  },
+  "thresholds": {
+    "time_censored": 5,
+    "mission_success": 0.05,
+    "recall": 0.02
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "confidence": 0.95,
+    "seed": 0,
+    "permutation_resamples": 20000,
+    "permutation_seed": 0,
+    "alpha": 0.05
+  }
+}

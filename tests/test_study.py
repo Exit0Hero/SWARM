@@ -193,3 +193,36 @@ def test_learned_policies_run_through_the_study(tmp_path: Path) -> None:
     clash = _spec(tmp_path, learned_policies={"frontier": "run"})
     with pytest.raises(ValueError, match="clashes"):
         load_study(clash)
+
+
+def test_pooled_policies_average_members_per_seed(tmp_path: Path) -> None:
+    from swarm.experiments.study_analysis import StudyData
+
+    spec = _spec(tmp_path, pooled_policies={"pool": ["frontier", "auction_comm"]})
+    raw = json.loads(spec.read_text())
+    raw["hypotheses"].append(
+        {
+            "id": "H2",
+            "a": ["nominal", "frontier"],
+            "b": ["nominal", "pool"],
+            "metric": "time_censored",
+            "expected": "two-sided",
+        }
+    )
+    spec.write_text(json.dumps(raw))
+    study = load_study(spec)
+    out = tmp_path / "runs"
+    run_study(study, out)
+    data = StudyData(study, out)
+    a = data.values("nominal", "frontier", "time_censored")
+    b = data.values("nominal", "auction_comm", "time_censored")
+    assert data.values("nominal", "pool", "time_censored") == [
+        (x + y) / 2 for x, y in zip(a, b, strict=True)
+    ]
+    assert data.available("nominal", "pool")
+    assert not data.available("lossy", "pool")
+    result = analyze(study, out)
+    assert result["confirmatory"][1]["n_pairs"] == 3
+    assert result["summaries"]["nominal/pool"]["pooled_members"] == ["frontier", "auction_comm"]
+    with pytest.raises(ValueError, match="no lossy results"):
+        data.values("lossy", "pool", "recall")
