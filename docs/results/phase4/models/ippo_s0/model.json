@@ -1,0 +1,166 @@
+{
+  "best": {
+    "episodes": 800,
+    "mission_success": 1.0,
+    "mode": "greedy",
+    "recall": 0.75,
+    "time_censored": 36.95,
+    "update": 50
+  },
+  "code": {
+    "commit": "0e0c6092358c34b335696f1f3b98102619b61132",
+    "dirty": false
+  },
+  "n_actions": 18,
+  "obs_size": 73,
+  "scenario_config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+  "software": {
+    "numpy": "2.5.4",
+    "python": "3.13.18",
+    "swarm": "0.0.1"
+  },
+  "stopped": {
+    "decisions": 57143,
+    "episodes": 2400,
+    "reason": "total_episodes",
+    "seconds_this_session": 392.7,
+    "updates": 150
+  },
+  "torch_version": "2.15.0+cu132",
+  "train_config": {
+    "decision_interval": 8,
+    "episodes_per_update": 16,
+    "ppo": {
+      "algorithm": "ippo",
+      "clip": 0.2,
+      "entropy_coef": 0.01,
+      "epochs": 8,
+      "gae_lambda": 0.95,
+      "gamma": 0.99,
+      "hidden": 64,
+      "lr": 0.0005,
+      "max_grad_norm": 0.5,
+      "minibatch": 128,
+      "value_coef": 0.5
+    },
+    "reward_weights": {
+      "coverage": 0.01,
+      "disabled": -1.0,
+      "hazard": -0.1,
+      "success": 2.0,
+      "survivor": 1.0,
+      "time": -0.05
+    },
+    "scenario": "../phase3/nominal.json",
+    "total_episodes": 2400,
+    "train_seed_start": 10000,
+    "validate_every": 25,
+    "validation_seeds": "3000-3019",
+    "wall_clock_limit_s": null
+  },
+  "train_config_hash": "b8caabd9bc6dc4014d2c4730faba32243d7559e15691da6a43ce9d64911f38b8",
+  "training_scenario_seeds": [
+    10000,
+    14999
+  ],
+  "training_seed": 0,
+  "validation": [
+    {
+      "episodes": 400,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.75625,
+      "time_censored": 42.6,
+      "update": 25
+    },
+    {
+      "episodes": 400,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75,
+      "time_censored": 52.0,
+      "update": 25
+    },
+    {
+      "episodes": 800,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.75,
+      "time_censored": 36.95,
+      "update": 50
+    },
+    {
+      "episodes": 800,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75625,
+      "time_censored": 40.0,
+      "update": 50
+    },
+    {
+      "episodes": 1200,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.76875,
+      "time_censored": 43.1,
+      "update": 75
+    },
+    {
+      "episodes": 1200,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75625,
+      "time_censored": 39.4,
+      "update": 75
+    },
+    {
+      "episodes": 1600,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.75625,
+      "time_censored": 41.15,
+      "update": 100
+    },
+    {
+      "episodes": 1600,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75,
+      "time_censored": 39.95,
+      "update": 100
+    },
+    {
+      "episodes": 2000,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.75,
+      "time_censored": 40.45,
+      "update": 125
+    },
+    {
+      "episodes": 2000,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75,
+      "time_censored": 44.55,
+      "update": 125
+    },
+    {
+      "episodes": 2400,
+      "mission_success": 1.0,
+      "mode": "greedy",
+      "recall": 0.7625,
+      "time_censored": 49.95,
+      "update": 150
+    },
+    {
+      "episodes": 2400,
+      "mission_success": 1.0,
+      "mode": "sampled",
+      "recall": 0.75625,
+      "time_censored": 39.25,
+      "update": 150
+    }
+  ],
+  "validation_seeds": "3000-3019"
+}
