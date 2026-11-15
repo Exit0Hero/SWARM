@@ -7,8 +7,9 @@ terminations, truncations, infos and the ordered event list. The core computes n
 
 Step order (docs/04): 1 validate actions, 2 resolve movement, 3 energy and recharge (agents at
 zero energy away from base are disabled), 4 static hazards (ADR-0011), 5 sensing: true reports
-then false reports (ADR-0012), 6 mission state: mission success > all disabled > time limit
-(ADR-0009). Within a phase, agents are processed in sorted ID order.
+then false reports (ADR-0012), 5b communication channel when configured (ADR-0017), 6 mission
+state: mission success > all disabled > time limit (ADR-0009). Within a phase, agents are
+processed in sorted ID order.
 
 State is held in NumPy arrays indexed by sorted agent order. Positions and energy are integers.
 """
@@ -16,7 +17,7 @@ State is held in NumPy arrays indexed by sorted agent order. Positions and energ
 from __future__ import annotations
 
 import operator
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from fractions import Fraction
 from typing import Any, SupportsIndex
@@ -24,6 +25,7 @@ from typing import Any, SupportsIndex
 import numpy as np
 import numpy.typing as npt
 
+from swarm.core.comms import Channel
 from swarm.core.events import (
     AgentDisabled,
     Detection,
@@ -36,6 +38,7 @@ from swarm.core.events import (
     Moved,
     Recharged,
 )
+from swarm.core.messages import Delivery, Message, outbox_size, validate_message
 from swarm.core.movement import MoveRequest, resolve_moves
 from swarm.core.observation import (
     OUT_OF_BOUNDS,
@@ -120,6 +123,11 @@ class SwarmEnv:
         self._dynamics: np.random.Generator | None = None
         self._hazard_rng: np.random.Generator | None = None
         self._false_positive_rng: np.random.Generator | None = None
+        self._channel: Channel | None = None
+        if config.comms is not None:
+            ranges = {aid: config.comms.range_for(spec.name) for aid, (spec, _) in roster.items()}
+            self._channel = Channel(config.comms, ranges)
+        self._last_seq: dict[AgentId, int] = {}
         self._hazard_layers = (
             frozenset() if config.hazards is None else frozenset(config.hazards.affected_layers)
         )
@@ -177,6 +185,9 @@ class SwarmEnv:
         self._dynamics = streams.dynamics
         self._hazard_rng = streams.hazard
         self._false_positive_rng = streams.false_positive
+        if self._channel is not None:
+            self._channel.reset(streams.comms)
+        self._last_seq = {}
         self._found = set()
         self._pos[:] = scenario.base
         self._energy[:] = self._initial_energy
@@ -187,16 +198,31 @@ class SwarmEnv:
         observations = {aid: self._observe(i, ()) for i, aid in enumerate(self.possible_agents)}
         return observations, {aid: {} for aid in self.possible_agents}
 
-    def step(self, actions: Mapping[AgentId, SupportsIndex]) -> StepResult:
+    def step(
+        self,
+        actions: Mapping[AgentId, SupportsIndex],
+        messages: Mapping[AgentId, Sequence[Message]] | None = None,
+    ) -> StepResult:
         """Advance one step with a joint action for exactly the agents in :attr:`agents`.
+
+        ``messages`` is the outbox: messages each active agent sends this step (ADR-0017). It
+        requires a ``comms`` block in the config. ``None`` (the default) sends nothing; queued
+        messages from earlier steps are still delivered. Without a channel, behaviour is exactly
+        as in Phase 1 and 2.
 
         Raises:
             RuntimeError: before :meth:`reset` or after the episode has ended.
-            ValueError: on missing or unknown agent IDs or actions outside ``0..4``.
+            ValueError: on missing or unknown agent IDs, actions outside ``0..4``, messages
+                without a channel, messages from inactive agents, non-increasing ``seq`` or an
+                outbox over the bandwidth.
+            TypeError: on malformed messages.
         """
         scenario, rng = self._require_running()
         acting = self.agents
         parsed = self._parse_actions(actions, acting)
+        outbox = self._parse_messages(messages, acting)
+        for aid, batch in outbox.items():
+            self._last_seq[aid] = batch[-1].seq
         t = self._step + 1
         events: list[Event] = []
 
@@ -319,6 +345,17 @@ class SwarmEnv:
                     events.append(Detection(t, aid, cell, False, None))
             reports[aid] = found
 
+        # 5b. Communication channel (ADR-0017): transmit at post-move positions, then deliver.
+        inboxes: dict[AgentId, tuple[Delivery, ...]] = {}
+        if self._channel is not None:
+            active_now = frozenset(
+                aid for i, aid in enumerate(self.possible_agents) if self._active[i]
+            )
+            positions = {aid: self._position(i) for i, aid in enumerate(self.possible_agents)}
+            events.extend(self._channel.transmit(t, outbox, positions, active_now))
+            inboxes, delivery_events = self._channel.deliver(t, active_now)
+            events.extend(delivery_events)
+
         # 6. Mission state (ADR-0009): mission_success > all_disabled > time_limit.
         self._step = t
         n_survivors = len(scenario.survivors)
@@ -342,7 +379,8 @@ class SwarmEnv:
             aid: self._end_reason == "time_limit" and not terminations[aid] for aid in acting
         }
         observations = {
-            aid: self._observe(self._index[aid], tuple(reports.get(aid, ()))) for aid in acting
+            aid: self._observe(self._index[aid], tuple(reports.get(aid, ())), inboxes.get(aid, ()))
+            for aid in acting
         }
         return StepResult(
             observations=observations,
@@ -428,6 +466,47 @@ class SwarmEnv:
             parsed[aid] = Action(value)
         return parsed
 
+    def _parse_messages(
+        self,
+        messages: Mapping[AgentId, Sequence[Message]] | None,
+        acting: tuple[AgentId, ...],
+    ) -> dict[AgentId, tuple[Message, ...]]:
+        """Validate an outbox before any state changes (ADR-0017)."""
+        if messages is None:
+            return {}
+        if self._channel is None:
+            raise ValueError(
+                "messages: this config has no comms block, so nothing can be sent (ADR-0017)"
+            )
+        if not isinstance(messages, Mapping):
+            raise ValueError(f"messages: must map agent ID to messages, got {messages!r}")
+        unexpected = sorted(set(messages) - set(acting))
+        if unexpected:
+            raise ValueError(f"messages: only active agents {list(acting)} may send; {unexpected}")
+        bandwidth = self._config.comms.bandwidth if self._config.comms is not None else None
+        parsed: dict[AgentId, tuple[Message, ...]] = {}
+        for aid in sorted(messages):
+            batch: object = messages[aid]
+            if isinstance(batch, str | bytes) or not isinstance(batch, Sequence):
+                raise TypeError(f"messages[{aid!r}]: must be a sequence of Message")
+            msgs = tuple(validate_message(m, aid) for m in batch)
+            last = self._last_seq.get(aid, -1)
+            for m in msgs:
+                if m.seq <= last:
+                    raise ValueError(
+                        f"messages[{aid!r}]: seq must strictly increase over the episode; "
+                        f"got {m.seq} after {last}"
+                    )
+                last = m.seq
+            size = outbox_size(msgs)
+            if bandwidth is not None and size > bandwidth:
+                raise ValueError(
+                    f"messages[{aid!r}]: {size} units exceed the bandwidth of {bandwidth} per step"
+                )
+            if msgs:
+                parsed[aid] = msgs
+        return parsed
+
     def _position(self, i: int) -> Position:
         return (int(self._pos[i, 0]), int(self._pos[i, 1]))
 
@@ -484,7 +563,9 @@ class SwarmEnv:
         view.flags.writeable = False
         return view
 
-    def _observe(self, i: int, detections: tuple[Position, ...]) -> Observation:
+    def _observe(
+        self, i: int, detections: tuple[Position, ...], inbox: tuple[Delivery, ...] = ()
+    ) -> Observation:
         scenario = self._require_scenario()
         spec = self._specs[i]
         here = self._position(i)
@@ -516,4 +597,5 @@ class SwarmEnv:
             visible_agents=visible,
             detections=tuple(sorted(set(detections))),
             action_mask=self._mask(i),
+            inbox=inbox,
         )

@@ -35,6 +35,7 @@ from swarm.evaluation.metrics import (
     compute_metrics,
 )
 from swarm.policies.base import (
+    CommunicatingTeam,
     MissionBrief,
     PolicyFactory,
     TeamFactory,
@@ -42,7 +43,6 @@ from swarm.policies.base import (
     build_team,
     policy_identity,
 )
-from swarm.scenarios.config import SCHEMA_VERSION as CONFIG_SCHEMA_VERSION
 from swarm.scenarios.config import ScenarioConfig
 
 RESULT_SCHEMA_VERSION: Final[int] = 1
@@ -122,7 +122,8 @@ def run_episode(
     ``policy_factory`` is either a per-agent :data:`~swarm.policies.base.PolicyFactory` (wrapped
     in an ``IndependentTeam``, Phase 1 behaviour) or a :class:`~swarm.policies.base.TeamFactory`
     (ADR-0014). Oracle teams receive :meth:`SwarmEnv.oracle_view` after reset; no other policy
-    does.
+    does. A team that implements :class:`~swarm.policies.base.CommunicatingTeam` has its outbox
+    passed to the environment each step; this requires a ``comms`` block in ``config``.
 
     Raises:
         ValueError: on an invalid seed or designation, an inconsistent policy identity, or
@@ -148,7 +149,12 @@ def run_episode(
             raise ValueError(
                 f"{team.name}: returned actions for {sorted(actions)}, expected {list(env.agents)}"
             )
-        result = env.step(actions)
+        messages = team.outbox() if isinstance(team, CommunicatingTeam) else None
+        if messages is not None and config.comms is None:
+            raise ValueError(
+                f"{team.name}: sends messages, but the config has no comms block (ADR-0017)"
+            )
+        result = env.step(actions, messages)
         events.extend(result.events)
         observations = result.observations
 
@@ -168,7 +174,9 @@ def run_episode(
         event_stream_sha256=event_stream_sha256(events),
         metrics=metrics,
         events=tuple(events),
-        metadata=_metadata(seed, env.possible_agents, started_wall, time.perf_counter() - started),
+        metadata=_metadata(
+            config, seed, env.possible_agents, started_wall, time.perf_counter() - started
+        ),
         final_snapshot=snapshot,
         policy_diagnostics=dict(team.diagnostics()),
         decision_log=tuple(team.decision_log()),
@@ -227,12 +235,16 @@ def environment_metadata() -> dict[str, Any]:
 
 
 def _metadata(
-    seed: int, agent_ids: tuple[str, ...], started: dt.datetime, duration: float
+    config: ScenarioConfig,
+    seed: int,
+    agent_ids: tuple[str, ...],
+    started: dt.datetime,
+    duration: float,
 ) -> dict[str, Any]:
     return {
         "seed_derivation": seed_derivation(seed, agent_ids),
         "schema_versions": {
-            "config": CONFIG_SCHEMA_VERSION,
+            "config": config.to_dict()["schema_version"],
             "events": EVENT_SCHEMA_VERSION,
             "metrics": METRIC_SCHEMA_VERSION,
             "result": RESULT_SCHEMA_VERSION,

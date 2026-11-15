@@ -7,12 +7,13 @@ built per agent and per episode by a :data:`PolicyFactory`, so no state leaks be
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
 
+from swarm.core.messages import Message
 from swarm.core.observation import Observation
 from swarm.core.oracle import OracleView
 from swarm.core.types import AgentId, AgentStatus, Layer, Position
@@ -151,6 +152,20 @@ class TeamFactory:
 
     name: str
     build: Callable[[MissionBrief], TeamPolicy]
+
+
+@runtime_checkable
+class CommunicatingTeam(Protocol):
+    """A team whose agents send messages (ADR-0017).
+
+    After each :meth:`TeamPolicy.act`, the runner calls :meth:`outbox` and passes the result to
+    ``SwarmEnv.step``. Each agent's messages must be composed only from that agent's own
+    observations and inbox (ADR-0008).
+    """
+
+    def outbox(self) -> Mapping[AgentId, Sequence[Message]]:
+        """Messages each agent sends this step, keyed by sender."""
+        ...
 
 
 class IndependentTeam:

@@ -15,6 +15,7 @@ from typing import Final
 import numpy as np
 import numpy.typing as npt
 
+from swarm.core.messages import Delivery
 from swarm.core.types import AgentId, AgentStatus, Layer, Position
 
 UNKNOWN: Final[int] = -1
@@ -68,6 +69,8 @@ class Observation:
     ``detections`` are the cells this agent reported this step: true and false reports merged and
     indistinguishable (ADR-0012); empty on reset.
     ``action_mask[a]`` is ``True`` when action ``a`` is valid (ADR-0004).
+    ``inbox`` holds the messages delivered to this agent this step (ADR-0017); always empty when
+    the scenario has no communication channel.
     """
 
     agent_id: AgentId
@@ -86,6 +89,7 @@ class Observation:
     visible_agents: tuple[VisibleAgent, ...]
     detections: tuple[Position, ...]
     action_mask: tuple[bool, ...]
+    inbox: tuple[Delivery, ...] = ()
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Observation):

@@ -197,7 +197,7 @@ def test_dynamics_children_do_not_change_m1_streams() -> None:
 
 
 def test_seed_derivation_records_dynamics_children() -> None:
-    assert seed_derivation(0, AGENTS)["dynamics_children"] == ["hazard", "false_positive"]
+    assert seed_derivation(0, AGENTS)["dynamics_children"] == ["hazard", "false_positive", "comms"]
 
 
 def test_hazards_only_on_open_or_debris_and_never_on_base() -> None:

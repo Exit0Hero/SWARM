@@ -117,6 +117,45 @@ class Detection(Event):
 
 
 @dataclass(frozen=True, slots=True)
+class MessageSent(Event):
+    """A message left its sender (ADR-0017). ``recipients`` = agents in range, sorted; empty when
+    the sender was disabled during the step or nobody was in range."""
+
+    kind: ClassVar[str] = "message_sent"
+    sender: AgentId
+    seq: int
+    message_kind: str
+    size: int
+    recipients: tuple[AgentId, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class MessageDropped(Event):
+    """A message to one in-range receiver was lost (ADR-0017).
+
+    ``reason``: ``"random"`` (the drop draw) or ``"receiver_disabled"`` (disabled before delivery).
+    """
+
+    kind: ClassVar[str] = "message_dropped"
+    receiver: AgentId
+    sender: AgentId
+    seq: int
+    reason: str
+
+
+@dataclass(frozen=True, slots=True)
+class MessageDelivered(Event):
+    """A message reached a receiver's inbox (ADR-0017). ``latency`` = ``step - sent_step``."""
+
+    kind: ClassVar[str] = "message_delivered"
+    receiver: AgentId
+    sender: AgentId
+    seq: int
+    sent_step: int
+    latency: int
+
+
+@dataclass(frozen=True, slots=True)
 class EpisodeEnd(Event):
     kind: ClassVar[str] = "episode_end"
     reason: str  # "mission_success" | "all_disabled" | "time_limit" (that precedence, ADR-0009)

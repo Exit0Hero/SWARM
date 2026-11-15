@@ -18,6 +18,7 @@ from swarm.scenarios.config import (
     GROUND,
     SCHEMA_VERSION,
     AgentSpec,
+    CommsConfig,
     ConfigError,
     HazardConfig,
     ScenarioConfig,
@@ -36,7 +37,11 @@ def test_round_trip_preserves_config_and_hash() -> None:
 
 
 def test_json_contains_schema_version() -> None:
-    assert json.loads(make_config().to_json())["schema_version"] == SCHEMA_VERSION
+    # Without a channel a config is written as version 2, so existing hashes are unchanged
+    # (ADR-0017); with one it is written as the current version.
+    assert json.loads(make_config().to_json())["schema_version"] == 2
+    with_comms = replace(make_config(), comms=CommsConfig(ranges=(("drone", 8), ("ground", 5))))
+    assert json.loads(with_comms.to_json())["schema_version"] == SCHEMA_VERSION == 3
 
 
 def test_hash_changes_with_any_field() -> None:
@@ -137,7 +142,7 @@ def test_from_dict_rejects_missing_key() -> None:
         ScenarioConfig.from_dict(data)
 
 
-@pytest.mark.parametrize("version", [0, 3, "2", True, None])
+@pytest.mark.parametrize("version", [0, 4, "2", True, None])
 def test_from_dict_rejects_unreadable_schema_version(version: object) -> None:
     with pytest.raises(ConfigError, match="schema_version"):
         ScenarioConfig.from_dict(_dict() | {"schema_version": version})
@@ -222,7 +227,7 @@ def test_v1_files_migrate_to_m1_equivalent_defaults() -> None:
         del v1[key]
     migrated = ScenarioConfig.from_dict(v1)
     assert migrated == make_config()
-    assert migrated.to_dict()["schema_version"] == SCHEMA_VERSION == 2
+    assert migrated.to_dict()["schema_version"] == 2  # no channel: written as version 2
 
 
 def test_v1_files_may_not_contain_v2_keys_missing_from_v2() -> None:

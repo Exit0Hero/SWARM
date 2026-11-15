@@ -37,7 +37,6 @@ from swarm.experiments.runner import (
     run_episode,
 )
 from swarm.policies.base import PolicyFactory, TeamFactory
-from swarm.scenarios.config import SCHEMA_VERSION as CONFIG_SCHEMA_VERSION
 from swarm.scenarios.config import ScenarioConfig
 
 EXPERIMENT_SCHEMA_VERSION: Final[int] = 1
@@ -270,7 +269,7 @@ def run_experiment(
     }
     metadata = {
         "schema_versions": {
-            "config": CONFIG_SCHEMA_VERSION,
+            "config": config.to_dict()["schema_version"],
             "metrics": METRIC_SCHEMA_VERSION,
             "experiment": EXPERIMENT_SCHEMA_VERSION,
         },

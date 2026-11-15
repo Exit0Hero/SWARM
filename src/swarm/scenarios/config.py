@@ -18,15 +18,18 @@ from typing import Any, Final
 
 from swarm.core.types import AgentId, Layer, Position
 
-SCHEMA_VERSION: Final[int] = 2
-"""Version of the scenario-config JSON schema written by this code.
+SCHEMA_VERSION: Final[int] = 3
+"""Newest version of the scenario-config JSON schema this code writes.
 
-Version 1 (Phase 1 M1) files are still read: they are migrated by adding ``hazards = null``,
-``p_false_positive = 0.0`` and ``recall_target = 1.0``, which reproduces M1 behaviour exactly
-(ADR-0007, ADR-0013).
+Version 3 adds the optional ``comms`` block (ADR-0017). A config without a channel is written as
+version 2, with no ``comms`` key, so its JSON and :meth:`ScenarioConfig.config_hash` are exactly
+as before. Version 1 (Phase 1 M1) files are still read: they are migrated by adding
+``hazards = null``, ``p_false_positive = 0.0`` and ``recall_target = 1.0``, which reproduces M1
+behaviour exactly (ADR-0007, ADR-0013).
 """
 
-READABLE_SCHEMA_VERSIONS: Final[frozenset[int]] = frozenset({1, 2})
+READABLE_SCHEMA_VERSIONS: Final[frozenset[int]] = frozenset({1, 2, 3})
+MAX_COMMS_DELAY: Final[int] = 1000
 
 MAX_GRID_SIDE: Final[int] = 1024
 MAX_TIME_LIMIT: Final[int] = 1_000_000
@@ -297,6 +300,76 @@ class HazardConfig:
 
 
 @dataclass(frozen=True, slots=True)
+class CommsConfig:
+    """Communication channel (ADR-0017).
+
+    ``ranges`` maps every agent type to its communication range in cells (``None`` = unlimited).
+    A link from i to j exists when both are active and their Euclidean distance after movement is
+    at most ``min(range_i, range_j)``. Each (message, receiver) pair in range is lost with
+    probability ``p_drop``; otherwise it is delivered ``latency + J`` steps after sending, with
+    ``J`` uniform on ``0..jitter``. ``bandwidth`` caps the units an agent may send per step
+    (``None`` = unlimited).
+    """
+
+    ranges: tuple[tuple[str, int | None], ...]
+    p_drop: float = 0.0
+    latency: int = 0
+    jitter: int = 0
+    bandwidth: int | None = None
+
+    def __post_init__(self) -> None:
+        raw = self.ranges.items() if isinstance(self.ranges, Mapping) else self.ranges
+        entries = tuple(tuple(e) for e in raw)
+        if not entries:
+            raise ConfigError("comms.ranges: at least one agent type is required")
+        names: list[str] = []
+        for entry in entries:
+            if len(entry) != 2 or not isinstance(entry[0], str):
+                raise ConfigError(f"comms.ranges: entries must be (name, range), got {entry!r}")
+            name, value = entry
+            if value is not None:
+                _check_int(value, f"comms.ranges.{name}", minimum=0, maximum=MAX_GRID_SIDE * 2)
+            names.append(name)
+        if len(set(names)) != len(names):
+            raise ConfigError(f"comms.ranges: duplicate agent types in {names}")
+        object.__setattr__(self, "ranges", tuple(sorted(entries)))
+        object.__setattr__(self, "p_drop", _check_fraction(self.p_drop, "comms.p_drop"))
+        _check_int(self.latency, "comms.latency", minimum=0, maximum=MAX_COMMS_DELAY)
+        _check_int(self.jitter, "comms.jitter", minimum=0, maximum=MAX_COMMS_DELAY)
+        if self.bandwidth is not None:
+            _check_int(self.bandwidth, "comms.bandwidth", minimum=1)
+
+    def range_for(self, agent_type: str) -> int | None:
+        """Communication range of ``agent_type`` (``None`` = unlimited)."""
+        for name, value in self.ranges:
+            if name == agent_type:
+                return value
+        raise KeyError(agent_type)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "ranges": dict(self.ranges),
+            "p_drop": self.p_drop,
+            "latency": self.latency,
+            "jitter": self.jitter,
+            "bandwidth": self.bandwidth,
+        }
+
+    @classmethod
+    def from_dict(cls, data: object, path: str = "comms") -> CommsConfig:
+        d = _require_mapping(data, path)
+        _check_keys(d, path, {"ranges", "p_drop", "latency", "jitter", "bandwidth"}, set())
+        ranges = _require_mapping(d["ranges"], f"{path}.ranges")
+        return cls(
+            ranges=tuple((str(k), v) for k, v in ranges.items()),
+            p_drop=d["p_drop"],
+            latency=d["latency"],
+            jitter=d["jitter"],
+            bandwidth=d["bandwidth"],
+        )
+
+
+@dataclass(frozen=True, slots=True)
 class ScenarioConfig:
     """A scenario family. Together with a root seed it fully determines an episode's scenario.
 
@@ -304,7 +377,8 @@ class ScenarioConfig:
     ``base_position`` defaults to the grid centre ``(height // 2, width // 2)``.
     ``hazards`` is ``None`` for no hazard layer (ADR-0011). ``p_false_positive`` is the per
     footprint-cell false-report probability (ADR-0012). ``recall_target`` in ``(0, 1]`` is the
-    global recall at which the mission succeeds (ADR-0009). The defaults reproduce M1 exactly.
+    global recall at which the mission succeeds (ADR-0009). ``comms`` is ``None`` for no
+    communication channel (ADR-0017). The defaults reproduce M1 exactly.
     """
 
     height: int
@@ -319,6 +393,7 @@ class ScenarioConfig:
     hazards: HazardConfig | None = None
     p_false_positive: float = 0.0
     recall_target: float = 1.0
+    comms: CommsConfig | None = None
 
     def __post_init__(self) -> None:
         _check_int(self.height, "height", minimum=1, maximum=MAX_GRID_SIDE)
@@ -371,6 +446,16 @@ class ScenarioConfig:
                     f"got {entry.initial_energy}"
                 )
 
+        if self.comms is not None:
+            if not isinstance(self.comms, CommsConfig):
+                raise ConfigError(f"comms: must be a CommsConfig or None, got {self.comms!r}")
+            typed = {name for name, _ in self.comms.ranges}
+            if typed != set(names):
+                raise ConfigError(
+                    f"comms.ranges: must give a range for exactly the agent types {sorted(names)}, "
+                    f"got {sorted(typed)}"
+                )
+
         if self.base_position is not None:
             bp = self.base_position
             if not (isinstance(bp, tuple) and len(bp) == 2):
@@ -409,9 +494,13 @@ class ScenarioConfig:
     # ----------------------------------------------------------------- serialization
 
     def to_dict(self) -> dict[str, Any]:
-        """Return the JSON-ready representation, including ``schema_version``."""
-        return {
-            "schema_version": SCHEMA_VERSION,
+        """Return the JSON-ready representation, including ``schema_version``.
+
+        Without a channel the result is the version-2 form (no ``comms`` key), so existing config
+        hashes are unchanged.
+        """
+        out: dict[str, Any] = {
+            "schema_version": 2 if self.comms is None else SCHEMA_VERSION,
             "height": self.height,
             "width": self.width,
             "base_position": None if self.base_position is None else list(self.base_position),
@@ -425,6 +514,9 @@ class ScenarioConfig:
             "p_false_positive": self.p_false_positive,
             "recall_target": self.recall_target,
         }
+        if self.comms is not None:
+            out["comms"] = self.comms.to_dict()
+        return out
 
     @classmethod
     def from_dict(cls, data: object) -> ScenarioConfig:
@@ -452,6 +544,8 @@ class ScenarioConfig:
         }
         if version >= 2:
             required |= {"hazards", "p_false_positive", "recall_target"}
+        if version >= 3:
+            required |= {"comms"}
         _check_keys(d, "config", required, {"base_position"})
         base_raw = d.get("base_position")
         base: Position | None = None
@@ -480,6 +574,7 @@ class ScenarioConfig:
             hazards=None if hazards_raw is None else HazardConfig.from_dict(hazards_raw),
             p_false_positive=d.get("p_false_positive", 0.0),
             recall_target=d.get("recall_target", 1.0),
+            comms=None if d.get("comms") is None else CommsConfig.from_dict(d["comms"]),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:
