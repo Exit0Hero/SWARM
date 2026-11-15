@@ -17,6 +17,9 @@ Confirmatory hypotheses are Holm-adjusted as one family. Their verdicts:
 - *inconclusive*: otherwise.
 
 Exploratory comparisons are Benjamini-Hochberg adjusted as one family and are descriptive only.
+An exploratory comparison against nominal whose condition changes the scenario itself (for
+example the map size) cannot be paired by seed; it is listed under ``exploratory_not_pairable``
+instead of being tested. Confirmatory comparisons always raise on a pairing mismatch.
 
 ``time_censored`` is derived: ``time_to_recall_target`` for successful episodes, otherwise
 ``time_limit + 1`` (a pre-registered, conservative penalty for not reaching the target).
@@ -262,6 +265,7 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
         r["practical"] = practical(r, thresholds.get(r["metric"]))
 
     exploratory = []
+    skipped: list[dict[str, Any]] = []
     ex = raw.get("exploratory", {})
     for c in study.conditions:
         if c.id == "nominal":
@@ -270,9 +274,8 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
             if not data.available(c.id, policy):
                 continue
             for metric in ex.get("vs_nominal_metrics", []):
-                exploratory.append(
-                    {"kind": "vs_nominal"}
-                    | compare(
+                try:
+                    result = compare(
                         data,
                         ["nominal", policy],
                         [c.id, policy],
@@ -281,7 +284,19 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
                         resamples=resamples,
                         perm_seed=perm_seed,
                     )
-                )
+                except PairingError as exc:
+                    # A condition that changes the scenario itself (map size, terrain, survivors)
+                    # cannot be paired with nominal by seed: recorded, not tested.
+                    skipped.append(
+                        {
+                            "a": ["nominal", policy],
+                            "b": [c.id, policy],
+                            "metric": metric,
+                            "reason": str(exc),
+                        }
+                    )
+                    continue
+                exploratory.append({"kind": "vs_nominal"} | result)
     for c in study.conditions:
         for pa, pb in ex.get("pairs", []):
             if not (data.available(c.id, pa) and data.available(c.id, pb)):
@@ -369,6 +384,7 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
         "corrections": {"confirmatory": "Holm", "exploratory": "Benjamini-Hochberg"},
         "confirmatory": confirmatory,
         "exploratory": exploratory,
+        "exploratory_not_pairable": skipped,
         "summaries": summaries,
     }
 

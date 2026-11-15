@@ -156,16 +156,20 @@ def test_verdict_rule(diff: float, p: float, expected: str, outcome: str) -> Non
     assert verdict({"mean_difference": diff, "p_adjusted": p}, expected, 0.05) == outcome
 
 
-@pytest.mark.parametrize(("name", "first"), [("study.json", 200), ("study_b.json", 300)])
-def test_the_phase3_specs_load_with_their_evaluation_seeds(name: str, first: int) -> None:
-    study = load_study(ROOT / "configs" / "phase3" / name)
+@pytest.mark.parametrize(
+    ("name", "first"),
+    [("phase3/study.json", 200), ("phase3/study_b.json", 300), ("phase4/study.json", 400)],
+)
+def test_the_study_specs_load_with_their_evaluation_seeds(name: str, first: int) -> None:
+    study = load_study(ROOT / "configs" / name)
     assert study.seeds == tuple(range(first, first + 50))
     assert study.designation == "evaluation"
     oracle = [c for c in study.conditions if "assignment_oracle" in c.policies]
     assert [c.id for c in oracle] in (["nominal"], [])
     for h in study.raw["hypotheses"]:
         for cid, policy in (h["a"], h["b"]):
-            assert policy in study.condition(cid).policies
+            members = study.raw.get("pooled_policies", {}).get(policy, [policy])
+            assert all(m in study.condition(cid).policies for m in members)
 
 
 def test_learned_policies_run_through_the_study(tmp_path: Path) -> None:

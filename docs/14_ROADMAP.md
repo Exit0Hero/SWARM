@@ -13,7 +13,7 @@ unless the user explicitly approves it.
 | 1 | Deterministic 2D core | Complete (M1 PR #2, M2 PR #3; Hypothesis pin PR #4) |
 | 2 | Navigation and classical baselines | Complete (PR #5; validated, docs/17) |
 | 3 | Coordination under constraints | Complete (PRs #7–#11; study, docs/18) |
-| 4 | Multi-agent reinforcement learning | In progress |
+| 4 | Multi-agent reinforcement learning | Implemented and evaluated, in review (PRs #12–#14; docs/19) |
 | 5 | Perception | **Deferred** by the user (2026-11-15); not started |
 | 6 | Visualization dashboard and analytics | **Deferred** by the user (2026-11-15); not started |
 | 7 | Research experiments and reporting | Planned (after Phase 4) |
@@ -91,9 +91,10 @@ Agent-failure scenarios. Message delivery rate metric. Lightweight replay viewer
 extra).
 
 ## Phase 4 — Multi-agent reinforcement learning
-Status: in progress. Design in [ADR-0022](decisions/0022-marl-sector-selection.md). M4.1: learned sector-selection
-agent, event-based reward, PettingZoo adapters, optional `learning` extra. M4.2: IPPO and MAPPO training. M4.3:
-pre-registered evaluation against the classical baselines.
+Status: implemented and evaluated, in review. Design in [ADR-0022](decisions/0022-marl-sector-selection.md). M4.1:
+learned sector-selection agent, event-based reward, PettingZoo adapters, optional `learning` extra. M4.2: IPPO and
+MAPPO training. M4.3: nine trained models and the pre-registered evaluation ([docs/19](19_PHASE4_MARL_STUDY.md)):
+MAPPO beats belief sharing alone but not the lease auction at this training budget.
 
 Acceptance: PettingZoo `ParallelEnv` adapter passing the API test. Event-based reward modules.
 Separate training and evaluation entry points with disjoint seed sets. Independent PPO diagnostic,
