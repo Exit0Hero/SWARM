@@ -32,6 +32,9 @@ from swarm.core.events import (
     EnergySpent,
     EpisodeEnd,
     Event,
+    MessageDelivered,
+    MessageDropped,
+    MessageSent,
     SurvivorReportReceived,
 )
 from swarm.core.types import AgentId, Position
@@ -47,6 +50,29 @@ class CommMetricDefinition:
 
 
 COMM_METRIC_DEFINITIONS: Final[dict[str, CommMetricDefinition]] = {
+    "messages_sent": CommMetricDefinition("messages sent by all agents", "messages"),
+    "message_units_sent": CommMetricDefinition(
+        "total size of sent messages (communication overhead)", "units"
+    ),
+    "message_units_per_step": CommMetricDefinition(
+        "message_units_sent divided by episode steps", "units/step"
+    ),
+    "messages_unaddressed": CommMetricDefinition(
+        "messages that reached no receiver (none in range or partitioned)", "messages"
+    ),
+    "links_addressed": CommMetricDefinition(
+        "(message, in-range receiver) pairs handed to the channel", "pairs"
+    ),
+    "links_delivered": CommMetricDefinition("pairs delivered to the receiver's inbox", "pairs"),
+    "links_dropped_random": CommMetricDefinition("pairs lost to the p_drop draw", "pairs"),
+    "links_dropped_receiver_disabled": CommMetricDefinition(
+        "pairs dropped because the receiver was disabled before delivery", "pairs"
+    ),
+    "message_delivery_rate": CommMetricDefinition(
+        "links_delivered / links_addressed; pairs still in flight at the end count as undelivered",
+        "fraction",
+        "no pair was addressed",
+    ),
     "survivor_info_pairs": CommMetricDefinition(
         "(detected survivor, other agent active at its first detection) pairs", "pairs"
     ),
@@ -133,7 +159,21 @@ def compute_comm_metrics(
     own_detection: dict[tuple[AgentId, Position], int] = {}
     reported: dict[tuple[AgentId, Position], int] = {}
     disabled_at: dict[AgentId, int] = {}
+    traffic = {"sent": 0, "units": 0, "unaddressed": 0, "addressed": 0, "delivered": 0}
+    dropped = {"random": 0, "receiver_disabled": 0}
+    steps = 0
     for e in events:
+        if isinstance(e, MessageSent):
+            traffic["sent"] += 1
+            traffic["units"] += e.size
+            traffic["addressed"] += len(e.recipients)
+            traffic["unaddressed"] += not e.recipients
+        elif isinstance(e, MessageDelivered):
+            traffic["delivered"] += 1
+        elif isinstance(e, MessageDropped):
+            dropped[e.reason] = dropped.get(e.reason, 0) + 1
+        elif isinstance(e, EpisodeEnd):
+            steps = e.step
         if isinstance(e, Detection) and e.true_positive and e.cell in survivors:
             key = (e.step, e.agent_id)
             if e.cell not in first_detection or key < first_detection[e.cell]:
@@ -161,6 +201,17 @@ def compute_comm_metrics(
                 unresolved += 1
     pairs = len(delays) + unresolved
     return {
+        "messages_sent": traffic["sent"],
+        "message_units_sent": traffic["units"],
+        "message_units_per_step": traffic["units"] / steps if steps else None,
+        "messages_unaddressed": traffic["unaddressed"],
+        "links_addressed": traffic["addressed"],
+        "links_delivered": traffic["delivered"],
+        "links_dropped_random": dropped["random"],
+        "links_dropped_receiver_disabled": dropped["receiver_disabled"],
+        "message_delivery_rate": (
+            traffic["delivered"] / traffic["addressed"] if traffic["addressed"] else None
+        ),
         "survivor_info_pairs": pairs,
         "survivor_info_informed": len(delays),
         "survivor_info_unresolved": unresolved,

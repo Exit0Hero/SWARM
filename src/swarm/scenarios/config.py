@@ -309,6 +309,10 @@ class CommsConfig:
     probability ``p_drop``; otherwise it is delivered ``latency + J`` steps after sending, with
     ``J`` uniform on ``0..jitter``. ``bandwidth`` caps the units an agent may send per step
     (``None`` = unlimited).
+
+    ``partitions`` are scheduled link cuts (ADR-0021): each ``(start, end, group)`` cuts every
+    link between an agent in ``group`` and one outside it during steps ``start <= t < end``, as if
+    out of range. A group of one isolates that agent. Links return at step ``end`` (recovery).
     """
 
     ranges: tuple[tuple[str, int | None], ...]
@@ -316,6 +320,7 @@ class CommsConfig:
     latency: int = 0
     jitter: int = 0
     bandwidth: int | None = None
+    partitions: tuple[tuple[int, int, tuple[str, ...]], ...] = ()
 
     def __post_init__(self) -> None:
         raw = self.ranges.items() if isinstance(self.ranges, Mapping) else self.ranges
@@ -338,6 +343,21 @@ class CommsConfig:
         _check_int(self.jitter, "comms.jitter", minimum=0, maximum=MAX_COMMS_DELAY)
         if self.bandwidth is not None:
             _check_int(self.bandwidth, "comms.bandwidth", minimum=1)
+        windows: list[tuple[int, int, tuple[str, ...]]] = []
+        for k, window in enumerate(self.partitions):
+            where = f"comms.partitions[{k}]"
+            if len(window) != 3:
+                raise ConfigError(f"{where}: must be (start, end, group), got {window!r}")
+            start, end, group = window
+            _check_int(start, f"{where}.start", minimum=1, maximum=MAX_TIME_LIMIT)
+            _check_int(end, f"{where}.end", minimum=start + 1, maximum=MAX_TIME_LIMIT + 1)
+            members = tuple(group)
+            if not members or not all(isinstance(m, str) for m in members):
+                raise ConfigError(f"{where}.group: must be a non-empty list of agent IDs")
+            if len(set(members)) != len(members):
+                raise ConfigError(f"{where}.group: duplicate agent IDs in {list(members)}")
+            windows.append((start, end, tuple(sorted(members))))
+        object.__setattr__(self, "partitions", tuple(windows))
 
     def range_for(self, agent_type: str) -> int | None:
         """Communication range of ``agent_type`` (``None`` = unlimited)."""
@@ -346,27 +366,74 @@ class CommsConfig:
                 return value
         raise KeyError(agent_type)
 
+    def cut(self, step: int, a: str, b: str) -> bool:
+        """Whether a scheduled partition cuts the link between ``a`` and ``b`` at ``step``."""
+        return any(
+            start <= step < end and ((a in group) != (b in group))
+            for start, end, group in self.partitions
+        )
+
     def to_dict(self) -> dict[str, Any]:
-        return {
+        out: dict[str, Any] = {
             "ranges": dict(self.ranges),
             "p_drop": self.p_drop,
             "latency": self.latency,
             "jitter": self.jitter,
             "bandwidth": self.bandwidth,
         }
+        if self.partitions:  # omitted when empty, so existing config hashes are unchanged
+            out["partitions"] = [[s, e, list(g)] for s, e, g in self.partitions]
+        return out
 
     @classmethod
     def from_dict(cls, data: object, path: str = "comms") -> CommsConfig:
         d = _require_mapping(data, path)
-        _check_keys(d, path, {"ranges", "p_drop", "latency", "jitter", "bandwidth"}, set())
+        _check_keys(d, path, {"ranges", "p_drop", "latency", "jitter", "bandwidth"}, {"partitions"})
         ranges = _require_mapping(d["ranges"], f"{path}.ranges")
+        windows = []
+        for k, raw in enumerate(_parse_list(d.get("partitions", []), f"{path}.partitions")):
+            items = _parse_list(raw, f"{path}.partitions[{k}]")
+            if len(items) != 3:
+                raise ConfigError(f"{path}.partitions[{k}]: must be [start, end, group]")
+            group = _parse_list(items[2], f"{path}.partitions[{k}].group")
+            windows.append((items[0], items[1], tuple(group)))
         return cls(
             ranges=tuple((str(k), v) for k, v in ranges.items()),
             p_drop=d["p_drop"],
             latency=d["latency"],
             jitter=d["jitter"],
             bandwidth=d["bandwidth"],
+            partitions=tuple(windows),
         )
+
+
+@dataclass(frozen=True, slots=True)
+class FailureConfig:
+    """Scheduled agent failures for controlled experiments (ADR-0021).
+
+    At reset, ``count`` distinct agents are drawn uniformly without replacement from the roster,
+    each with a failure step drawn uniformly from ``start..end`` (inclusive), using the episode's
+    ``failure`` stream. An agent still active at the end of its failure step is disabled with
+    cause ``"injected"``. ``count = 0`` injects nothing.
+    """
+
+    count: int
+    start: int
+    end: int
+
+    def __post_init__(self) -> None:
+        _check_int(self.count, "failures.count", minimum=0)
+        _check_int(self.start, "failures.start", minimum=1, maximum=MAX_TIME_LIMIT)
+        _check_int(self.end, "failures.end", minimum=self.start, maximum=MAX_TIME_LIMIT)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"count": self.count, "start": self.start, "end": self.end}
+
+    @classmethod
+    def from_dict(cls, data: object, path: str = "failures") -> FailureConfig:
+        d = _require_mapping(data, path)
+        _check_keys(d, path, {"count", "start", "end"}, set())
+        return cls(count=d["count"], start=d["start"], end=d["end"])
 
 
 @dataclass(frozen=True, slots=True)
@@ -394,6 +461,7 @@ class ScenarioConfig:
     p_false_positive: float = 0.0
     recall_target: float = 1.0
     comms: CommsConfig | None = None
+    failures: FailureConfig | None = None
 
     def __post_init__(self) -> None:
         _check_int(self.height, "height", minimum=1, maximum=MAX_GRID_SIDE)
@@ -456,6 +524,31 @@ class ScenarioConfig:
                     f"got {sorted(typed)}"
                 )
 
+        if self.comms is not None and self.comms.partitions:
+            ids = set(self.agents())
+            for k, (_, _, group) in enumerate(self.comms.partitions):
+                unknown = sorted(set(group) - ids)
+                if unknown:
+                    raise ConfigError(
+                        f"comms.partitions[{k}].group: unknown agent IDs {unknown}; "
+                        f"agents are {sorted(ids)}"
+                    )
+        if self.failures is not None:
+            if not isinstance(self.failures, FailureConfig):
+                raise ConfigError(
+                    f"failures: must be a FailureConfig or None, got {self.failures!r}"
+                )
+            if self.failures.count > len(self.roster):
+                raise ConfigError(
+                    f"failures.count: at most {len(self.roster)} agents exist, "
+                    f"got {self.failures.count}"
+                )
+            if self.failures.end > self.time_limit:
+                raise ConfigError(
+                    f"failures.end: must be <= time_limit ({self.time_limit}), "
+                    f"got {self.failures.end}"
+                )
+
         if self.base_position is not None:
             bp = self.base_position
             if not (isinstance(bp, tuple) and len(bp) == 2):
@@ -496,11 +589,12 @@ class ScenarioConfig:
     def to_dict(self) -> dict[str, Any]:
         """Return the JSON-ready representation, including ``schema_version``.
 
-        Without a channel the result is the version-2 form (no ``comms`` key), so existing config
-        hashes are unchanged.
+        Without a channel or failures the result is the version-2 form (no ``comms`` key), so
+        existing config hashes are unchanged. ``failures`` is written only when set.
         """
+        v2 = self.comms is None and self.failures is None
         out: dict[str, Any] = {
-            "schema_version": 2 if self.comms is None else SCHEMA_VERSION,
+            "schema_version": 2 if v2 else SCHEMA_VERSION,
             "height": self.height,
             "width": self.width,
             "base_position": None if self.base_position is None else list(self.base_position),
@@ -514,8 +608,10 @@ class ScenarioConfig:
             "p_false_positive": self.p_false_positive,
             "recall_target": self.recall_target,
         }
-        if self.comms is not None:
-            out["comms"] = self.comms.to_dict()
+        if not v2:
+            out["comms"] = None if self.comms is None else self.comms.to_dict()
+        if self.failures is not None:
+            out["failures"] = self.failures.to_dict()
         return out
 
     @classmethod
@@ -546,7 +642,8 @@ class ScenarioConfig:
             required |= {"hazards", "p_false_positive", "recall_target"}
         if version >= 3:
             required |= {"comms"}
-        _check_keys(d, "config", required, {"base_position"})
+        optional = {"base_position"} | ({"failures"} if version >= 3 else set())
+        _check_keys(d, "config", required, optional)
         base_raw = d.get("base_position")
         base: Position | None = None
         if base_raw is not None:
@@ -575,6 +672,7 @@ class ScenarioConfig:
             p_false_positive=d.get("p_false_positive", 0.0),
             recall_target=d.get("recall_target", 1.0),
             comms=None if d.get("comms") is None else CommsConfig.from_dict(d["comms"]),
+            failures=None if d.get("failures") is None else FailureConfig.from_dict(d["failures"]),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:

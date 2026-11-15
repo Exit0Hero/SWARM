@@ -6,10 +6,11 @@ Changing the policy therefore cannot change the scenario, and policy draws can n
 environment draws.
 
 The ``dynamics`` sequence drives true-detection draws (as in M1) and is additionally spawned into
-``hazard``, ``false_positive`` and ``comms`` children (ADR-0013, ADR-0017). Spawning children
+``hazard``, ``false_positive``, ``comms`` and ``failure`` children (ADR-0013, ADR-0017,
+ADR-0021). Spawning children
 does not change the parent's generator, and a child's spawn key depends only on its index, so
-adding ``comms`` as the third child leaves the M1, M2 and Phase 2 streams exactly as they were.
-The ``comms`` stream is drawn from only when a channel is configured.
+adding ``comms`` (third) and ``failure`` (fourth) leaves the earlier streams exactly as they were.
+``comms`` and ``failure`` are drawn from only when configured.
 """
 
 from __future__ import annotations
@@ -23,7 +24,12 @@ import numpy as np
 from swarm.core.types import AgentId
 
 SPAWN_ORDER: Final[tuple[str, str, str]] = ("scenario", "dynamics", "policies")
-DYNAMICS_CHILDREN: Final[tuple[str, str, str]] = ("hazard", "false_positive", "comms")
+DYNAMICS_CHILDREN: Final[tuple[str, str, str, str]] = (
+    "hazard",
+    "false_positive",
+    "comms",
+    "failure",
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -40,6 +46,8 @@ class EpisodeStreams:
     """False-report draws (ADR-0012 rule 2)."""
     comms: np.random.Generator
     """Message drop and jitter draws (ADR-0017)."""
+    failure: np.random.Generator
+    """Scheduled-failure draws (ADR-0021); used only when failures are configured."""
     policies: dict[AgentId, np.random.Generator]
 
 
@@ -58,7 +66,9 @@ def episode_streams(root_seed: int, agent_ids: Sequence[AgentId]) -> EpisodeStre
     if len(set(ids)) != len(ids):
         raise ValueError(f"agent_ids: must be unique, got {list(agent_ids)}")
     children = policies_seq.spawn(len(ids))
-    hazard_seq, false_positive_seq, comms_seq = dynamics_seq.spawn(len(DYNAMICS_CHILDREN))
+    hazard_seq, false_positive_seq, comms_seq, failure_seq = dynamics_seq.spawn(
+        len(DYNAMICS_CHILDREN)
+    )
     return EpisodeStreams(
         root_seed=root_seed,
         scenario=np.random.default_rng(scenario_seq),
@@ -66,6 +76,7 @@ def episode_streams(root_seed: int, agent_ids: Sequence[AgentId]) -> EpisodeStre
         hazard=np.random.default_rng(hazard_seq),
         false_positive=np.random.default_rng(false_positive_seq),
         comms=np.random.default_rng(comms_seq),
+        failure=np.random.default_rng(failure_seq),
         policies={aid: np.random.default_rng(seq) for aid, seq in zip(ids, children, strict=True)},
     )
 
@@ -76,7 +87,7 @@ def seed_derivation(root_seed: int, agent_ids: Sequence[AgentId]) -> dict[str, A
         "root_seed": validate_seed(root_seed),
         "method": (
             "numpy.random.SeedSequence(root_seed).spawn(3); dynamics child spawned into "
-            "(hazard, false_positive, comms); policies child spawned per agent"
+            "(hazard, false_positive, comms, failure); policies child spawned per agent"
         ),
         "spawn_order": list(SPAWN_ORDER),
         "dynamics_children": list(DYNAMICS_CHILDREN),
