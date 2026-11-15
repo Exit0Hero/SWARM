@@ -23,7 +23,7 @@ from swarm.navigation.known_map import KnownMap
 from swarm.policies.base import MissionBrief, build_team
 from swarm.policies.decentralized import NavigatorAgent
 from swarm.policies.planning import Counters
-from swarm.policies.registry import POLICIES
+from swarm.policies.registry import PHASE2_POLICIES, POLICIES
 from swarm.scenarios.config import AgentSpec, HazardConfig, ScenarioConfig
 from swarm.scenarios.generator import Scenario
 from tests.helpers import config_for, make_config, spec
@@ -31,8 +31,9 @@ from tests.helpers import config_for, make_config, spec
 ROOT = Path(__file__).resolve().parents[1]
 M2 = ScenarioConfig.from_json((ROOT / "configs" / "m2_default.json").read_text(encoding="utf-8"))
 DEV_SEEDS = [1000, 1001, 1002, 1003]
-NON_ORACLE = [n for n in POLICIES if n != "assignment_oracle"]
-PLANNERS = [n for n in POLICIES if n != "random_valid"]
+# Phase 2 baselines only; frontier_shared needs a channel and is tested in test_belief.py.
+NON_ORACLE = [n for n in PHASE2_POLICIES if n != "assignment_oracle"]
+PLANNERS = [n for n in PHASE2_POLICIES if n != "random_valid"]
 CENTRALIZED = ["prioritized_frontier", "assignment", "assignment_hazard_aware", "assignment_oracle"]
 
 
@@ -305,7 +306,7 @@ def test_positive_control_oracle_acts_on_hidden_survivors() -> None:
 # ----------------------------------------------------------------- reproducibility and metrics
 
 
-@pytest.mark.parametrize("name", list(POLICIES))
+@pytest.mark.parametrize("name", PHASE2_POLICIES)
 def test_multi_seed_reproducibility_and_metric_compatibility(name: str) -> None:
     spec_bs = BootstrapSpec(resamples=200)
     a = run_experiment(M2, POLICIES[name], DEV_SEEDS[:3], bootstrap=spec_bs)

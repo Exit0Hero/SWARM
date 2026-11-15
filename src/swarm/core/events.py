@@ -156,6 +156,20 @@ class MessageDelivered(Event):
 
 
 @dataclass(frozen=True, slots=True)
+class SurvivorReportReceived(Event):
+    """``receiver`` first got a survivor-report record for ``cell`` (ADR-0018), via ``sender``.
+
+    Logged once per (receiver, cell), after the ``message_delivered`` event that carried it.
+    Evaluator-only: used for the survivor-information propagation metric.
+    """
+
+    kind: ClassVar[str] = "survivor_report_received"
+    receiver: AgentId
+    cell: Position
+    sender: AgentId
+
+
+@dataclass(frozen=True, slots=True)
 class EpisodeEnd(Event):
     kind: ClassVar[str] = "episode_end"
     reason: str  # "mission_success" | "all_disabled" | "time_limit" (that precedence, ADR-0009)

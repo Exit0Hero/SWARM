@@ -15,7 +15,9 @@ Per step ``t``:
    ``message_dropped(reason="random")``; the rest are queued for step ``t + latency + jitter``.
 2. **Deliver.** Every queued pair due at or before ``t``, sorted by (receiver, sent step, sender,
    seq), goes to the receiver's inbox, or is dropped with reason ``receiver_disabled`` if the
-   receiver was disabled meanwhile.
+   receiver was disabled meanwhile. After each delivery, a ``survivor_report_received`` event is
+   logged for every cell named by a survivor-report record that this receiver had not received
+   before (ADR-0018; evaluation only).
 
 A message sent during step ``t`` with delay ``d`` is in the observation returned by step
 ``t + d``, so with ``latency = 0`` it can first influence the action chosen for step ``t + 1``.
@@ -29,8 +31,14 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from swarm.core.events import Event, MessageDelivered, MessageDropped, MessageSent
-from swarm.core.messages import Delivery, Message
+from swarm.core.events import (
+    Event,
+    MessageDelivered,
+    MessageDropped,
+    MessageSent,
+    SurvivorReportReceived,
+)
+from swarm.core.messages import SURVIVOR_REPORT_TAG, Delivery, Message
 from swarm.core.types import AgentId, Position
 from swarm.scenarios.config import CommsConfig
 
@@ -58,11 +66,13 @@ class Channel:
         self._ranges = dict(agent_ranges)
         self._pending: list[_Pending] = []
         self._rng: np.random.Generator | None = None
+        self._reported: set[tuple[AgentId, Position]] = set()
 
     def reset(self, rng: np.random.Generator) -> None:
         """Start an episode with an empty queue and the episode's ``comms`` stream."""
         self._rng = rng
         self._pending = []
+        self._reported = set()
 
     @property
     def in_flight(self) -> int:
@@ -136,4 +146,22 @@ class Channel:
             events.append(
                 MessageDelivered(step, p.receiver, p.sender, p.seq, p.sent_step, step - p.sent_step)
             )
+            for cell in sorted(_report_cells(p.message)):
+                if (p.receiver, cell) not in self._reported:
+                    self._reported.add((p.receiver, cell))
+                    events.append(SurvivorReportReceived(step, p.receiver, cell, p.sender))
         return {r: tuple(d) for r, d in inboxes.items()}, events
+
+
+def _report_cells(message: Message) -> set[Position]:
+    """Cells named by well-formed survivor-report records ``("det", row, col, ...)``."""
+    cells: set[Position] = set()
+    for record in message.records:
+        if (
+            len(record) >= 3
+            and record[0] == SURVIVOR_REPORT_TAG
+            and type(record[1]) is int
+            and type(record[2]) is int
+        ):
+            cells.add((record[1], record[2]))
+    return cells
