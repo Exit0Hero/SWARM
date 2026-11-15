@@ -77,6 +77,9 @@ Acceptance:
   bootstrap intervals.
 
 ## Phase 3 — Coordination under constraints
+Status: in progress. M3.1 (communication channel, [ADR-0017](decisions/0017-communication-channel.md)) implemented,
+in review. Belief maps, auctions, failure handling and the Phase 3 study are not started.
+
 Acceptance: per-agent belief and coverage maps. Communication channel with range, drop probability,
 latency and timestamps. Decentralized heuristic. Auction or market task allocation with reassignment.
 Agent-failure scenarios. Message delivery rate metric. Lightweight replay viewer (matplotlib, optional

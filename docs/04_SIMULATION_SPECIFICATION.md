@@ -36,7 +36,8 @@ centrally and exposes an action mask ([ADR-0004](decisions/0004-action-masks-and
    or more succeed; the base is exempt ([ADR-0003](decisions/0003-simultaneous-movement-and-collision-resolution.md)).
 3. Apply energy costs and base recharge. Disable agents at zero energy away from base.
 4. Update hazards and environment dynamics.
-5. Generate detections (and, from Phase 3, communication events).
+5. Generate detections. 5b. When a channel is configured, transmit this step's messages at post-move positions
+   and deliver those due ([ADR-0017](decisions/0017-communication-channel.md)).
 6. Update mission state, termination and truncation ([ADR-0009](decisions/0009-mission-objectives-and-metrics.md)).
 7. Emit the ordered event list ([ADR-0005](decisions/0005-event-driven-simulation.md)).
 
