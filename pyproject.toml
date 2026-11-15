@@ -35,6 +35,9 @@ dev = [
     "mypy>=2.0",
 ]
 
+# Figures for study reports (docs/results/*/report.py); never needed by the simulator.
+viz = ["matplotlib>=3.9"]
+
 [project.urls]
 Repository = "https://github.com/Exit0Hero/SWARM"
 
@@ -72,3 +75,8 @@ python_version = "3.12"
 strict = true
 warn_unreachable = true
 files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+# Optional `viz` extra: CI type-checks without it installed.
+module = ["matplotlib", "matplotlib.*"]
+ignore_missing_imports = true

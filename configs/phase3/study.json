@@ -1,0 +1,430 @@
+{
+  "name": "phase3_m35",
+  "description": "Phase 3 M3.5 coordination study; pre-registered in docs/18_PHASE3_COORDINATION_STUDY.md",
+  "base_config": "nominal.json",
+  "seeds": "200-249",
+  "designation": "evaluation",
+  "conditions": [
+    {
+      "id": "nominal",
+      "overrides": {},
+      "policies": [
+        "random_valid",
+        "astar_waypoint",
+        "frontier",
+        "frontier_shared",
+        "assignment",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment_oracle"
+      ]
+    },
+    {
+      "id": "range_short",
+      "overrides": {
+        "comms": {
+          "ranges": {
+            "drone": 4,
+            "ground": 3
+          }
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "range_long",
+      "overrides": {
+        "comms": {
+          "ranges": {
+            "drone": 16,
+            "ground": 10
+          }
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "range_unlimited",
+      "overrides": {
+        "comms": {
+          "ranges": {
+            "drone": null,
+            "ground": null
+          }
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "drop_10",
+      "overrides": {
+        "comms": {
+          "p_drop": 0.1
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "drop_30",
+      "overrides": {
+        "comms": {
+          "p_drop": 0.3
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "drop_60",
+      "overrides": {
+        "comms": {
+          "p_drop": 0.6
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "delay_2_1",
+      "overrides": {
+        "comms": {
+          "latency": 2,
+          "jitter": 1
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "delay_5_3",
+      "overrides": {
+        "comms": {
+          "latency": 5,
+          "jitter": 3
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "bw_32",
+      "overrides": {
+        "comms": {
+          "bandwidth": 32
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "bw_16",
+      "overrides": {
+        "comms": {
+          "bandwidth": 16
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "partition_split",
+      "overrides": {
+        "comms": {
+          "partitions": [
+            [
+              40,
+              120,
+              [
+                "drone_0",
+                "ground_0"
+              ]
+            ]
+          ]
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "isolate_drone",
+      "overrides": {
+        "comms": {
+          "partitions": [
+            [
+              40,
+              120,
+              [
+                "drone_0"
+              ]
+            ]
+          ]
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "fail_1",
+      "overrides": {
+        "failures": {
+          "count": 1,
+          "start": 30,
+          "end": 90
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment"
+      ]
+    },
+    {
+      "id": "fail_2",
+      "overrides": {
+        "failures": {
+          "count": 2,
+          "start": 30,
+          "end": 90
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "a": [
+        "nominal",
+        "frontier"
+      ],
+      "b": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q1"
+    },
+    {
+      "id": "H2",
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "nominal",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q2"
+    },
+    {
+      "id": "H3",
+      "a": [
+        "nominal",
+        "frontier"
+      ],
+      "b": [
+        "nominal",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q2"
+    },
+    {
+      "id": "H4",
+      "a": [
+        "nominal",
+        "assignment"
+      ],
+      "b": [
+        "nominal",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided",
+      "question": "Q3"
+    },
+    {
+      "id": "H5",
+      "a": [
+        "fail_2",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_2",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q4"
+    },
+    {
+      "id": "H6",
+      "a": [
+        "fail_2",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_2",
+        "auction_comm"
+      ],
+      "metric": "unresolved_sectors",
+      "expected": "-",
+      "question": "Q4"
+    },
+    {
+      "id": "H7",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "drop_60",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "+",
+      "question": "Q5"
+    },
+    {
+      "id": "H8",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "range_short",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "+",
+      "question": "Q5"
+    },
+    {
+      "id": "H9",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "partition_split",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "+",
+      "question": "Q5"
+    }
+  ],
+  "exploratory": {
+    "vs_nominal_policies": [
+      "frontier",
+      "frontier_shared",
+      "auction_comm",
+      "auction_no_reassign"
+    ],
+    "vs_nominal_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall",
+      "message_delivery_rate",
+      "message_units_per_step",
+      "survivor_info_delay_mean"
+    ],
+    "pairs": [
+      [
+        "frontier",
+        "frontier_shared"
+      ],
+      [
+        "frontier_shared",
+        "auction_comm"
+      ],
+      [
+        "auction_no_reassign",
+        "auction_comm"
+      ]
+    ],
+    "pair_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall"
+    ]
+  },
+  "thresholds": {
+    "recall": 0.02,
+    "mission_success": 0.05,
+    "time_censored": 5,
+    "unresolved_sectors": 0.25
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "confidence": 0.95,
+    "seed": 0,
+    "permutation_resamples": 20000,
+    "permutation_seed": 0,
+    "alpha": 0.05
+  }
+}

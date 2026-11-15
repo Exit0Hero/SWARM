@@ -124,6 +124,7 @@ class SwarmEnv:
         self._hazard_rng: np.random.Generator | None = None
         self._false_positive_rng: np.random.Generator | None = None
         self._channel: Channel | None = None
+        self._injected: dict[int, list[AgentId]] = {}
         if config.comms is not None:
             ranges = {aid: config.comms.range_for(spec.name) for aid, (spec, _) in roster.items()}
             self._channel = Channel(config.comms, ranges)
@@ -187,6 +188,7 @@ class SwarmEnv:
         self._false_positive_rng = streams.false_positive
         if self._channel is not None:
             self._channel.reset(streams.comms)
+        self._injected = self._schedule_failures(streams.failure)
         self._last_seq = {}
         self._found = set()
         self._pos[:] = scenario.base
@@ -309,6 +311,14 @@ class SwarmEnv:
             self._active[i] = False
             disabled_now.append(aid)
             events.append(AgentDisabled(t, aid, here, reason))
+
+        # 4b. Scheduled failures (ADR-0021): agents still active at the end of their step.
+        for aid in sorted(self._injected.get(t, ())):
+            i = self._index[aid]
+            if self._active[i]:
+                self._active[i] = False
+                disabled_now.append(aid)
+                events.append(AgentDisabled(t, aid, self._position(i), "injected"))
 
         # 5. Sensing (ADR-0012). True reports: one dynamics draw per survivor in the footprint.
         #    False reports: one false_positive draw per other in-grid footprint cell, row-major.
@@ -506,6 +516,19 @@ class SwarmEnv:
             if msgs:
                 parsed[aid] = msgs
         return parsed
+
+    def _schedule_failures(self, rng: np.random.Generator) -> dict[int, list[AgentId]]:
+        """Draw the scheduled failures (ADR-0021): agents first, then their steps."""
+        failures = self._config.failures
+        if failures is None or failures.count == 0:
+            return {}
+        ids = sorted(self.possible_agents)
+        chosen = [ids[int(k)] for k in rng.permutation(len(ids))[: failures.count]]
+        steps = rng.integers(failures.start, failures.end + 1, size=failures.count)
+        schedule: dict[int, list[AgentId]] = {}
+        for aid, step in zip(chosen, steps, strict=True):
+            schedule.setdefault(int(step), []).append(aid)
+        return schedule
 
     def _position(self, i: int) -> Position:
         return (int(self._pos[i, 0]), int(self._pos[i, 1]))

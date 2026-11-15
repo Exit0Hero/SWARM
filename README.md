@@ -5,11 +5,11 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: Phase 3 (communication-limited coordination) — M3.4 in review
+## Current status: Phase 3 (communication-limited coordination) — M3.5 study in review
 
 | What | Status |
 |---|---|
-| Docs, 20 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Docs, 21 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
 | Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
 | Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Complete (merged) |
 | Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded). See `docs/16_PHASE2_BASELINE_STUDY.md` |
@@ -17,8 +17,9 @@ not control real aircraft or robots, and it is not validated for real disaster o
 | Phase 3 M3.1: communication channel (range, drops, latency, bandwidth, message events; opt-in, ADR-0017) | Complete (merged) |
 | Phase 3 M3.2: per-agent belief maps, information sharing (`frontier_shared`), survivor-information delay metric (ADR-0018) | Complete (merged) |
 | Phase 3 M3.3: lease-based auction over 4×4 sectors (`auction_comm`, `auction_no_reassign` control; ADR-0019) | Complete (merged) |
-| Phase 3 M3.4: failure detection (active / disconnected / suspected / disabled) and failure, reassignment and duplicate-ownership metrics (ADR-0020) | Implemented, in review |
-| Phase 3 study; MARL, perception models, dashboard, 3D (Phases 4–8) | Planned |
+| Phase 3 M3.4: failure detection (active / disconnected / suspected / disabled) and failure, reassignment and duplicate-ownership metrics (ADR-0020) | Complete (merged) |
+| Phase 3 M3.5: scheduled failures and partitions (ADR-0021), study runner, pre-registered coordination study (4 450 episodes) and replay viewer | Run, in review. Sharing and auction coordination speed up search; reassignment reclaims sectors but did not speed up the mission. See `docs/18_PHASE3_COORDINATION_STUDY.md` |
+| MARL, perception models, dashboard, 3D (Phases 4–8) | Planned |
 
 **Policies** (`python -m swarm.experiments.run_episode --policy <name>`):
 

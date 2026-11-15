@@ -7,12 +7,14 @@ Per step ``t``:
 1. **Transmit.** Senders in sorted ID order, each sender's messages in ``seq`` order. A sender
    disabled earlier in the step reaches no one. Otherwise the receivers are every other active
    agent whose Euclidean distance (after movement) is at most ``min(range_sender,
-   range_receiver)``. For every (message, receiver) pair in range, in sorted receiver order, the
-   channel always draws exactly two uniforms from the ``comms`` stream: ``u`` for the drop test
-   (dropped when ``u < p_drop``) and ``v`` for the jitter, ``floor(v * (jitter + 1))`` in
-   ``0..jitter``. The draw count never depends on ``p_drop``, ``jitter`` or drop outcomes, so the
-   stream stays aligned across channel settings. Dropped pairs emit
-   ``message_dropped(reason="random")``; the rest are queued for step ``t + latency + jitter``.
+   range_receiver)`` and whose link no scheduled partition cuts at ``t`` (ADR-0021; a cut link
+   is treated exactly like one out of range). For every (message, receiver) pair in range, in
+   sorted receiver order, the channel always draws exactly two uniforms from the ``comms``
+   stream: ``u`` for the drop test (dropped when ``u < p_drop``) and ``v`` for the jitter,
+   ``floor(v * (jitter + 1))`` in ``0..jitter``. The draw count never depends on ``p_drop``,
+   ``jitter`` or drop outcomes, so the stream stays aligned across channel settings.
+   Dropped pairs emit ``message_dropped(reason="random")``; the rest are queued for step
+   ``t + latency + jitter``.
 2. **Deliver.** Every queued pair due at or before ``t``, sorted by (receiver, sent step, sender,
    seq), goes to the receiver's inbox, or is dropped with reason ``receiver_disabled`` if the
    receiver was disabled meanwhile. After each delivery, a ``survivor_report_received`` event is
@@ -108,7 +110,9 @@ class Channel:
                     recipients = tuple(
                         r
                         for r in receivers_all
-                        if r != sender and self.in_range(sender, positions[sender], r, positions[r])
+                        if r != sender
+                        and not self._config.cut(step, sender, r)
+                        and self.in_range(sender, positions[sender], r, positions[r])
                     )
                 events.append(
                     MessageSent(step, sender, message.seq, message.kind, message.size, recipients)

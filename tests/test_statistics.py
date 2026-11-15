@@ -133,3 +133,60 @@ def test_paired_difference_requires_alignment() -> None:
 def test_invalid_bootstrap_spec(kwargs: dict[str, object], message: str) -> None:
     with pytest.raises(ValueError, match=message):
         BootstrapSpec(**kwargs)  # type: ignore[arg-type]
+
+
+# ----------------------------------------------------------------- M3.5 hypothesis tests
+
+
+def test_sign_flip_exact_matches_hand_enumeration() -> None:
+    from swarm.evaluation.statistics import sign_flip_p_value
+
+    # 3 positive differences: only the all-+ and all-- patterns reach |mean| = 1, so p = 2/8.
+    assert sign_flip_p_value([1.0, 1.0, 1.0]) == 0.25
+    assert sign_flip_p_value([0.0, 0.0]) == 1.0
+    assert sign_flip_p_value([]) is None
+    # zeros count in the mean's denominator but do not change the p-value pattern count
+    assert sign_flip_p_value([2.0, 0.0, 0.0]) == 1.0
+
+
+def test_sign_flip_monte_carlo_is_seeded_and_never_zero() -> None:
+    from swarm.evaluation.statistics import sign_flip_p_value
+
+    diffs = [1.0] * 30
+    p = sign_flip_p_value(diffs, resamples=1000, seed=3)
+    assert p == sign_flip_p_value(diffs, resamples=1000, seed=3)
+    assert p is not None
+    assert 0.0 < p <= 2 / 1001
+    noisy = [(-1.0) ** k for k in range(40)]  # mean 0
+    q = sign_flip_p_value(noisy, resamples=1000, seed=0)
+    assert q is not None
+    assert q > 0.5
+
+
+def test_holm_adjustment_is_monotone_and_skips_none() -> None:
+    from swarm.evaluation.statistics import holm_adjust
+
+    adjusted = holm_adjust([0.01, None, 0.04, 0.03])
+    assert adjusted[1] is None
+    assert adjusted[0] == pytest.approx(0.03)
+    assert adjusted[3] == pytest.approx(0.06)
+    assert adjusted[2] == pytest.approx(0.06)  # monotone: max(0.04 * 1, 0.06)
+    assert holm_adjust([0.9, 0.8]) == [pytest.approx(1.0), pytest.approx(1.0)]
+
+
+def test_cohens_dz() -> None:
+    from swarm.evaluation.statistics import cohens_dz
+
+    assert cohens_dz([1.0, 3.0]) == pytest.approx(2.0 / 2**0.5)
+    assert cohens_dz([1.0, 1.0]) is None
+    assert cohens_dz([1.0]) is None
+
+
+def test_bh_adjustment() -> None:
+    from swarm.evaluation.statistics import bh_adjust
+
+    adjusted = bh_adjust([0.01, 0.04, None, 0.03])
+    assert adjusted[2] is None
+    assert adjusted[0] == pytest.approx(0.03)
+    assert adjusted[3] == pytest.approx(0.04)
+    assert adjusted[1] == pytest.approx(0.04)

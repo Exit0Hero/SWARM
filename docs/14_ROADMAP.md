@@ -81,8 +81,9 @@ Status: in progress. M3.1 communication channel ([ADR-0017](decisions/0017-commu
 belief maps, information sharing (`frontier_shared`) and the survivor-information delay metric
 ([ADR-0018](decisions/0018-belief-maps-and-information-sharing.md)) merged. M3.3 lease-based auction
 (`auction_comm`, `auction_no_reassign`, [ADR-0019](decisions/0019-lease-based-auction.md)) merged. M3.4 failure
-detection and reassignment metrics ([ADR-0020](decisions/0020-failure-detection-and-reassignment.md)) in review. The
-Phase 3 study is not started.
+detection and reassignment metrics ([ADR-0020](decisions/0020-failure-detection-and-reassignment.md)) merged. M3.5
+fault injection ([ADR-0021](decisions/0021-fault-injection-for-experiments.md)), replay viewer and the pre-registered
+coordination study ([docs/18](18_PHASE3_COORDINATION_STUDY.md)) in review.
 
 Acceptance: per-agent belief and coverage maps. Communication channel with range, drop probability,
 latency and timestamps. Decentralized heuristic. Auction or market task allocation with reassignment.

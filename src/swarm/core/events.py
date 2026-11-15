@@ -88,7 +88,7 @@ class AgentDisabled(Event):
     kind: ClassVar[str] = "agent_disabled"
     agent_id: AgentId
     position: Position
-    reason: str  # "energy_depleted" | "hazard"
+    reason: str  # "energy_depleted" | "hazard" | "injected" (scheduled failure, ADR-0021)
 
 
 @dataclass(frozen=True, slots=True)
