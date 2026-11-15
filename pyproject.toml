@@ -35,6 +35,9 @@ dev = [
     "mypy>=2.0",
 ]
 
+# Figures for study reports (docs/results/*/report.py); never needed by the simulator.
+viz = ["matplotlib>=3.9"]
+
 [project.urls]
 Repository = "https://github.com/Exit0Hero/SWARM"
 

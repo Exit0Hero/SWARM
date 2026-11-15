@@ -138,6 +138,8 @@ def test_time_censored_penalizes_unsuccessful_and_failed_episodes() -> None:
     assert _value(ok, "time_censored", 200) == 40
     assert _value(miss, "time_censored", 200) == 201
     assert _value(crashed, "time_censored", 200) is None
+    counts = {"agents_disabled": 3, "agents_disabled_energy": 1, "agents_disabled_hazard": 1}
+    assert _value({"status": "completed", "metrics": counts}, "agents_disabled_injected", 9) == 1
 
 
 @pytest.mark.parametrize(
@@ -154,12 +156,13 @@ def test_verdict_rule(diff: float, p: float, expected: str, outcome: str) -> Non
     assert verdict({"mean_difference": diff, "p_adjusted": p}, expected, 0.05) == outcome
 
 
-def test_the_phase3_spec_loads_with_reserved_evaluation_seeds() -> None:
-    study = load_study(ROOT / "configs" / "phase3" / "study.json")
-    assert study.seeds == tuple(range(200, 250))
+@pytest.mark.parametrize(("name", "first"), [("study.json", 200), ("study_b.json", 300)])
+def test_the_phase3_specs_load_with_their_evaluation_seeds(name: str, first: int) -> None:
+    study = load_study(ROOT / "configs" / "phase3" / name)
+    assert study.seeds == tuple(range(first, first + 50))
     assert study.designation == "evaluation"
     oracle = [c for c in study.conditions if "assignment_oracle" in c.policies]
-    assert [c.id for c in oracle] == ["nominal"]
+    assert [c.id for c in oracle] in (["nominal"], [])
     for h in study.raw["hypotheses"]:
         for cid, policy in (h["a"], h["b"]):
             assert policy in study.condition(cid).policies

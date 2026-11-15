@@ -1,0 +1,234 @@
+{
+  "name": "phase3_m35_b",
+  "description": "Phase 3 M3.5 study B (early faults); pre-registered in docs/18_PHASE3_COORDINATION_STUDY.md",
+  "base_config": "nominal.json",
+  "seeds": "300-349",
+  "designation": "evaluation",
+  "conditions": [
+    {
+      "id": "nominal",
+      "overrides": {},
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment"
+      ]
+    },
+    {
+      "id": "fail_1_early",
+      "overrides": {
+        "failures": {
+          "count": 1,
+          "start": 5,
+          "end": 25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment"
+      ]
+    },
+    {
+      "id": "fail_2_early",
+      "overrides": {
+        "failures": {
+          "count": 2,
+          "start": 5,
+          "end": 25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment"
+      ]
+    },
+    {
+      "id": "partition_split_early",
+      "overrides": {
+        "comms": {
+          "partitions": [
+            [
+              5,
+              60,
+              [
+                "drone_0",
+                "ground_0"
+              ]
+            ]
+          ]
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    },
+    {
+      "id": "isolate_drone_early",
+      "overrides": {
+        "comms": {
+          "partitions": [
+            [
+              5,
+              60,
+              [
+                "drone_0"
+              ]
+            ]
+          ]
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "B1",
+      "a": [
+        "fail_2_early",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q4"
+    },
+    {
+      "id": "B2",
+      "a": [
+        "fail_2_early",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "metric": "unresolved_sectors",
+      "expected": "-",
+      "question": "Q4"
+    },
+    {
+      "id": "B3",
+      "a": [
+        "fail_1_early",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_1_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-",
+      "question": "Q4"
+    },
+    {
+      "id": "B4",
+      "a": [
+        "fail_2_early",
+        "assignment"
+      ],
+      "b": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided",
+      "question": "Q3"
+    },
+    {
+      "id": "B5",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "partition_split_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "+",
+      "question": "Q5"
+    },
+    {
+      "id": "B6",
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "isolate_drone_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "+",
+      "question": "Q5"
+    }
+  ],
+  "exploratory": {
+    "vs_nominal_policies": [
+      "frontier",
+      "frontier_shared",
+      "auction_comm",
+      "auction_no_reassign"
+    ],
+    "vs_nominal_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall",
+      "message_delivery_rate",
+      "message_units_per_step",
+      "survivor_info_delay_mean"
+    ],
+    "pairs": [
+      [
+        "frontier",
+        "frontier_shared"
+      ],
+      [
+        "frontier_shared",
+        "auction_comm"
+      ],
+      [
+        "auction_no_reassign",
+        "auction_comm"
+      ]
+    ],
+    "pair_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall"
+    ]
+  },
+  "thresholds": {
+    "recall": 0.02,
+    "mission_success": 0.05,
+    "time_censored": 5,
+    "unresolved_sectors": 0.25
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "confidence": 0.95,
+    "seed": 0,
+    "permutation_resamples": 20000,
+    "permutation_seed": 0,
+    "alpha": 0.05
+  }
+}

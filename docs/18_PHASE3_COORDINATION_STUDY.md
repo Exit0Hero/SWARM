@@ -178,5 +178,110 @@ not success. This was decided before the evaluation run and is disclosed here.
 - One-factor-at-a-time sweeps do not measure interactions between channel faults.
 - Simulated agents, sensors and channel only. No claim about real operations.
 
-## Results
+## Results (study A)
+
+### Provenance
+- Run from commit `8dfa7af` (clean tree, recorded in every result file); Python 3.13.18, NumPy 2.5.4.
+- 66 cells × 50 seeds = 3 300 episodes. All completed: no crash, no failed episode, runner exit status 0.
+- Files in `docs/results/phase3/`:
+  - `runs.tar.gz`: per-cell result files and `seed_level.csv`;
+  - `analysis.json`: every test;
+  - `results.md`: all tables;
+  - `figures/`.
+- `analysis.json` was produced by the pre-registered analysis. After the run, one purely descriptive
+  derived metric was added: `agents_disabled_injected`, the scheduled failures that happened before
+  the episode ended. No test or decision rule changed.
+
+### Confirmatory verdicts
+Means in steps (lower is faster). Intervals are 95% bootstrap; p is Holm-adjusted.
+
+| ID | Comparison | Mean A → B | Diff [95% CI] | d_z | p (Holm) | Verdict |
+|---|---|---|---|---|---|---|
+| H1 | `frontier` → `frontier_shared` | 81.5 → 44.3 | −37.1 [−47.5, −27.6] | −1.01 | 0.0004 | **supported** |
+| H2 | `frontier_shared` → `auction_comm` | 44.3 → 34.0 | −10.4 [−14.5, −6.5] | −0.70 | 0.0004 | **supported** |
+| H3 | `frontier` → `auction_comm` | 81.5 → 34.0 | −47.5 [−58.9, −36.7] | −1.18 | 0.0004 | **supported** |
+| H4 | `assignment` (pooled, perfect comms) → `auction_comm` | 36.3 → 34.0 | −2.3 [−6.2, +1.3] | −0.17 | 1.0 | inconclusive |
+| H5 | fail_2: `auction_no_reassign` → `auction_comm` | 36.8 → 34.7 | −2.1 [−8.3, +1.4] | −0.10 | 1.0 | inconclusive |
+| H6 | fail_2: same, `unresolved_sectors` | 0.26 → 0.22 | −0.04 [−0.12, 0.00] | −0.14 | 1.0 | inconclusive |
+| H7 | `auction_comm`: nominal → drop_60 | 34.0 → 36.3 | +2.4 [−0.9, +5.7] | 0.19 | 1.0 | inconclusive |
+| H8 | `auction_comm`: nominal → range_short | 34.0 → 36.5 | +2.5 [−1.0, +7.6] | 0.15 | 1.0 | inconclusive |
+| H9 | `auction_comm`: nominal → partition_split | 34.0 → 35.4 | +1.4 [−0.1, +4.3] | 0.14 | 1.0 | inconclusive |
+
+H1–H3 are also practically significant: the whole interval lies beyond 5 steps.
+
+### What the inconclusive results do and do not show
+- **H5, H6 and H9 had little exposure to the fault. This is a design flaw, reported as such.**
+  - Under `auction_comm` the median episode lasts 30 steps. Only 26 of 50 episodes were still
+    running at step 30, and 13 at step 40.
+  - So most scheduled failures (steps 30–90) and the partitions (from step 40) came after the
+    mission had already ended. Only 0.26 of the 2 scheduled failures per episode actually happened
+    under `auction_comm` in `fail_2`.
+  - Across the 50 seeds, the partition changed the outcome of 2 `auction_comm` episodes, and
+    `fail_2` changed only 7 in the H5 comparison.
+  - These tests therefore say almost nothing about failure handling. This finding motivated study
+    B below.
+- **H7 and H8** (loss and range applied for the whole episode) were not detected. On this map, the
+  auction slowed by 2–3 steps on average under 60% loss or ranges (4, 3). The intervals include 0.
+- **H4:** the communication-limited auction was not distinguishable from centralized pooled
+  assignment. This is not an equivalence claim: the interval is −6.2 to +1.3 steps.
+
+### Exploratory findings (BH-adjusted, descriptive)
+- **Latency and bandwidth slow coordination much more than loss or range.**
+  - `auction_comm` against nominal:
+    - delay (2, 1): +5.3 steps [2.6, 8.0], q = 0.001;
+    - delay (5, 3): +17.6 [12.6, 22.8], q < 0.001;
+    - bandwidth 32: +9.1 [3.4, 15.7], q = 0.009;
+    - bandwidth 16: +17.1 [9.8, 25.2], q < 0.001.
+  - `frontier_shared` is the most delay-sensitive: delay (2, 1) gives +23.5 steps [17.3, 30.3].
+- **The auction's advantage over belief sharing grows under channel faults.**
+  - drop_60: −13.7 steps [−18.8, −8.5];
+  - delay (2, 1): −28.6 [−36.4, −21.2];
+  - both q < 0.001.
+- **Reassignment versus no reassignment:** no difference was detected anywhere.
+- **False suspicions are frequent:** about 8.8 per `auction_comm` episode at nominal range. A
+  teammate that is merely out of range for more than 10 steps is suspected. The suspicion clears
+  when the agent is heard again (ADR-0020), so this is how the detector is designed to work, not a
+  defect, but it is a cost.
+- **Metric caveat:** under `auction_no_reassign` a failed agent's sector can still show a
+  "reassignment". This happens when another agent already held it concurrently (duplicate
+  ownership). It is not a lease takeover.
+
+Full tables: `docs/results/phase3/results.md`. Figures: `figures/nominal_policies.png` and
+`figures/channel_sweeps.png`.
+
+## Study B: fault-exposure follow-up (pre-registered after study A, before any run on its seeds)
+
+### Why
+Study A's fault windows mostly fell after episodes had ended, so they could not test failure
+handling. Study B moves the same faults earlier.
+- **New windows:** failures at steps 5–25; partitions during steps 5–59.
+- **New seeds:** 300–349, never used before, n = 50.
+- **Basis for the windows:** the episode lengths observed in study A. This is a structural
+  property, not the direction of any effect.
+- **Unchanged:** hypotheses, policies, statistics and decision rules are the same as study A,
+  except that the family is new.
+- **Study A stands as reported.** Study B does not replace it.
+
+### Design
+- **Spec:** `configs/phase3/study_b.json`, with the same base config as study A.
+- **Conditions:**
+  - `nominal`: S + `assignment`;
+  - `fail_1_early`: count 1, steps 5–25; S + `assignment`;
+  - `fail_2_early`: count 2, steps 5–25; S + `assignment`;
+  - `partition_split_early`: {drone_0, ground_0} cut during steps 5–59; S;
+  - `isolate_drone_early`: drone_0 isolated during steps 5–59; S.
+- **Confirmatory family (Holm, α = 0.05):**
+
+| ID | A → B | Metric | Expected |
+|---|---|---|---|
+| B1 | fail_2_early: `auction_no_reassign` → `auction_comm` | time_censored | − |
+| B2 | fail_2_early: `auction_no_reassign` → `auction_comm` | unresolved_sectors | − |
+| B3 | fail_1_early: `auction_no_reassign` → `auction_comm` | time_censored | − |
+| B4 | fail_2_early: `assignment` (pooled, perfect comms) → `auction_comm` | time_censored | two-sided |
+| B5 | `auction_comm`: nominal → partition_split_early | time_censored | + (slower) |
+| B6 | `auction_comm`: nominal → isolate_drone_early | time_censored | + (slower) |
+
+- **Exploratory family (BH):** the same as study A, applied to these conditions.
+
+### Results (study B)
 Not yet run.

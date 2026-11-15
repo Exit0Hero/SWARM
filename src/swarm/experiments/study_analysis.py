@@ -20,6 +20,8 @@ Exploratory comparisons are Benjamini-Hochberg adjusted as one family and are de
 
 ``time_censored`` is derived: ``time_to_recall_target`` for successful episodes, otherwise
 ``time_limit + 1`` (a pre-registered, conservative penalty for not reaching the target).
+``agents_disabled_injected`` (descriptive) is ``agents_disabled`` minus the energy and hazard
+counts: the scheduled failures that happened before the episode ended (ADR-0021).
 
 Example::
 
@@ -50,7 +52,7 @@ from swarm.evaluation.statistics import (
 from swarm.experiments.experiment import parse_seeds
 from swarm.experiments.study import Study, cell_path, load_study
 
-DERIVED = ("time_censored",)
+DERIVED = ("time_censored", "agents_disabled_injected")
 SUMMARY_METRICS = (
     "recall",
     "mission_success",
@@ -59,6 +61,7 @@ SUMMARY_METRICS = (
     "coverage_sensed",
     "energy_used",
     "agents_disabled",
+    "agents_disabled_injected",
     "precision",
     "messages_sent",
     "message_units_per_step",
@@ -88,6 +91,12 @@ def _value(episode: dict[str, Any], metric: str, time_limit: int) -> Any:
     if metric == "time_censored":
         reached = metrics.get("time_to_recall_target")
         return reached if metrics.get("mission_success") and reached is not None else time_limit + 1
+    if metric == "agents_disabled_injected":
+        return (
+            metrics["agents_disabled"]
+            - metrics["agents_disabled_energy"]
+            - metrics["agents_disabled_hazard"]
+        )
     if metric in metrics:
         return metrics[metric]
     return (episode.get("comm_metrics") or {}).get(metric)
