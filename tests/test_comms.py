@@ -453,7 +453,9 @@ def test_runner_rejects_a_communicating_team_without_a_channel() -> None:
         run_episode(make_config(), BEACON, 0)
 
 
-def test_mission_brief_shape_is_unchanged() -> None:
-    """M3.1 adds no policy-facing information beyond the inbox (ADR-0008)."""
-    brief = MissionBrief.from_config(_comms_config())
-    assert brief == MissionBrief.from_config(make_config())
+def test_mission_brief_adds_only_the_public_channel_parameters() -> None:
+    """Beyond the inbox, policies learn only the channel's public parameters (ADR-0018)."""
+    config = _comms_config()
+    brief = MissionBrief.from_config(config)
+    assert brief.comms == config.comms
+    assert replace(brief, comms=None) == MissionBrief.from_config(make_config())

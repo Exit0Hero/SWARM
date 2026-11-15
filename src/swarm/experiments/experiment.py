@@ -22,6 +22,7 @@ from dataclasses import dataclass
 from typing import Any, Final
 
 from swarm.core.rng import validate_seed
+from swarm.evaluation.comms_metrics import COMM_METRIC_DEFINITIONS
 from swarm.evaluation.metrics import METRIC_DEFINITIONS, METRIC_SCHEMA_VERSION
 from swarm.evaluation.statistics import (
     BootstrapSpec,
@@ -60,9 +61,10 @@ class EpisodeRecord:
     metrics: dict[str, Any] | None = None
     error: dict[str, str] | None = None
     policy_diagnostics: dict[str, Any] | None = None
+    comm_metrics: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        out = {
             "policy_diagnostics": self.policy_diagnostics,
             "seed": self.seed,
             "status": self.status,
@@ -73,6 +75,9 @@ class EpisodeRecord:
             "metrics": self.metrics,
             "error": self.error,
         }
+        if self.comm_metrics is not None:  # only with a channel (ADR-0018)
+            out["comm_metrics"] = self.comm_metrics
+        return out
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> EpisodeRecord:
@@ -90,6 +95,7 @@ class ExperimentResult:
     summary: dict[str, MetricSummary]
     metadata: dict[str, Any]
     diagnostics_summary: dict[str, MetricSummary] | None = None
+    comm_metrics_summary: dict[str, MetricSummary] | None = None
 
     @property
     def complete(self) -> bool:
@@ -102,7 +108,7 @@ class ExperimentResult:
 
     def to_dict(self) -> dict[str, Any]:
         failed = [e.seed for e in self.episodes if e.status == "failed"]
-        return {
+        out = {
             "experiment_schema_version": EXPERIMENT_SCHEMA_VERSION,
             "designation": self.designation,
             "policy": self.policy,
@@ -131,6 +137,11 @@ class ExperimentResult:
             "episodes": [e.to_dict() for e in self.episodes],
             "metadata": self.metadata,
         }
+        if self.comm_metrics_summary is not None:  # only with a channel (ADR-0018)
+            out["comm_metrics_summary"] = {
+                name: s.to_dict() for name, s in self.comm_metrics_summary.items()
+            }
+        return out
 
     def to_json(self) -> str:
         return json.dumps(self.to_dict(), indent=2, sort_keys=True) + "\n"
@@ -160,6 +171,9 @@ class ExperimentResult:
                 name: MetricSummary(**s)
                 for name, s in d.get("policy_diagnostics_summary", {}).items()
             },
+            comm_metrics_summary=None
+            if "comm_metrics_summary" not in d
+            else {name: MetricSummary(**s) for name, s in d["comm_metrics_summary"].items()},
         )
 
 
@@ -243,6 +257,7 @@ def run_experiment(
                 event_stream_sha256=result.event_stream_sha256,
                 metrics=result.metrics.to_dict(),
                 policy_diagnostics=result.policy_diagnostics,
+                comm_metrics=result.comm_metrics,
             )
         )
 
@@ -267,6 +282,17 @@ def run_experiment(
         )
         for name in diagnostic_names
     }
+    comm_metrics_summary = None
+    if config.comms is not None:
+        comm_metrics_summary = {
+            name: summarize(
+                [(e.comm_metrics or {}).get(name) for e in completed],
+                n_failed=n_failed,
+                spec=spec,
+                metric=f"comm:{name}",
+            )
+            for name in COMM_METRIC_DEFINITIONS
+        }
     metadata = {
         "schema_versions": {
             "config": config.to_dict()["schema_version"],
@@ -291,6 +317,7 @@ def run_experiment(
         summary=summary,
         metadata=metadata,
         diagnostics_summary=diagnostics_summary,
+        comm_metrics_summary=comm_metrics_summary,
     )
 
 

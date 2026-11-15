@@ -17,7 +17,7 @@ from swarm.core.messages import Message
 from swarm.core.observation import Observation
 from swarm.core.oracle import OracleView
 from swarm.core.types import AgentId, AgentStatus, Layer, Position
-from swarm.scenarios.config import AgentTypeSpec, ScenarioConfig
+from swarm.scenarios.config import AgentTypeSpec, CommsConfig, ScenarioConfig
 
 
 class Policy(Protocol):
@@ -52,7 +52,10 @@ PolicyFactory = Callable[[AgentId, AgentTypeSpec], Policy]
 DECENTRALIZED = "decentralized"
 CENTRALIZED_POOLED = "centralized_pooled"
 ORACLE = "oracle"
-INFORMATION_MODELS = frozenset({DECENTRALIZED, CENTRALIZED_POOLED, ORACLE})
+DECENTRALIZED_COMM = "decentralized_comm"
+"""Each agent decides from its own observations plus messages received over the channel
+(ADR-0017, ADR-0018)."""
+INFORMATION_MODELS = frozenset({DECENTRALIZED, CENTRALIZED_POOLED, ORACLE, DECENTRALIZED_COMM})
 
 Diagnostics = dict[str, int | float | None]
 
@@ -82,6 +85,8 @@ class MissionBrief:
     p_detect: float
     p_false_positive: float
     recall_target: float
+    comms: CommsConfig | None = None
+    """Public channel parameters (range, loss, delay, bandwidth); ``None`` without a channel."""
 
     @classmethod
     def from_config(cls, config: ScenarioConfig) -> MissionBrief:
@@ -97,6 +102,7 @@ class MissionBrief:
             p_detect=config.p_detect,
             p_false_positive=config.p_false_positive,
             recall_target=config.recall_target,
+            comms=config.comms,
         )
 
     @property

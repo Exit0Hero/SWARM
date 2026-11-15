@@ -26,7 +26,7 @@ from swarm.experiments.experiment import (
     parse_seeds,
     run_experiment,
 )
-from swarm.policies.registry import POLICIES
+from swarm.policies.registry import PHASE2_POLICIES, POLICIES
 from swarm.scenarios.config import ConfigError, ScenarioConfig
 
 # (baseline, candidate) pairs pre-registered in docs/16 (Questions 1-5).
@@ -117,7 +117,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--seeds", required=True)
     parser.add_argument("--out-dir", type=Path, required=True)
-    parser.add_argument("--policies", default=",".join(POLICIES))
+    parser.add_argument("--policies", default=",".join(PHASE2_POLICIES))
     parser.add_argument("--bootstrap-seed", type=int, default=0)
     parser.add_argument("--resamples", type=int, default=10_000)
     args = parser.parse_args(argv)

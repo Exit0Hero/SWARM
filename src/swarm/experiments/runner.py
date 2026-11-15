@@ -28,6 +28,7 @@ import swarm
 from swarm.core.env import EnvSnapshot, SwarmEnv
 from swarm.core.events import EVENT_SCHEMA_VERSION, Event, event_stream_sha256, events_to_jsonl
 from swarm.core.rng import episode_streams, seed_derivation, validate_seed
+from swarm.evaluation.comms_metrics import compute_comm_metrics
 from swarm.evaluation.metrics import (
     METRIC_DEFINITIONS,
     METRIC_SCHEMA_VERSION,
@@ -70,10 +71,12 @@ class EpisodeResult:
     """Final state including ground truth; for rendering and checks, not serialized."""
     policy_diagnostics: dict[str, Any] | None = None
     decision_log: tuple[dict[str, Any], ...] = ()
+    comm_metrics: dict[str, Any] | None = None
+    """Communication metrics (ADR-0018); only for configs with a channel."""
 
     def to_dict(self) -> dict[str, Any]:
         """Versioned JSON-ready record. Events are written separately (JSON Lines)."""
-        return {
+        out = {
             "result_schema_version": RESULT_SCHEMA_VERSION,
             "designation": self.designation,
             "seed": self.seed,
@@ -102,6 +105,9 @@ class EpisodeResult:
             "policy_diagnostics": self.policy_diagnostics or {},
             "decision_log": list(self.decision_log),
         }
+        if self.comm_metrics is not None:  # absent without a channel: Phase 2 layout unchanged
+            out["comm_metrics"] = self.comm_metrics
+        return out
 
     def to_json(self) -> str:
         return json.dumps(self.to_dict(), indent=2, sort_keys=True) + "\n"
@@ -180,6 +186,9 @@ def run_episode(
         final_snapshot=snapshot,
         policy_diagnostics=dict(team.diagnostics()),
         decision_log=tuple(team.decision_log()),
+        comm_metrics=None
+        if config.comms is None
+        else compute_comm_metrics(config, snapshot.scenario, events),
     )
 
 

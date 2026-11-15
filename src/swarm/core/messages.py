@@ -24,6 +24,12 @@ MAX_RECORD_FIELDS: Final[int] = 16
 MAX_TEXT_LENGTH: Final[int] = 64
 MAX_KIND_LENGTH: Final[int] = 32
 
+SURVIVOR_REPORT_TAG: Final[str] = "det"
+"""Tag of survivor-report records: ``("det", row, col, ...)``. When a delivered message holds such a
+record, the channel logs (once per receiver and cell) that the receiver learned of a detection
+there. The environment reads nothing else in messages, and this never changes delivery
+(ADR-0018)."""
+
 Scalar = int | str | bool
 Record = tuple[Scalar, ...]
 
