@@ -309,6 +309,76 @@ def test_jitter_draws_do_not_depend_on_the_drop_probability() -> None:
     assert all(full[seq] == step for seq, step in lossy.items())
 
 
+def test_draw_count_does_not_depend_on_jitter() -> None:
+    """Two uniforms per in-range pair for any jitter, so drop outcomes align across settings."""
+    patterns: list[list[int]] = []
+    for jitter in (0, 2):
+        env, _ = _pair(p_drop=0.5, jitter=jitter)
+        dropped: list[int] = []
+        for seq in range(25):
+            result = env.step({"gnd_0": STAY, "gnd_1": STAY}, {"gnd_0": [_msg("gnd_0", seq)]})
+            dropped += [e.seq for e in result.events if isinstance(e, MessageDropped)]
+        patterns.append(dropped)
+    assert patterns[0]
+    assert patterns[0] == patterns[1]
+
+
+class _SubMessage(Message):
+    """A subclass could smuggle extra attributes through the channel."""
+
+
+class _SubTuple(tuple):  # type: ignore[type-arg]
+    pass
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        _SubMessage("gnd_0", 0, "x"),
+        Message("gnd_0", 0, "x", (_SubTuple((1,)),)),
+        Message("gnd_0", 0, "x", _SubTuple()),
+    ],
+)
+def test_subclasses_are_rejected(bad: Message) -> None:
+    env, _ = _pair()
+    with pytest.raises(TypeError):
+        env.step({"gnd_0": STAY, "gnd_1": STAY}, {"gnd_0": [bad]})
+    assert env.step_count == 0
+
+
+def test_a_rejected_outbox_does_not_consume_sequence_numbers() -> None:
+    env, _ = _pair()
+    with pytest.raises(TypeError):
+        env.step({"gnd_0": STAY, "gnd_1": STAY}, {"gnd_0": [_msg("gnd_0", 0, (1.5,))]})
+    env.step({"gnd_0": STAY, "gnd_1": STAY}, {"gnd_0": [_msg("gnd_0", 0)]})
+    assert env.step_count == 1
+
+
+def test_every_recipient_gets_exactly_one_outcome() -> None:
+    """Delivered + dropped (any reason) + still in flight = all (message, recipient) pairs."""
+    config = _comms_config()
+    env = SwarmEnv(config)
+    obs, _ = env.reset(6)
+    team = _BeaconTeam()
+    rngs = episode_streams(6, env.possible_agents).policies
+    sent: set[tuple[AgentId, int, AgentId]] = set()
+    outcomes: list[tuple[AgentId, int, AgentId]] = []
+    while not env.done:
+        actions = team.act(obs, rngs)
+        result = env.step(actions, team.outbox())
+        for e in result.events:
+            if isinstance(e, MessageSent):
+                sent |= {(e.sender, e.seq, r) for r in e.recipients}
+            elif isinstance(e, MessageDelivered | MessageDropped):
+                outcomes.append((e.sender, e.seq, e.receiver))
+        obs = result.observations
+    assert len(outcomes) == len(set(outcomes))  # no pair resolved twice
+    assert set(outcomes) <= sent
+    channel = env._channel
+    assert channel is not None
+    assert len(sent) == len(outcomes) + channel.in_flight
+
+
 # ----------------------------------------------------------------- runner integration
 
 

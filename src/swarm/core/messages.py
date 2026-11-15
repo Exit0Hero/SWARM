@@ -66,16 +66,17 @@ def validate_message(message: object, sender: AgentId) -> Message:
         TypeError: if ``message`` is not a :class:`Message` or a record holds a disallowed type.
         ValueError: on a sender mismatch, a negative ``seq``, or a malformed kind or record.
     """
-    if not isinstance(message, Message):
+    # Exact types throughout: a subclass could carry extra attributes (arrays, references).
+    if type(message) is not Message:
         raise TypeError(f"messages[{sender!r}]: expected Message, got {type(message).__name__}")
     where = f"messages[{sender!r}] seq={message.seq!r}"
     if message.sender != sender:
         raise ValueError(f"{where}: sender {message.sender!r} does not match outbox {sender!r}")
     if isinstance(message.seq, bool) or not isinstance(message.seq, int) or message.seq < 0:
         raise ValueError(f"{where}: seq must be a non-negative int")
-    if not isinstance(message.kind, str) or not 0 < len(message.kind) <= MAX_KIND_LENGTH:
+    if type(message.kind) is not str or not 0 < len(message.kind) <= MAX_KIND_LENGTH:
         raise ValueError(f"{where}: kind must be a string of 1..{MAX_KIND_LENGTH} characters")
-    if not isinstance(message.records, tuple):
+    if type(message.records) is not tuple:
         raise TypeError(f"{where}: records must be a tuple, got {type(message.records).__name__}")
     for k, record in enumerate(message.records):
         _validate_record(record, f"{where} records[{k}]")
@@ -83,7 +84,7 @@ def validate_message(message: object, sender: AgentId) -> Message:
 
 
 def _validate_record(record: object, where: str) -> None:
-    if not isinstance(record, tuple):
+    if type(record) is not tuple:
         raise TypeError(f"{where}: must be a tuple, got {type(record).__name__}")
     if len(record) > MAX_RECORD_FIELDS:
         raise ValueError(f"{where}: at most {MAX_RECORD_FIELDS} fields, got {len(record)}")

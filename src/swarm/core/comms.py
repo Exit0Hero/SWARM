@@ -8,10 +8,11 @@ Per step ``t``:
    disabled earlier in the step reaches no one. Otherwise the receivers are every other active
    agent whose Euclidean distance (after movement) is at most ``min(range_sender,
    range_receiver)``. For every (message, receiver) pair in range, in sorted receiver order, the
-   channel always draws two numbers from the ``comms`` stream: a uniform for the drop test and an
-   integer jitter in ``0..jitter``. Fixed draw counts keep the stream aligned across ``p_drop``
-   settings. Dropped pairs emit ``message_dropped(reason="random")``; the rest are queued for step
-   ``t + latency + jitter``.
+   channel always draws exactly two uniforms from the ``comms`` stream: ``u`` for the drop test
+   (dropped when ``u < p_drop``) and ``v`` for the jitter, ``floor(v * (jitter + 1))`` in
+   ``0..jitter``. The draw count never depends on ``p_drop``, ``jitter`` or drop outcomes, so the
+   stream stays aligned across channel settings. Dropped pairs emit
+   ``message_dropped(reason="random")``; the rest are queued for step ``t + latency + jitter``.
 2. **Deliver.** Every queued pair due at or before ``t``, sorted by (receiver, sent step, sender,
    seq), goes to the receiver's inbox, or is dropped with reason ``receiver_disabled`` if the
    receiver was disabled meanwhile.
@@ -104,7 +105,9 @@ class Channel:
                 )
                 for receiver in recipients:
                     u = float(rng.random())
-                    jitter = int(rng.integers(0, self._config.jitter + 1))
+                    # A uniform, not ``integers``: ``integers(0, 1)`` draws nothing when
+                    # jitter is 0, which would shift every later draw (ADR-0017 rule 4).
+                    jitter = int(float(rng.random()) * (self._config.jitter + 1))
                     if u < self._config.p_drop:
                         events.append(MessageDropped(step, receiver, sender, message.seq, "random"))
                         continue

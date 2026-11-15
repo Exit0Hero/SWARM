@@ -27,13 +27,15 @@ ADR-0009). Phase 1 and 2 behaviour must not change when no channel is configured
 
    The link is symmetric and checked at send time only. A sender disabled during the step reaches no one.
 4. **Loss and delay.**
-   - For every (message, receiver) pair in range, in (sender, seq, receiver) order, the channel always makes two
-     draws from the new `comms` child of the dynamics stream: a uniform for the drop test and an integer jitter
-     in `0..jitter`. Fixed draw counts keep the stream aligned across `p_drop` values (amends ADR-0006/0013).
+   - For every (message, receiver) pair in range, in (sender, seq, receiver) order, the channel always draws
+     exactly two uniforms from the new `comms` child of the dynamics stream: `u` for the drop test (dropped when
+     `u < p_drop`) and `v` for the jitter, `floor(v × (jitter + 1))`. The draw count never depends on `p_drop`,
+     `jitter` or drop outcomes, so the stream stays aligned across channel settings (amends ADR-0006/0013).
    - A pair that survives is delivered in the observation returned by step `t + latency + jitter`.
    - If the receiver is disabled by then, the pair is dropped with reason `receiver_disabled`.
 5. **Messages.** `Message(sender, seq, kind, records)`:
    - `records` are flat tuples of exact `int`, `str` or `bool` values, so no arrays, floats or object references.
+     The message, its record container and each record must be exactly those types, never subclasses.
    - Size = 4 header units + 1 per record.
    - `seq` strictly increases per sender over the episode.
    - The environment validates every outbox before changing any state. A wrong sender, a malformed record, an
@@ -63,5 +65,10 @@ ADR-0009). Phase 1 and 2 behaviour must not change when no channel is configured
 - With no channel, step 5b does nothing, and no `comms` draws are made. Tests pin the M1/M2 config hashes, the
   unchanged hazard and false-positive streams, and exact reproduction of archived Phase 2 validation episodes.
 - With a channel but no messages, the event stream equals the no-channel stream.
+- Every (message, recipient) pair ends in exactly one `message_delivered` or `message_dropped` event, except
+  pairs still in flight when the episode ends, which get none. Delivery metrics must count those as unresolved,
+  not as delivered or dropped.
+- Range is checked only at send time, and jitter can reorder one sender's messages. Receivers must not assume
+  in-order arrival.
 - Communication metrics (delivery rate, information age, survivor-information delay), typed payloads, belief
   maps, auctions and failure handling are later milestones (M3.2–M3.6). They are not part of this decision.
