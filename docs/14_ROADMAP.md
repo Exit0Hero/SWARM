@@ -11,12 +11,12 @@ unless the user explicitly approves it.
 |---|---|---|
 | 0 | Foundation | Complete (PR #1, merged 2026-11-15) |
 | 1 | Deterministic 2D core | Complete (M1 PR #2, M2 PR #3; Hypothesis pin PR #4) |
-| 2 | Navigation and classical baselines | Implemented, in review |
-| 3 | Coordination under constraints | Planned |
-| 4 | Multi-agent reinforcement learning | Planned |
-| 5 | Perception | Planned |
-| 6 | Visualization dashboard and analytics | Planned |
-| 7 | Research experiments and reporting | Planned |
+| 2 | Navigation and classical baselines | Complete (PR #5; validated, docs/17) |
+| 3 | Coordination under constraints | Complete (PRs #7–#11; study, docs/18) |
+| 4 | Multi-agent reinforcement learning | In progress |
+| 5 | Perception | **Deferred** by the user (2026-11-15); not started |
+| 6 | Visualization dashboard and analytics | **Deferred** by the user (2026-11-15); not started |
+| 7 | Research experiments and reporting | Planned (after Phase 4) |
 | 8 | 3D feasibility study | Planned |
 
 ## Phase 0 — Foundation
@@ -77,13 +77,13 @@ Acceptance:
   bootstrap intervals.
 
 ## Phase 3 — Coordination under constraints
-Status: in progress. M3.1 communication channel ([ADR-0017](decisions/0017-communication-channel.md)) merged. M3.2
+Status: complete. M3.1 communication channel ([ADR-0017](decisions/0017-communication-channel.md)) merged. M3.2
 belief maps, information sharing (`frontier_shared`) and the survivor-information delay metric
 ([ADR-0018](decisions/0018-belief-maps-and-information-sharing.md)) merged. M3.3 lease-based auction
 (`auction_comm`, `auction_no_reassign`, [ADR-0019](decisions/0019-lease-based-auction.md)) merged. M3.4 failure
 detection and reassignment metrics ([ADR-0020](decisions/0020-failure-detection-and-reassignment.md)) merged. M3.5
 fault injection ([ADR-0021](decisions/0021-fault-injection-for-experiments.md)), replay viewer and the pre-registered
-coordination study ([docs/18](18_PHASE3_COORDINATION_STUDY.md)) in review.
+coordination study ([docs/18](18_PHASE3_COORDINATION_STUDY.md)) merged (PR #11).
 
 Acceptance: per-agent belief and coverage maps. Communication channel with range, drop probability,
 latency and timestamps. Decentralized heuristic. Auction or market task allocation with reassignment.
@@ -91,17 +91,25 @@ Agent-failure scenarios. Message delivery rate metric. Lightweight replay viewer
 extra).
 
 ## Phase 4 — Multi-agent reinforcement learning
+Status: in progress. Design in [ADR-0022](decisions/0022-marl-sector-selection.md). M4.1: learned sector-selection
+agent, event-based reward, PettingZoo adapters, optional `learning` extra. M4.2: IPPO and MAPPO training. M4.3:
+pre-registered evaluation against the classical baselines.
+
 Acceptance: PettingZoo `ParallelEnv` adapter passing the API test. Event-based reward modules.
 Separate training and evaluation entry points with disjoint seed sets. Independent PPO diagnostic,
 then MAPPO with action masking and a centralized critic. Checkpointing. Evaluation on the same
 seeds as the baselines.
 
 ## Phase 5 — Perception
+Status: deferred (user decision, 2026-11-15). Phase 7 proceeds without it, using the synthetic sensor model.
+
 Acceptance: replaceable perception interface. Synthetic sensor benchmark (`p_detect` and
 false-positive sweeps). An image-based detector only with a justified dataset, held-out evaluation
 and a baseline to beat.
 
 ## Phase 6 — Visualization dashboard and analytics
+Status: deferred (user decision, 2026-11-15). The Phase 3 replay viewer and study figures remain.
+
 Acceptance: live and replay views, policy comparison views, and run summaries. These are all read-only
 consumers of events and snapshots. A headless mode is preserved.
 
@@ -120,6 +128,7 @@ Earlier briefs used other schemes. They map to the phases above as follows:
 |---|---|
 | Repo `MASTER_PROMPT.md` Stages 0–7 | 0, 1, 2, 3, 4, 5, 6, 8 (Stage 6 analysis is split into Phases 6 and 7) |
 | Original roadmap Phases 0–7 | 0, 1, 2, 3, 4, 5, 6/7, 8 |
+| 2026-11-15 development directive: M3.5, Phase 4 (4.1–4.3), Phase 5 (5.1–5.3 final validation) | M3.5 → 3; Phase 4 → 4; directive Phase 5 → **7** (Phases 5 and 6 deferred) |
 | Master project initialization Phases 1–11 | 1→0, 2–3→1, 4→2, 5→3, 6→2 (baselines) and 3 (coordination), 7→4, 8→5, 9→6, 10→7, 11→8 |
 
 In the 11-phase brief, measurable baselines were placed after communication. They are now
