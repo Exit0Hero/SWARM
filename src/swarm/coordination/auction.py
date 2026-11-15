@@ -16,8 +16,13 @@ is local and diagnostic only; leases decide claims, so an unreachable agent and 
 treated alike.
 
 **Per step** (:meth:`LeaseAuction.decide`): renew the held sector while it is undone, feasible and
-still won; otherwise release it. With no sector held, claim the sector with the lowest own bid
-among those this agent would win (no valid claim, or a worse one). ``honor_failures = False``
+still won according to the claim table (own last published claim included, so all agents with the
+same table agree); otherwise release it. With no sector held, claim the sector with the lowest own
+bid among those this agent would win: no valid claim, or a worse one. An *alive* holder (heard
+within ``SUSPICION_STEPS``) keeps an incumbency allowance of ``now - stamp``, so a claimant must
+beat the holder's published bid by more than the steps since it was stamped; otherwise a
+claimant's fresh bid would always look better than the holder's stale one and the two would
+flip-flop. A suspected holder has no allowance. ``honor_failures = False``
 (``auction_no_reassign``) makes leases infinite and ignores disabled holders, so a failed agent's
 sector is only taken by a live agent that bids lower.
 """
@@ -112,6 +117,10 @@ class ClaimTable:
             self._fresh.add((sector, holder))
 
     # ----------------------------------------------------------------- queries
+
+    def stamp(self, sector: int, holder: AgentId) -> int | None:
+        value = self._claims.get((sector, holder))
+        return None if value is None else value[0]
 
     def last_heard(self, agent: AgentId) -> int | None:
         return self._beats.get(agent)
@@ -217,14 +226,17 @@ class LeaseAuction:
         valid = self.table.valid(now, self.lease, excluded)
         if self.holding is not None:
             k = self.holding
-            others = [b for b in valid.get(k, []) if b[1] != self.owner]
+            # Judge the conflict from the claim table only (own last published claim included),
+            # never own fresh bid against others' stale ones: agents with the same table then
+            # agree on the winner, so duplicate holders converge.
+            ranked = valid.get(k, [])
             mine = bids.get(k)
             reason = None
             if k in done:
                 reason = "released_done"
             elif mine is None:
                 reason = "released_infeasible"
-            elif others and others[0] < (mine, self.owner):
+            elif ranked and ranked[0][1] != self.owner:
                 reason = "released_outbid"
             if reason is None:
                 assert mine is not None
@@ -239,7 +251,7 @@ class LeaseAuction:
             if k in done:
                 continue
             others = [b for b in valid.get(k, []) if b[1] != self.owner]
-            if others and others[0] < (bids[k], self.owner):
+            if others and others[0] < (bids[k] + self._allowance(k, others[0][1], now), self.owner):
                 continue  # someone else validly wins it
             if best is None or (bids[k], k) < best:
                 best = (bids[k], k)
@@ -253,3 +265,13 @@ class LeaseAuction:
         self.stats["claims"] += 1
         self.holding = k
         return k
+
+    def _allowance(self, sector: int, holder: AgentId, now: int) -> int:
+        """Incumbency allowance of a valid holder: steps since its claim was stamped, or 0 if the
+        holder is suspected (unheard for more than ``SUSPICION_STEPS``)."""
+        stamp = self.table.stamp(sector, holder)
+        assert stamp is not None
+        heard = max(stamp, self.table.last_heard(holder) or stamp)
+        if now - heard > SUSPICION_STEPS:
+            return 0
+        return max(0, now - stamp)

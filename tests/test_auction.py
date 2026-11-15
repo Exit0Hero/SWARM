@@ -166,6 +166,18 @@ def test_allocation_converges_under_an_ideal_channel(bids: list[dict[int, int]])
     assert all(views[0][a.holding][1] == a.owner for a in auctions if a.holding is not None)
 
 
+def test_holders_converge_when_both_bids_keep_falling() -> None:
+    """Both approach the sector (bids fall each step). Each must judge the conflict from the
+    shared claim table, not its own fresh bid against the other's stale one."""
+    a, b = LeaseAuction("a"), LeaseAuction("b")
+    for step in range(1, 9):
+        a.decide(step, {0: 20 - step}, NONE, NONE)
+        b.decide(step, {0: 20 - step}, NONE, NONE)
+        _exchange(a, b)
+    assert [x.holding for x in (a, b)] == [0, None]  # equal bids: lower agent ID keeps it
+    assert b.stats["released_outbid"] == 1
+
+
 def test_disabled_holders_release_at_once_and_silent_ones_after_the_lease() -> None:
     a, b = LeaseAuction("a"), LeaseAuction("b")
     a.decide(1, {0: 2}, NONE, NONE)
