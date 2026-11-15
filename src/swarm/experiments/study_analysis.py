@@ -32,6 +32,7 @@ Example::
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import sys
 from collections.abc import Sequence
@@ -329,12 +330,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         study = load_study(args.spec)
         if args.seeds is not None:
-            study = Study(
-                study.name,
-                tuple(parse_seeds(args.seeds)),
-                "development",
-                study.conditions,
-                study.raw,
+            study = dataclasses.replace(
+                study, seeds=tuple(parse_seeds(args.seeds)), designation="development"
             )
         result = analyze(study, args.runs)
     except (OSError, ValueError, KeyError) as exc:

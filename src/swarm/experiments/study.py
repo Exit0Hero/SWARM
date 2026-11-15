@@ -28,11 +28,12 @@ from __future__ import annotations
 import argparse
 import copy
 import csv
+import dataclasses
 import json
 import sys
 from collections.abc import Sequence
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -43,7 +44,14 @@ from swarm.policies.registry import POLICIES
 from swarm.scenarios.config import ConfigError, ScenarioConfig
 
 SPEC_KEYS = {"name", "base_config", "seeds", "designation", "conditions"}
-OPTIONAL_SPEC_KEYS = {"description", "hypotheses", "exploratory", "thresholds", "bootstrap"}
+OPTIONAL_SPEC_KEYS = {
+    "description",
+    "hypotheses",
+    "exploratory",
+    "thresholds",
+    "bootstrap",
+    "learned_policies",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -54,12 +62,22 @@ class Condition:
 
 
 @dataclass(frozen=True, slots=True)
+class LearnedPolicy:
+    """A trained actor (Phase 4): ``best_actor.npz`` in ``run_dir``, used greedily or sampled as
+    selected on the validation seeds (``model.json``, ADR-0022)."""
+
+    checkpoint: str
+    sample: bool
+
+
+@dataclass(frozen=True, slots=True)
 class Study:
     name: str
     seeds: tuple[int, ...]
     designation: str
     conditions: tuple[Condition, ...]
     raw: dict[str, Any]
+    learned: dict[str, LearnedPolicy] = field(default_factory=dict)
 
     def condition(self, cid: str) -> Condition:
         for c in self.conditions:
@@ -90,6 +108,18 @@ def load_study(path: Path) -> Study:
         raise ValueError(f"study: missing keys {sorted(missing)}, unknown keys {sorted(unknown)}")
     if raw["designation"] not in DESIGNATIONS:
         raise ValueError(f"study.designation: must be one of {sorted(DESIGNATIONS)}")
+    learned: dict[str, LearnedPolicy] = {}
+    for name, run_dir in raw.get("learned_policies", {}).items():
+        if name in POLICIES:
+            raise ValueError(f"learned_policies.{name}: clashes with a registered policy")
+        directory = path.parent / run_dir
+        model = json.loads((directory / "model.json").read_text("utf-8"))
+        best = model.get("best")
+        if not best:
+            raise ValueError(f"learned_policies.{name}: {directory} has no validated best actor")
+        learned[name] = LearnedPolicy(
+            str(directory / "best_actor.npz"), best.get("mode", "greedy") == "sampled"
+        )
     base = ScenarioConfig.from_json((path.parent / raw["base_config"]).read_text("utf-8"))
     base_dict = base.to_dict()
     conditions: list[Condition] = []
@@ -98,7 +128,7 @@ def load_study(path: Path) -> Study:
         if not isinstance(cid, str) or not cid.replace("_", "").isalnum():
             raise ValueError(f"conditions[{k}].id: must be alphanumeric/underscore, got {cid!r}")
         policies = tuple(entry["policies"])
-        unknown_policies = sorted(set(policies) - set(POLICIES))
+        unknown_policies = sorted(set(policies) - set(POLICIES) - set(learned))
         if unknown_policies or not policies:
             raise ValueError(f"conditions[{k}].policies: unknown or empty {unknown_policies}")
         merged = deep_merge(base_dict, entry.get("overrides", {}))
@@ -119,14 +149,29 @@ def load_study(path: Path) -> Study:
         designation=raw["designation"],
         conditions=tuple(conditions),
         raw=raw,
+        learned=learned,
     )
 
 
-def _run_cell(args: tuple[str, str, str, tuple[int, ...], str, str]) -> tuple[str, str, bool]:
-    cid, policy, config_json, seeds, designation, out = args
+def _factory(policy: str, learned: LearnedPolicy | None) -> Any:
+    if learned is None:
+        return POLICIES[policy]
+    from swarm.learning.sector import learned_policy
+
+    return learned_policy(policy, Path(learned.checkpoint), sample=learned.sample)
+
+
+def _run_cell(
+    args: tuple[str, str, str, tuple[int, ...], str, str, LearnedPolicy | None],
+) -> tuple[str, str, bool]:
+    cid, policy, config_json, seeds, designation, out, learned = args
     config = ScenarioConfig.from_json(config_json)
     result = run_experiment(
-        config, POLICIES[policy], list(seeds), bootstrap=BootstrapSpec(), designation=designation
+        config,
+        _factory(policy, learned),
+        list(seeds),
+        bootstrap=BootstrapSpec(),
+        designation=designation,
     )
     target = Path(out)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -161,7 +206,15 @@ def run_study(study: Study, out_dir: Path, *, jobs: int = 1, resume: bool = Fals
             if resume and _is_current(path, c, study.seeds):
                 continue
             tasks.append(
-                (c.id, policy, c.config.to_json(), study.seeds, study.designation, str(path))
+                (
+                    c.id,
+                    policy,
+                    c.config.to_json(),
+                    study.seeds,
+                    study.designation,
+                    str(path),
+                    study.learned.get(policy),
+                )
             )
     complete = True
     if jobs > 1 and len(tasks) > 1:
@@ -225,12 +278,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         study = load_study(args.spec)
         if args.seeds is not None:
-            study = Study(
-                study.name,
-                tuple(parse_seeds(args.seeds)),
-                "development",
-                study.conditions,
-                study.raw,
+            study = dataclasses.replace(
+                study, seeds=tuple(parse_seeds(args.seeds)), designation="development"
             )
     except (OSError, ValueError, KeyError) as exc:
         print(f"error: {exc}", file=sys.stderr)
