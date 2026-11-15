@@ -1,0 +1,5034 @@
+{
+ "all_pairs": [
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.135,
+    "ci_low": 0.035,
+    "mean_difference": 0.085,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1846121140474298
+   },
+   "metric": "recall",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0875,
+    "ci_low": -0.025,
+    "mean_difference": 0.0325,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.20486742851245562
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.14,
+    "ci_low": 0.0,
+    "mean_difference": 0.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.23989793748209523
+   },
+   "metric": "mission_success",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.12,
+    "ci_low": -0.04,
+    "mean_difference": 0.04,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.282842712474619
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": null,
+    "ci_low": null,
+    "mean_difference": null,
+    "n_excluded": 50,
+    "n_pairs": 0,
+    "std": null
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": null,
+    "ci_low": null,
+    "mean_difference": null,
+    "n_excluded": 50,
+    "n_pairs": 0,
+    "std": null
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -1.72,
+    "ci_low": -1.94,
+    "mean_difference": -1.84,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.42185208743524005
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P1",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -1.76,
+    "ci_low": -1.94,
+    "mean_difference": -1.86,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.3505098327538656
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 323.5405,
+    "ci_low": 249.23950000000002,
+    "mean_difference": 289.54,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 136.58714942393044
+   },
+   "metric": "energy_used",
+   "pair": "P1",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 337.1205,
+    "ci_low": 257.938,
+    "mean_difference": 303.66,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 145.6638021792172
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.3775,
+    "ci_low": 0.2625,
+    "mean_difference": 0.32,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.2084931359903775
+   },
+   "metric": "recall",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.35,
+    "ci_low": 0.2425,
+    "mean_difference": 0.295,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.19685019685029528
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.74,
+    "ci_low": 0.46,
+    "mean_difference": 0.6,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5345224838248488
+   },
+   "metric": "mission_success",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.78,
+    "ci_low": 0.48,
+    "mean_difference": 0.64,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5252793231671495
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -22.0,
+    "ci_low": -39.0,
+    "mean_difference": -30.5,
+    "n_excluded": 48,
+    "n_pairs": 2,
+    "std": 12.020815280171307
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 123.0,
+    "ci_low": -2.0,
+    "mean_difference": 60.5,
+    "n_excluded": 48,
+    "n_pairs": 2,
+    "std": 88.38834764831844
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": -0.06,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.20203050891044214
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -125.88,
+    "ci_low": -240.38649999999993,
+    "mean_difference": -181.34,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 211.39687117565657
+   },
+   "metric": "energy_used",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -111.93950000000001,
+    "ci_low": -264.4025,
+    "mean_difference": -188.04,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 279.9207584664063
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0825,
+    "ci_low": 0.0325,
+    "mean_difference": 0.0575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0917864091135457
+   },
+   "metric": "recall",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.085,
+    "ci_low": 0.0325,
+    "mean_difference": 0.0575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.09848987309384055
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.48,
+    "ci_low": 0.22,
+    "mean_difference": 0.34,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.4785181206984064
+   },
+   "metric": "mission_success",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.42,
+    "ci_low": 0.18,
+    "mean_difference": 0.3,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.4629100498862757
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -70.21212121212122,
+    "ci_low": -91.78863636363636,
+    "mean_difference": -81.12121212121212,
+    "n_excluded": 17,
+    "n_pairs": 33,
+    "std": 32.18768939338219
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -72.4,
+    "ci_low": -94.28571428571429,
+    "mean_difference": -83.77142857142857,
+    "n_excluded": 15,
+    "n_pairs": 35,
+    "std": 33.67848476601127
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": -0.06,
+    "mean_difference": -0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -469.65900000000005,
+    "ci_low": -586.0614999999999,
+    "mean_difference": -529.86,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 212.9869220858216
+   },
+   "metric": "energy_used",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -474.63700000000006,
+    "ci_low": -592.86,
+    "mean_difference": -534.66,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 219.9918931715996
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "recall",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.0075,
+    "mean_difference": -0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663684
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.06,
+    "mean_difference": -0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.14142135623730948
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.48,
+    "ci_low": -4.48,
+    "mean_difference": -1.98,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 8.970450356132448
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 1.7142857142857142,
+    "ci_low": -2.510204081632653,
+    "mean_difference": -0.46938775510204084,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 7.665132203731406
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 2.8204999999999925,
+    "ci_low": -23.42,
+    "mean_difference": -10.3,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 48.202485328421965
+   },
+   "metric": "energy_used",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 27.120499999999993,
+    "ci_low": -12.280499999999995,
+    "mean_difference": 5.2,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 71.59893967975577
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "recall",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 17,
+    "n_pairs": 33,
+    "std": 0.0
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 15,
+    "n_pairs": 35,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "energy_used",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "recall",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "energy_used",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "recall",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0075,
+    "ci_low": 0.0,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663684
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.14142135623730948
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -31.32,
+    "ci_low": -37.44,
+    "mean_difference": -34.38,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 11.137159715592313
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -32.38775510204081,
+    "ci_low": -38.0,
+    "mean_difference": -35.265306122448976,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 10.22614197006069
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "hazard_exposures",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": -190.22,
+    "ci_low": -225.64,
+    "mean_difference": -207.8,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 64.84203725916056
+   },
+   "metric": "energy_used",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -201.33950000000002,
+    "ci_low": -244.42049999999998,
+    "mean_difference": -221.6,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 78.42792089243603
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.1175,
+    "ci_low": 0.0275,
+    "mean_difference": 0.0725,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.16577354236107394
+   },
+   "metric": "recall",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.065,
+    "ci_low": -0.0275,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.16819874056166598
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.3,
+    "ci_low": 0.02,
+    "mean_difference": 0.16,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5095015571464859
+   },
+   "metric": "mission_success",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.3,
+    "ci_low": -0.06,
+    "mean_difference": 0.12,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.6590035768383312
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 19.428571428571427,
+    "ci_low": -30.428571428571427,
+    "mean_difference": -6.0,
+    "n_excluded": 43,
+    "n_pairs": 7,
+    "std": 37.30058087125901
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 47.5,
+    "ci_low": -50.625,
+    "mean_difference": 2.375,
+    "n_excluded": 42,
+    "n_pairs": 8,
+    "std": 77.16760515730863
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 2.86,
+    "ci_low": -7.34,
+    "mean_difference": -2.38,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 18.246486941718008
+   },
+   "metric": "hazard_exposures",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 3.14,
+    "ci_low": -8.44,
+    "mean_difference": -3.14,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 21.266059957651983
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -0.02,
+    "ci_low": -0.28,
+    "mean_difference": -0.14,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.45220547975269754
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P1",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": -0.22,
+    "mean_difference": -0.08,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5283783431116266
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -1.32,
+    "ci_low": -1.74,
+    "mean_difference": -1.54,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.7879189847507243
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P1",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -1.08,
+    "ci_low": -1.58,
+    "mean_difference": -1.34,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.8946553321057815
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 267.20149999999995,
+    "ci_low": 114.2385,
+    "mean_difference": 191.92,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 279.34046522157166
+   },
+   "metric": "energy_used",
+   "pair": "P1",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 282.984,
+    "ci_low": 98.24,
+    "mean_difference": 192.4,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 335.7485088939187
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.2025,
+    "ci_low": 0.115,
+    "mean_difference": 0.1575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.157325381010834
+   },
+   "metric": "recall",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.175,
+    "ci_low": 0.09,
+    "mean_difference": 0.13,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.15352989471574768
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.76,
+    "ci_low": 0.48,
+    "mean_difference": 0.62,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.49031435147801467
+   },
+   "metric": "mission_success",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.68,
+    "ci_low": 0.4,
+    "mean_difference": 0.54,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5034574339058885
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 4.611111111111111,
+    "ci_low": -45.22222222222222,
+    "mean_difference": -20.11111111111111,
+    "n_excluded": 32,
+    "n_pairs": 18,
+    "std": 55.66273321784554
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -16.271590909090925,
+    "ci_low": -55.22727272727273,
+    "mean_difference": -35.04545454545455,
+    "n_excluded": 28,
+    "n_pairs": 22,
+    "std": 48.791565696510325
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -1.1395000000000073,
+    "ci_low": -14.1,
+    "mean_difference": -7.3,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 23.452296349859488
+   },
+   "metric": "hazard_exposures",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -2.86,
+    "ci_low": -14.46,
+    "mean_difference": -8.1,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 21.319005605327842
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.1,
+    "ci_low": -0.18,
+    "mean_difference": -0.04,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.49321932861805906
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.02,
+    "ci_low": -0.26,
+    "mean_difference": -0.12,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5205962045225313
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": -0.06,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.20203050891044214
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P2",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -285.65950000000004,
+    "ci_low": -462.90099999999995,
+    "mean_difference": -375.46,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 326.39554131108326
+   },
+   "metric": "energy_used",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -257.7395,
+    "ci_low": -416.38499999999993,
+    "mean_difference": -336.98,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 293.7962288417478
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.015,
+    "ci_low": -0.005,
+    "mean_difference": 0.005,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.035355339059327376
+   },
+   "metric": "recall",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0175,
+    "ci_low": 0.0,
+    "mean_difference": 0.0075,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.029987242185261904
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "metric": "mission_success",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -42.53061224489796,
+    "ci_low": -59.57142857142857,
+    "mean_difference": -50.714285714285715,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 30.738141344806998
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -38.10204081632653,
+    "ci_low": -58.40816326530612,
+    "mean_difference": -48.04081632653061,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 37.170754175647204
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -4.379500000000007,
+    "ci_low": -8.120499999999995,
+    "mean_difference": -6.2,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 6.800360134521088
+   },
+   "metric": "hazard_exposures",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -5.26,
+    "ci_low": -9.8,
+    "mean_difference": -7.44,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 8.214372670347197
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -0.08,
+    "ci_low": -0.3,
+    "mean_difference": -0.18,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.3880879344916036
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P3",
+   "practical": "point estimate beyond threshold, interval reaches below it",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -0.02,
+    "ci_low": -0.18,
+    "mean_difference": -0.1,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.30304576336566325
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": -0.06,
+    "mean_difference": -0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P3",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -208.95700000000005,
+    "ci_low": -297.9805,
+    "mean_difference": -251.92,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 163.21387496040845
+   },
+   "metric": "energy_used",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -192.83800000000002,
+    "ci_low": -311.50149999999996,
+    "mean_difference": -250.78,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 217.13188788083127
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0075,
+    "ci_low": -0.0075,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.025253813613805267
+   },
+   "metric": "recall",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0125,
+    "ci_low": -0.005,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03082620803862869
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.94,
+    "ci_low": -2.9,
+    "mean_difference": -0.98,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 7.040669031289802
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.6804999999999928,
+    "ci_low": -2.64,
+    "mean_difference": -1.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 6.0676458804558004
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 1.18,
+    "ci_low": -0.06,
+    "mean_difference": 0.56,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 2.2692262459045462
+   },
+   "metric": "hazard_exposures",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.48,
+    "ci_low": -1.2,
+    "mean_difference": -0.34,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.0479836091476367
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": -0.06,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.20203050891044214
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.14142135623730948
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 4.900999999999986,
+    "ci_low": -17.120499999999996,
+    "mean_difference": -6.08,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 40.81958313538905
+   },
+   "metric": "energy_used",
+   "pair": "P4",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 4.980499999999993,
+    "ci_low": -14.94,
+    "mean_difference": -5.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 36.38165606399994
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0075,
+    "ci_low": 0.0,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663688
+   },
+   "metric": "recall",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0075,
+    "ci_low": 0.0,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663688
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "metric": "mission_success",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 1.7142857142857142,
+    "ci_low": -10.020408163265307,
+    "mean_difference": -3.816326530612245,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 21.338222228928924
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P5",
+   "practical": "point estimate beyond threshold, interval reaches below it",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -1.9795918367346939,
+    "ci_low": -12.510204081632653,
+    "mean_difference": -6.836734693877551,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 18.91356098453293
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -8.42,
+    "ci_low": -12.34,
+    "mean_difference": -10.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 7.116551561145958
+   },
+   "metric": "hazard_exposures",
+   "pair": "P5",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -9.98,
+    "ci_low": -15.32,
+    "mean_difference": -12.52,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 9.666352328926294
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -0.14,
+    "ci_low": -0.4,
+    "mean_difference": -0.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.48697315854455175
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P5",
+   "practical": "point estimate beyond threshold, interval reaches below it",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -0.04,
+    "ci_low": -0.22,
+    "mean_difference": -0.12,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.32826072265931594
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": -0.06,
+    "mean_difference": -0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P5",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 21.02049999999999,
+    "ci_low": -49.520999999999994,
+    "mean_difference": -12.54,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 128.5476501821287
+   },
+   "metric": "energy_used",
+   "pair": "P5",
+   "practical": "detectable but small",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -13.219500000000007,
+    "ci_low": -67.12199999999999,
+    "mean_difference": -38.86,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 99.6927954738343
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.012562499999999092,
+    "ci_low": -0.0075,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03984984572218106
+   },
+   "metric": "recall",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.01,
+    "ci_low": -0.01,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03571428571428571
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 3.6204999999999927,
+    "ci_low": -1.2,
+    "mean_difference": 1.04,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 8.85244114839033
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 0.36,
+    "ci_low": -3.86,
+    "mean_difference": -1.72,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 7.591724818134923
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -4.16,
+    "ci_low": -5.9,
+    "mean_difference": -5.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.175158681556124
+   },
+   "metric": "hazard_exposures",
+   "pair": "P6",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -4.16,
+    "ci_low": -5.98,
+    "mean_difference": -5.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.253945799380519
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -0.02,
+    "ci_low": -0.16,
+    "mean_difference": -0.08,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.27404751561786966
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": false,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.14,
+    "mean_difference": -0.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.23989793748209523
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 22.120499999999993,
+    "ci_low": -5.06,
+    "mean_difference": 7.6,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 49.85407276671156
+   },
+   "metric": "energy_used",
+   "pair": "P6",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": false,
+   "validation": {
+    "ci_high": 1.7204999999999926,
+    "ci_low": -22.580499999999994,
+    "mean_difference": -10.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 45.58768630734777
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.015,
+    "ci_low": -0.0075,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03984984572218106
+   },
+   "metric": "recall",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.02,
+    "ci_low": -0.005,
+    "mean_difference": 0.0075,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.04663416020428784
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "mission_success",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -20.82,
+    "ci_low": -27.020499999999995,
+    "mean_difference": -24.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 11.235875486991821
+   },
+   "metric": "time_to_recall_target",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -21.24,
+    "ci_low": -27.2,
+    "mean_difference": -24.28,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 10.97127976089557
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -3.16,
+    "ci_low": -5.2,
+    "mean_difference": -4.16,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.738164997832547
+   },
+   "metric": "hazard_exposures",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -2.72,
+    "ci_low": -4.72,
+    "mean_difference": -3.7,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.609793933855222
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": -0.14,
+    "mean_difference": -0.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.23989793748209523
+   },
+   "metric": "agents_disabled_hazard",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.14,
+    "mean_difference": -0.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.23989793748209523
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "metric": "agents_disabled_energy",
+   "pair": "P7",
+   "practical": "not detectable",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   }
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": -123.97900000000001,
+    "ci_low": -158.66049999999998,
+    "mean_difference": -141.48,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 63.75534871519345
+   },
+   "metric": "energy_used",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "same_interval_conclusion": true,
+   "same_point_direction": true,
+   "validation": {
+    "ci_high": -126.82,
+    "ci_low": -161.64049999999997,
+    "mean_difference": -144.44,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 63.52764463328592
+   }
+  }
+ ],
+ "crashed_episodes": 0,
+ "headline": [
+  {
+   "config": "m1",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.135,
+    "ci_low": 0.035,
+    "mean_difference": 0.085,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1846121140474298
+   },
+   "id": "H1",
+   "metric": "recall",
+   "pair": "P1",
+   "practical": "not detectable",
+   "validation": {
+    "ci_high": 0.0875,
+    "ci_low": -0.025,
+    "mean_difference": 0.0325,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.20486742851245562
+   },
+   "verdict": "direction consistent, not replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.1175,
+    "ci_low": 0.0275,
+    "mean_difference": 0.0725,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.16577354236107394
+   },
+   "id": "H2",
+   "metric": "recall",
+   "pair": "P1",
+   "practical": "not detectable",
+   "validation": {
+    "ci_high": 0.065,
+    "ci_low": -0.0275,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.16819874056166598
+   },
+   "verdict": "direction consistent, not replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.3,
+    "ci_low": 0.02,
+    "mean_difference": 0.16,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5095015571464859
+   },
+   "id": "H3",
+   "metric": "mission_success",
+   "pair": "P1",
+   "practical": "not detectable",
+   "validation": {
+    "ci_high": 0.3,
+    "ci_low": -0.06,
+    "mean_difference": 0.12,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.6590035768383312
+   },
+   "verdict": "direction consistent, not replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.3775,
+    "ci_low": 0.2625,
+    "mean_difference": 0.32,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.2084931359903775
+   },
+   "id": "H4",
+   "metric": "recall",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.35,
+    "ci_low": 0.2425,
+    "mean_difference": 0.295,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.19685019685029528
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.74,
+    "ci_low": 0.46,
+    "mean_difference": 0.6,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5345224838248488
+   },
+   "id": "H5",
+   "metric": "mission_success",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.78,
+    "ci_low": 0.48,
+    "mean_difference": 0.64,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5252793231671495
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.2025,
+    "ci_low": 0.115,
+    "mean_difference": 0.1575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.157325381010834
+   },
+   "id": "H6",
+   "metric": "recall",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.175,
+    "ci_low": 0.09,
+    "mean_difference": 0.13,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.15352989471574768
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.76,
+    "ci_low": 0.48,
+    "mean_difference": 0.62,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.49031435147801467
+   },
+   "id": "H7",
+   "metric": "mission_success",
+   "pair": "P2",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.68,
+    "ci_low": 0.4,
+    "mean_difference": 0.54,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.5034574339058885
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.0825,
+    "ci_low": 0.0325,
+    "mean_difference": 0.0575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0917864091135457
+   },
+   "id": "H8",
+   "metric": "recall",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.085,
+    "ci_low": 0.0325,
+    "mean_difference": 0.0575,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.09848987309384055
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": 1,
+   "exploratory": {
+    "ci_high": 0.48,
+    "ci_low": 0.22,
+    "mean_difference": 0.34,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.4785181206984064
+   },
+   "id": "H9",
+   "metric": "mission_success",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": 0.42,
+    "ci_low": 0.18,
+    "mean_difference": 0.3,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.4629100498862757
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -70.21212121212122,
+    "ci_low": -91.78863636363636,
+    "mean_difference": -81.12121212121212,
+    "n_excluded": 17,
+    "n_pairs": 33,
+    "std": 32.18768939338219
+   },
+   "id": "H10",
+   "metric": "time_to_recall_target",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -72.4,
+    "ci_low": -94.28571428571429,
+    "mean_difference": -83.77142857142857,
+    "n_excluded": 15,
+    "n_pairs": 35,
+    "std": 33.67848476601127
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -42.53061224489796,
+    "ci_low": -59.57142857142857,
+    "mean_difference": -50.714285714285715,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 30.738141344806998
+   },
+   "id": "H11",
+   "metric": "time_to_recall_target",
+   "pair": "P3",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -38.10204081632653,
+    "ci_low": -58.40816326530612,
+    "mean_difference": -48.04081632653061,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 37.170754175647204
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -8.42,
+    "ci_low": -12.34,
+    "mean_difference": -10.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 7.116551561145958
+   },
+   "id": "H12",
+   "metric": "hazard_exposures",
+   "pair": "P5",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -9.98,
+    "ci_low": -15.32,
+    "mean_difference": -12.52,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 9.666352328926294
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -0.14,
+    "ci_low": -0.4,
+    "mean_difference": -0.26,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.48697315854455175
+   },
+   "id": "H13",
+   "metric": "agents_disabled_hazard",
+   "pair": "P5",
+   "practical": "point estimate beyond threshold, interval reaches below it",
+   "validation": {
+    "ci_high": -0.04,
+    "ci_low": -0.22,
+    "mean_difference": -0.12,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.32826072265931594
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -4.16,
+    "ci_low": -5.9,
+    "mean_difference": -5.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.175158681556124
+   },
+   "id": "H14",
+   "metric": "hazard_exposures",
+   "pair": "P6",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -4.16,
+    "ci_low": -5.98,
+    "mean_difference": -5.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 3.253945799380519
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -0.02,
+    "ci_low": -0.16,
+    "mean_difference": -0.08,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.27404751561786966
+   },
+   "id": "H15",
+   "metric": "agents_disabled_hazard",
+   "pair": "P6",
+   "practical": "not detectable",
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.14,
+    "mean_difference": -0.06,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.23989793748209523
+   },
+   "verdict": "direction consistent, not replicated"
+  },
+  {
+   "config": "m1",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -31.32,
+    "ci_low": -37.44,
+    "mean_difference": -34.38,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 11.137159715592313
+   },
+   "id": "H16",
+   "metric": "time_to_recall_target",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -32.38775510204081,
+    "ci_low": -38.0,
+    "mean_difference": -35.265306122448976,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 10.22614197006069
+   },
+   "verdict": "replicated"
+  },
+  {
+   "config": "m2",
+   "expected_sign": -1,
+   "exploratory": {
+    "ci_high": -20.82,
+    "ci_low": -27.020499999999995,
+    "mean_difference": -24.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 11.235875486991821
+   },
+   "id": "H17",
+   "metric": "time_to_recall_target",
+   "pair": "P7",
+   "practical": "practically significant (whole interval beyond threshold)",
+   "validation": {
+    "ci_high": -21.24,
+    "ci_low": -27.2,
+    "mean_difference": -24.28,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 10.97127976089557
+   },
+   "verdict": "replicated"
+  }
+ ],
+ "headline_contradicted": [],
+ "headline_not_replicated": [
+  "H1",
+  "H2",
+  "H3",
+  "H15"
+ ],
+ "nulls": [
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "id": "N1",
+   "metric": "recall",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.0075,
+    "mean_difference": -0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663684
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "id": "N1",
+   "metric": "mission_success",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": -0.06,
+    "mean_difference": -0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.14142135623730948
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m1",
+   "exploratory": {
+    "ci_high": 0.48,
+    "ci_low": -4.48,
+    "mean_difference": -1.98,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 8.970450356132448
+   },
+   "id": "N1",
+   "metric": "time_to_recall_target",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 1.7142857142857142,
+    "ci_low": -2.510204081632653,
+    "mean_difference": -0.46938775510204084,
+    "n_excluded": 1,
+    "n_pairs": 49,
+    "std": 7.665132203731406
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0075,
+    "ci_low": -0.0075,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.025253813613805267
+   },
+   "id": "N1",
+   "metric": "recall",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 0.0125,
+    "ci_low": -0.005,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03082620803862869
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "id": "N1",
+   "metric": "mission_success",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.94,
+    "ci_low": -2.9,
+    "mean_difference": -0.98,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 7.040669031289802
+   },
+   "id": "N1",
+   "metric": "time_to_recall_target",
+   "pair": "P4",
+   "validation": {
+    "ci_high": 0.6804999999999928,
+    "ci_low": -2.64,
+    "mean_difference": -1.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 6.0676458804558004
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0075,
+    "ci_low": 0.0,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663688
+   },
+   "id": "N2",
+   "metric": "recall",
+   "pair": "P5",
+   "validation": {
+    "ci_high": 0.0075,
+    "ci_low": 0.0,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.017677669529663688
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "id": "N2",
+   "metric": "mission_success",
+   "pair": "P5",
+   "validation": {
+    "ci_high": 0.06,
+    "ci_low": 0.0,
+    "mean_difference": 0.02,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.1414213562373095
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.012562499999999092,
+    "ci_low": -0.0075,
+    "mean_difference": 0.0025,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03984984572218106
+   },
+   "id": "N2",
+   "metric": "recall",
+   "pair": "P6",
+   "validation": {
+    "ci_high": 0.01,
+    "ci_low": -0.01,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.03571428571428571
+   },
+   "verdict": "consistent"
+  },
+  {
+   "config": "m2",
+   "exploratory": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "id": "N2",
+   "metric": "mission_success",
+   "pair": "P6",
+   "validation": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "mean_difference": 0.0,
+    "n_excluded": 0,
+    "n_pairs": 50,
+    "std": 0.0
+   },
+   "verdict": "consistent"
+  }
+ ],
+ "nulls_not_consistent": [],
+ "policies": {
+  "m1": {
+   "assignment": {
+    "end_reasons": {
+     "mission_success": 49,
+     "time_limit": 1
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 1.42,
+     "ci_low": 0.2,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.268146775655925
+    },
+    "failed_plans_temporary": {
+     "ci_high": 1.42,
+     "ci_low": 0.2,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.268146775655925
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 348.78,
+      "ci_low": 305.18,
+      "mean": 325.88,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 78.83038883629607
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 0.94,
+      "mean": 0.98,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.14142135623730948
+     },
+     "recall": {
+      "ci_high": 1.0,
+      "ci_low": 0.9925,
+      "mean": 0.9975,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.017677669529663688
+     },
+     "time_to_recall_target": {
+      "ci_high": 56.63265306122449,
+      "ci_low": 50.93877551020408,
+      "mean": 53.857142857142854,
+      "n_completed": 50,
+      "n_defined": 49,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 1,
+      "std": 10.36018017861337
+     }
+    }
+   },
+   "assignment_hazard_aware": {
+    "end_reasons": {
+     "mission_success": 49,
+     "time_limit": 1
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 1.42,
+     "ci_low": 0.2,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.268146775655925
+    },
+    "failed_plans_temporary": {
+     "ci_high": 1.42,
+     "ci_low": 0.2,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.268146775655925
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 348.78,
+      "ci_low": 305.18,
+      "mean": 325.88,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 78.83038883629607
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 0.94,
+      "mean": 0.98,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.14142135623730948
+     },
+     "recall": {
+      "ci_high": 1.0,
+      "ci_low": 0.9925,
+      "mean": 0.9975,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.017677669529663688
+     },
+     "time_to_recall_target": {
+      "ci_high": 56.63265306122449,
+      "ci_low": 50.93877551020408,
+      "mean": 53.857142857142854,
+      "n_completed": 50,
+      "n_defined": 49,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 1,
+      "std": 10.36018017861337
+     }
+    }
+   },
+   "assignment_oracle": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 112.8,
+      "ci_low": 96.42,
+      "mean": 104.28,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 30.04081577196095
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "time_to_recall_target": {
+      "ci_high": 20.08,
+      "ci_low": 17.159500000000005,
+      "mean": 18.56,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 5.28440138134715
+     }
+    }
+   },
+   "astar_waypoint": {
+    "end_reasons": {
+     "mission_success": 3,
+     "time_limit": 47
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 1071.8609999999999,
+      "ci_low": 1000.2395,
+      "mean": 1043.38,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 135.23371907741873
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 0.14,
+      "ci_low": 0.0,
+      "mean": 0.06,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.23989793748209523
+     },
+     "recall": {
+      "ci_high": 0.7,
+      "ci_low": 0.595,
+      "mean": 0.6475,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.1918126477496588
+     },
+     "time_to_recall_target": {
+      "ci_high": 175.0,
+      "ci_low": 34.0,
+      "mean": 122.66666666666667,
+      "n_completed": 50,
+      "n_defined": 3,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 47,
+      "std": 77.20319509795779
+     }
+    }
+   },
+   "frontier": {
+    "end_reasons": {
+     "mission_success": 35,
+     "time_limit": 15
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 919.9615,
+      "ci_low": 788.54,
+      "mean": 855.34,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 244.55637553808842
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 0.82,
+      "ci_low": 0.58,
+      "mean": 0.7,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.46291004988627577
+     },
+     "recall": {
+      "ci_high": 0.9675,
+      "ci_low": 0.915,
+      "mean": 0.9425,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.09848987309384054
+     },
+     "time_to_recall_target": {
+      "ci_high": 148.68571428571428,
+      "ci_low": 124.45714285714286,
+      "mean": 137.0,
+      "n_completed": 50,
+      "n_defined": 35,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 15,
+      "std": 37.20452217927594
+     }
+    }
+   },
+   "frontier_hazard_aware": {
+    "end_reasons": {
+     "mission_success": 35,
+     "time_limit": 15
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 919.9615,
+      "ci_low": 788.54,
+      "mean": 855.34,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 244.55637553808842
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 0.82,
+      "ci_low": 0.58,
+      "mean": 0.7,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.46291004988627577
+     },
+     "recall": {
+      "ci_high": 0.9675,
+      "ci_low": 0.915,
+      "mean": 0.9425,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.09848987309384054
+     },
+     "time_to_recall_target": {
+      "ci_high": 148.68571428571428,
+      "ci_low": 124.45714285714286,
+      "mean": 137.0,
+      "n_completed": 50,
+      "n_defined": 35,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 15,
+      "std": 37.20452217927594
+     }
+    }
+   },
+   "prioritized_frontier": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 1.4,
+     "ci_low": 0.22,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.1949850076192936
+    },
+    "failed_plans_temporary": {
+     "ci_high": 1.42,
+     "ci_low": 0.22,
+     "mean": 0.72,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.1949850076192936
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 335.9805,
+      "ci_low": 304.17850000000004,
+      "mean": 320.68,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 57.060097212303724
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "time_to_recall_target": {
+      "ci_high": 56.96,
+      "ci_low": 51.54,
+      "mean": 54.26,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 9.764178596967048
+     }
+    }
+   },
+   "random_valid": {
+    "end_reasons": {
+     "mission_success": 1,
+     "time_limit": 49
+    },
+    "energy_route_aborts": null,
+    "failed_plans": null,
+    "failed_plans_temporary": null,
+    "failed_plans_unreachable": null,
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 1.94,
+      "ci_low": 1.76,
+      "mean": 1.86,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.3505098327538656
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 758.3205,
+      "ci_low": 722.84,
+      "mean": 739.72,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 63.54366649022079
+     },
+     "hazard_exposures": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "mission_success": {
+      "ci_high": 0.06,
+      "ci_low": 0.0,
+      "mean": 0.02,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.1414213562373095
+     },
+     "recall": {
+      "ci_high": 0.6675,
+      "ci_low": 0.56,
+      "mean": 0.615,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.19535420473110487
+     },
+     "time_to_recall_target": {
+      "ci_high": null,
+      "ci_low": null,
+      "mean": 122.0,
+      "n_completed": 50,
+      "n_defined": 1,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 49,
+      "std": null
+     }
+    }
+   }
+  },
+  "m2": {
+   "assignment": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.76,
+     "ci_low": 0.08,
+     "mean": 0.36,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 1.2577920401745795
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.76,
+     "ci_low": 0.08,
+     "mean": 0.36,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 1.2577920401745795
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.14,
+      "ci_low": 0.0,
+      "mean": 0.06,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.23989793748209523
+     },
+     "energy_used": {
+      "ci_high": 233.26,
+      "ci_low": 195.679,
+      "mean": 214.82,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 68.37283444319036
+     },
+     "hazard_exposures": {
+      "ci_high": 6.6,
+      "ci_low": 4.72,
+      "mean": 5.62,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 3.3980186303557693
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 0.7675,
+      "ci_low": 0.75,
+      "mean": 0.7575,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0299872421852619
+     },
+     "time_to_recall_target": {
+      "ci_high": 39.640499999999996,
+      "ci_low": 33.22,
+      "mean": 36.46,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 11.808350556159098
+     }
+    }
+   },
+   "assignment_hazard_aware": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 1.0,
+     "ci_low": 0.28,
+     "mean": 0.62,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 1.307591648171304
+    },
+    "failed_plans_temporary": {
+     "ci_high": 1.0,
+     "ci_low": 0.3,
+     "mean": 0.62,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 1.307591648171304
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 227.12,
+      "ci_low": 180.64,
+      "mean": 204.56,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 85.08343084338826
+     },
+     "hazard_exposures": {
+      "ci_high": 0.92,
+      "ci_low": 0.26,
+      "mean": 0.56,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 1.1807987611298183
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 0.7675,
+      "ci_low": 0.75,
+      "mean": 0.7575,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0299872421852619
+     },
+     "time_to_recall_target": {
+      "ci_high": 38.680499999999995,
+      "ci_low": 30.779500000000006,
+      "mean": 34.74,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 14.551541050307199
+     }
+    }
+   },
+   "assignment_oracle": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "energy_used": {
+      "ci_high": 77.38,
+      "ci_low": 63.87950000000001,
+      "mean": 70.38,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 24.672458411792544
+     },
+     "hazard_exposures": {
+      "ci_high": 2.46,
+      "ci_low": 1.42,
+      "mean": 1.92,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 1.860875370049575
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 0.78,
+      "ci_low": 0.755,
+      "mean": 0.765,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.048181205582971585
+     },
+     "time_to_recall_target": {
+      "ci_high": 13.38,
+      "ci_low": 11.06,
+      "mean": 12.18,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 4.212178650009023
+     }
+    }
+   },
+   "astar_waypoint": {
+    "end_reasons": {
+     "mission_success": 22,
+     "time_limit": 28
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 5.44,
+     "ci_low": 0.04,
+     "mean": 1.98,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 11.154737256668401
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 5.46,
+     "ci_low": 0.04,
+     "mean": 1.98,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 11.154737256668401
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.38,
+      "ci_low": 0.14,
+      "mean": 0.26,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.44308749769345207
+     },
+     "energy_used": {
+      "ci_high": 894.4209999999999,
+      "ci_low": 714.5995,
+      "mean": 807.84,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 329.50286363377353
+     },
+     "hazard_exposures": {
+      "ci_high": 28.6,
+      "ci_low": 15.68,
+      "mean": 21.5,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 23.735145730691077
+     },
+     "mission_success": {
+      "ci_high": 0.58,
+      "ci_low": 0.3,
+      "mean": 0.44,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.501426536422407
+     },
+     "recall": {
+      "ci_high": 0.6575,
+      "ci_low": 0.575,
+      "mean": 0.6175,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.1523832775120227
+     },
+     "time_to_recall_target": {
+      "ci_high": 119.0909090909091,
+      "ci_low": 76.27159090909092,
+      "mean": 97.0,
+      "n_completed": 50,
+      "n_defined": 22,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 28,
+      "std": 52.23481779882256
+     }
+    }
+   },
+   "frontier": {
+    "end_reasons": {
+     "mission_success": 49,
+     "time_limit": 1
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 2.86,
+     "ci_low": 0.0,
+     "mean": 0.96,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 6.645421931906298
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 2.86,
+     "ci_low": 0.0,
+     "mean": 0.96,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 6.645421931906298
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.24,
+      "ci_low": 0.06,
+      "mean": 0.14,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.3505098327538656
+     },
+     "energy_used": {
+      "ci_high": 540.4014999999999,
+      "ci_low": 403.059,
+      "mean": 470.86,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 247.6739141595296
+     },
+     "hazard_exposures": {
+      "ci_high": 16.28,
+      "ci_low": 10.76,
+      "mean": 13.4,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 9.909797254871213
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 0.94,
+      "mean": 0.98,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.1414213562373095
+     },
+     "recall": {
+      "ci_high": 0.75,
+      "ci_low": 0.7425,
+      "mean": 0.7475,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.017677669529663688
+     },
+     "time_to_recall_target": {
+      "ci_high": 97.57193877551019,
+      "ci_low": 74.18367346938776,
+      "mean": 85.51020408163265,
+      "n_completed": 50,
+      "n_defined": 49,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 1,
+      "std": 42.517213400858594
+     }
+    }
+   },
+   "frontier_hazard_aware": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_temporary": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.06,
+      "ci_low": 0.0,
+      "mean": 0.02,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.14142135623730948
+     },
+     "energy_used": {
+      "ci_high": 495.2205,
+      "ci_low": 371.48,
+      "mean": 432.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 221.92377805297502
+     },
+     "hazard_exposures": {
+      "ci_high": 1.32,
+      "ci_low": 0.52,
+      "mean": 0.88,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 1.4658006101006469
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 0.75,
+      "ci_low": 0.75,
+      "mean": 0.75,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "time_to_recall_target": {
+      "ci_high": 91.22,
+      "ci_low": 69.59949999999999,
+      "mean": 80.02,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 39.502771796316225
+     }
+    }
+   },
+   "prioritized_frontier": {
+    "end_reasons": {
+     "mission_success": 50
+    },
+    "energy_route_aborts": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_plans": {
+     "ci_high": 1.18,
+     "ci_low": 0.06,
+     "mean": 0.52,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.1403795200374907
+    },
+    "failed_plans_temporary": {
+     "ci_high": 1.22,
+     "ci_low": 0.06,
+     "mean": 0.52,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 2.1403795200374907
+    },
+    "failed_plans_unreachable": {
+     "ci_high": 0.0,
+     "ci_low": 0.0,
+     "mean": 0.0,
+     "n_completed": 50,
+     "n_defined": 50,
+     "n_failed": 0,
+     "n_seeds": 50,
+     "n_undefined": 0,
+     "std": 0.0
+    },
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "mean": 0.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.1,
+      "ci_low": 0.0,
+      "mean": 0.04,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.19794866372215741
+     },
+     "energy_used": {
+      "ci_high": 242.06099999999998,
+      "ci_low": 197.22,
+      "mean": 220.08,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 81.45133516401066
+     },
+     "hazard_exposures": {
+      "ci_high": 7.16,
+      "ci_low": 4.82,
+      "mean": 5.96,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 4.24725601694428
+     },
+     "mission_success": {
+      "ci_high": 1.0,
+      "ci_low": 1.0,
+      "mean": 1.0,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.0
+     },
+     "recall": {
+      "ci_high": 0.7625,
+      "ci_low": 0.75,
+      "mean": 0.755,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.02474358296526968
+     },
+     "time_to_recall_target": {
+      "ci_high": 41.16,
+      "ci_low": 33.599500000000006,
+      "mean": 37.46,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 13.92869597013918
+     }
+    }
+   },
+   "random_valid": {
+    "end_reasons": {
+     "all_disabled": 1,
+     "mission_success": 16,
+     "time_limit": 33
+    },
+    "energy_route_aborts": null,
+    "failed_plans": null,
+    "failed_plans_temporary": null,
+    "failed_plans_unreachable": null,
+    "failed_seeds": [],
+    "metrics": {
+     "agents_disabled_energy": {
+      "ci_high": 1.58,
+      "ci_low": 1.08,
+      "mean": 1.34,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.8946553321057815
+     },
+     "agents_disabled_hazard": {
+      "ci_high": 0.5,
+      "ci_low": 0.2,
+      "mean": 0.34,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.5573259772323188
+     },
+     "energy_used": {
+      "ci_high": 663.94,
+      "ci_low": 563.3195000000001,
+      "mean": 615.44,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 185.9117807027883
+     },
+     "hazard_exposures": {
+      "ci_high": 29.66,
+      "ci_low": 19.88,
+      "mean": 24.64,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 17.765777695976528
+     },
+     "mission_success": {
+      "ci_high": 0.46,
+      "ci_low": 0.2,
+      "mean": 0.32,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.47121207149916117
+     },
+     "recall": {
+      "ci_high": 0.6425,
+      "ci_low": 0.5475,
+      "mean": 0.5975,
+      "n_completed": 50,
+      "n_defined": 50,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 0,
+      "std": 0.17549129288244195
+     },
+     "time_to_recall_target": {
+      "ci_high": 114.50156249999998,
+      "ci_low": 65.375,
+      "mean": 88.5,
+      "n_completed": 50,
+      "n_defined": 16,
+      "n_failed": 0,
+      "n_seeds": 50,
+      "n_undefined": 34,
+      "std": 51.72104665092023
+     }
+    }
+   }
+  }
+ },
+ "thresholds": {
+  "agents_disabled_energy": 0.05,
+  "agents_disabled_hazard": 0.05,
+  "energy_used": 50.0,
+  "hazard_exposures": 1.0,
+  "mission_success": 0.05,
+  "recall": 0.02,
+  "time_to_recall_target": 5.0
+ },
+ "verdict": "partially successful"
+}
