@@ -15,6 +15,7 @@ from swarm.core.events import (
     MessageDelivered,
     MessageDropped,
     MessageSent,
+    Moved,
     event_stream_sha256,
 )
 from swarm.core.messages import Message
@@ -235,3 +236,40 @@ def test_the_mission_brief_hides_partition_schedules() -> None:
     assert brief.comms.partitions == ()
     assert brief.comms.ranges == COMMS.ranges
     assert "failure" not in repr(brief).lower()
+
+
+# ----------------------------------------------------------------- replay viewer (Phase 3)
+
+
+def test_replay_state_follows_moves_and_records_injected_disablement() -> None:
+    from swarm.core.rng import episode_streams
+    from swarm.visualization.replay import replay_state
+
+    plain = make_config(drones=1, grounds=1, time_limit=40)
+    config = replace(plain, failures=FailureConfig(1, 4, 4))
+    result = run_episode(config, POLICIES["frontier"], 2, designation="development")
+    agents = tuple(config.agents())
+    scenario = generate_scenario(config, episode_streams(2, agents).scenario)
+    full = replay_state(scenario, agents, result.events, until=None)
+    early = replay_state(scenario, agents, result.events, until=2)
+    for aid, trace in full.items():
+        moves = [e for e in result.events if isinstance(e, Moved) and e.agent_id == aid]
+        assert trace.path == [scenario.base] + [e.to_position for e in moves]
+        assert len(early[aid].path) <= 3
+    disabled = [t.disabled_at for t in full.values() if t.disabled_at is not None]
+    assert (4, "injected") in {(step, reason) for step, _, reason in disabled}
+    assert all(t.disabled_at is None for t in early.values())
+
+
+def test_replay_renders_a_figure(tmp_path: Any) -> None:
+    pytest.importorskip("matplotlib")
+    from swarm.visualization.replay import main
+
+    out = tmp_path / "replay.png"
+    config = tmp_path / "c.json"
+    config.write_text(make_config(drones=1, grounds=1, time_limit=20).to_json())
+    assert (
+        main(["--config", str(config), "--policy", "frontier", "--seed", "1", "--out", str(out)])
+        == 0
+    )
+    assert out.stat().st_size > 1000

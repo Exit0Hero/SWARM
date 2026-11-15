@@ -1,8 +1,8 @@
 # Phase 3 Coordination Study (M3.5) — pre-registration
 
-Status: **pre-registered**. This document and `configs/phase3/study.json` were committed before any run on
-evaluation seeds 200–249. Results are appended below the "Results" heading after the run and never edited
-into the design sections.
+Status: **complete** (study A and study B run). This document and `configs/phase3/study.json` were committed
+(`8dfa7af`) before any run on evaluation seeds 200–249. Study B was pre-registered in `2bccbc1` before any run on
+seeds 300–349. Results were appended afterwards; the design sections were not edited.
 
 ## Purpose
 Test whether communication-limited distributed coordination improves search and rescue in this simulator.
@@ -284,4 +284,58 @@ handling. Study B moves the same faults earlier.
 - **Exploratory family (BH):** the same as study A, applied to these conditions.
 
 ### Results (study B)
-Not yet run.
+
+**Provenance**
+- Run from commit `2bccbc1`, a clean tree that holds this pre-registration.
+- 23 cells × 50 seeds = 1 150 episodes. All completed, with no crash.
+- Files: `docs/results/phase3/runs_b.tar.gz`, `analysis_b.json` and `results_b.md`.
+
+**Exposure**
+The faults now happened:
+- 1.88 of 2 scheduled failures per `auction_comm` episode occurred before the episode ended;
+- every episode was still running when its partition began.
+
+| ID | Comparison | Mean A → B | Diff [95% CI] | d_z | p (Holm) | Verdict |
+|---|---|---|---|---|---|---|
+| B1 | fail_2_early: `auction_no_reassign` → `auction_comm`, time | 61.6 → 62.6 | +1.0 [−2.7, +4.9] | 0.07 | 1.0 | inconclusive (interval within ±5 steps) |
+| B2 | fail_2_early: same, unresolved sectors | 1.52 → 1.06 | −0.46 [−0.66, −0.28] | −0.65 | 0.0006 | **supported**, practically significant |
+| B3 | fail_1_early: `auction_no_reassign` → `auction_comm`, time | 39.6 → 40.0 | +0.4 [−1.6, +2.2] | 0.06 | 1.0 | inconclusive (interval within ±5 steps) |
+| B4 | fail_2_early: `assignment` (pooled, perfect comms) → `auction_comm`, time | 51.2 → 62.6 | +11.4 [+2.6, +20.5] | 0.35 | 0.067 | inconclusive (unadjusted p = 0.017) |
+| B5 | `auction_comm`: nominal → partition_split_early, time | 35.1 → 42.3 | +7.2 [+2.9, +12.2] | 0.42 | 0.009 | **supported** |
+| B6 | `auction_comm`: nominal → isolate_drone_early, time | 35.1 → 40.3 | +5.2 [+1.3, +9.6] | 0.34 | 0.067 | inconclusive (unadjusted p = 0.017) |
+
+**Interpretation** (on these scenarios, in simulation)
+- **Reassignment does what it is designed to do, but it does not make the mission faster here.**
+  - With two early failures, lease expiry and reassignment cut the number of sectors never
+    reclaimed by 30% (B2).
+  - Time to the 0.75 recall target did not change (B1, B3). The interval rules out a speedup
+    larger than about 3 steps.
+  - A plausible reason, not tested here: with a 0.75 target, the surviving agents' frontier
+    fallback finds enough survivors without the abandoned sectors.
+- **Failure handling is slow.**
+  - Mean time from a failure to a teammate marking it disabled: about 24 steps.
+  - Mean reassignment delay: about 30 steps.
+  - Suspicion itself is quick: about 4 steps from the failure.
+- **The cost of a partition is detectable** (B5, +7 steps).
+- **Results that do not survive the Holm correction:**
+  - isolating one drone (B6);
+  - the gap to centralized pooled assignment under failures (B4).
+
+  Both are reported as inconclusive, not as absent.
+- **Exploratory, on fresh seeds:** the H1 and H2 effects recur in every study B condition, all
+  with q < 0.05. For example, at nominal:
+  - `frontier` → `frontier_shared`: −46.0 steps;
+  - `frontier_shared` → `auction_comm`: −12.8 steps.
+
+## Overall Phase 3 conclusions (on these scenarios, in simulation only)
+1. **Belief sharing and auction coordination speed up search a lot** (H1–H3), and the effect
+   replicated on fresh seeds in study B.
+   - Communication-limited coordination was within a few steps of centralized pooled assignment
+     at nominal (H4, inconclusive).
+   - It was possibly slower under early failures (B4, inconclusive).
+2. **Channel latency and bandwidth limits hurt coordination more than loss or range does**
+   (exploratory). Belief sharing alone is the most delay-sensitive.
+3. **Failure detection with reassignment reclaims abandoned sectors** (B2). It did not improve
+   time to the recall target (B1, B3). Detection and reassignment take 24–30 steps.
+4. **The 0.75 recall target saturates mission success** for the coordinated policies. Larger or
+   harder scenarios (Phase 5) are needed to test success, not just speed.

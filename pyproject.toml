@@ -75,3 +75,8 @@ python_version = "3.12"
 strict = true
 warn_unreachable = true
 files = ["src", "tests"]
+
+[[tool.mypy.overrides]]
+# Optional `viz` extra: CI type-checks without it installed.
+module = ["matplotlib", "matplotlib.*"]
+ignore_missing_imports = true
