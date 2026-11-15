@@ -5,16 +5,17 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: Phase 2 (navigation and classical baselines) — in review
+## Current status: Phase 3 (communication-limited coordination) — M3.1 in review
 
 | What | Status |
 |---|---|
-| Docs, 16 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Docs, 17 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
 | Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
-| Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Implemented, in review |
+| Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Complete (merged) |
 | Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded). See `docs/16_PHASE2_BASELINE_STUDY.md` |
 | Phase 2: pre-registered validation on fresh seeds 100–149 | Run: all 800 episodes complete; partially successful (13 of 17 headline effects replicated; planned-vs-random not established). See `docs/17_PHASE2_VALIDATION_STUDY.md` |
-| Communication, belief maps, auctions (Phase 3); MARL, perception models, dashboard, 3D (Phases 4–8) | Planned |
+| Phase 3 M3.1: communication channel (range, drops, latency, bandwidth, message events; opt-in, ADR-0017) | Implemented, in review |
+| Belief maps, auctions, failure handling (rest of Phase 3); MARL, perception models, dashboard, 3D (Phases 4–8) | Planned |
 
 **Policies** (`python -m swarm.experiments.run_episode --policy <name>`):
 
