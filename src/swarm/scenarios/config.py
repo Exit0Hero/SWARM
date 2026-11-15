@@ -408,6 +408,37 @@ class CommsConfig:
 
 
 @dataclass(frozen=True, slots=True)
+class SurvivorLayout:
+    """Clustered survivor placement (ADR-0023). Without a layout, survivors are uniform.
+
+    ``clusters`` centres are drawn uniformly from the eligible cells. Each survivor is then drawn
+    without replacement with weight ``exp(-d**2 / (2 * spread**2))``, where ``d`` is the Euclidean
+    distance to the nearest centre.
+    """
+
+    clusters: int
+    spread: float
+
+    def __post_init__(self) -> None:
+        _check_int(self.clusters, "survivor_layout.clusters", minimum=1)
+        if isinstance(self.spread, bool) or not isinstance(self.spread, int | float):
+            raise ConfigError(f"survivor_layout.spread: must be a number, got {self.spread!r}")
+        if not 0.0 < float(self.spread) <= 1000.0:
+            raise ConfigError(f"survivor_layout.spread: must be in (0, 1000], got {self.spread}")
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"kind": "clustered", "clusters": self.clusters, "spread": self.spread}
+
+    @classmethod
+    def from_dict(cls, data: object, path: str = "survivor_layout") -> SurvivorLayout:
+        d = _require_mapping(data, path)
+        _check_keys(d, path, {"kind", "clusters", "spread"}, set())
+        if d["kind"] != "clustered":
+            raise ConfigError(f"{path}.kind: only 'clustered' is supported, got {d['kind']!r}")
+        return cls(clusters=d["clusters"], spread=d["spread"])
+
+
+@dataclass(frozen=True, slots=True)
 class FailureConfig:
     """Scheduled agent failures for controlled experiments (ADR-0021).
 
@@ -462,6 +493,7 @@ class ScenarioConfig:
     recall_target: float = 1.0
     comms: CommsConfig | None = None
     failures: FailureConfig | None = None
+    survivor_layout: SurvivorLayout | None = None
 
     def __post_init__(self) -> None:
         _check_int(self.height, "height", minimum=1, maximum=MAX_GRID_SIDE)
@@ -592,7 +624,7 @@ class ScenarioConfig:
         Without a channel or failures the result is the version-2 form (no ``comms`` key), so
         existing config hashes are unchanged. ``failures`` is written only when set.
         """
-        v2 = self.comms is None and self.failures is None
+        v2 = self.comms is None and self.failures is None and self.survivor_layout is None
         out: dict[str, Any] = {
             "schema_version": 2 if v2 else SCHEMA_VERSION,
             "height": self.height,
@@ -612,6 +644,8 @@ class ScenarioConfig:
             out["comms"] = None if self.comms is None else self.comms.to_dict()
         if self.failures is not None:
             out["failures"] = self.failures.to_dict()
+        if self.survivor_layout is not None:
+            out["survivor_layout"] = self.survivor_layout.to_dict()
         return out
 
     @classmethod
@@ -642,7 +676,7 @@ class ScenarioConfig:
             required |= {"hazards", "p_false_positive", "recall_target"}
         if version >= 3:
             required |= {"comms"}
-        optional = {"base_position"} | ({"failures"} if version >= 3 else set())
+        optional = {"base_position"} | ({"failures", "survivor_layout"} if version >= 3 else set())
         _check_keys(d, "config", required, optional)
         base_raw = d.get("base_position")
         base: Position | None = None
@@ -673,6 +707,9 @@ class ScenarioConfig:
             recall_target=d.get("recall_target", 1.0),
             comms=None if d.get("comms") is None else CommsConfig.from_dict(d["comms"]),
             failures=None if d.get("failures") is None else FailureConfig.from_dict(d["failures"]),
+            survivor_layout=None
+            if d.get("survivor_layout") is None
+            else SurvivorLayout.from_dict(d["survivor_layout"]),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:
