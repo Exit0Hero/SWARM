@@ -8,7 +8,7 @@ built per agent and per episode by a :data:`PolicyFactory`, so no state leaks be
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
@@ -86,7 +86,10 @@ class MissionBrief:
     p_false_positive: float
     recall_target: float
     comms: CommsConfig | None = None
-    """Public channel parameters (range, loss, delay, bandwidth); ``None`` without a channel."""
+    """Public channel parameters (range, loss, delay, bandwidth); ``None`` without a channel.
+
+    Scheduled partitions are experimental conditions, not public knowledge: they are removed
+    (ADR-0021). The brief never mentions scheduled failures either."""
 
     @classmethod
     def from_config(cls, config: ScenarioConfig) -> MissionBrief:
@@ -102,7 +105,7 @@ class MissionBrief:
             p_detect=config.p_detect,
             p_false_positive=config.p_false_positive,
             recall_target=config.recall_target,
-            comms=config.comms,
+            comms=None if config.comms is None else replace(config.comms, partitions=()),
         )
 
     @property

@@ -176,3 +176,84 @@ def paired_difference(
         ci_low=None if ci is None else ci[0],
         ci_high=None if ci is None else ci[1],
     )
+
+
+# ----------------------------------------------------------------- hypothesis tests (M3.5)
+
+EXACT_SIGN_FLIP_MAX_N: Final[int] = 16
+
+
+def sign_flip_p_value(
+    differences: Sequence[float], *, resamples: int = 20_000, seed: int = 0
+) -> float | None:
+    """Two-sided paired randomization (sign-flip) test of a zero mean difference.
+
+    Under the null each per-seed difference is equally likely to have either sign. The statistic
+    is ``|mean|``. With at most :data:`EXACT_SIGN_FLIP_MAX_N` non-zero differences all sign
+    patterns are enumerated (exact); otherwise ``resamples`` patterns are drawn from
+    ``default_rng(seed)`` and ``p = (1 + #{stat >= observed}) / (1 + resamples)``, which is never
+    0. Returns ``None`` with no differences, and 1.0 when every difference is 0.
+    """
+    data = np.asarray(differences, dtype=np.float64)
+    if data.size == 0:
+        return None
+    observed = abs(float(data.mean()))
+    nonzero = data[data != 0.0]
+    if nonzero.size == 0:
+        return 1.0
+    tol = 1e-12 * max(1.0, observed)
+    n = data.size
+    if nonzero.size <= EXACT_SIGN_FLIP_MAX_N:
+        patterns = ((np.arange(2**nonzero.size)[:, None] >> np.arange(nonzero.size)) & 1) * 2 - 1
+        stats = np.abs((patterns * nonzero).sum(axis=1) / n)
+        return float(np.mean(stats >= observed - tol))
+    rng = np.random.default_rng(seed)
+    hits = 0
+    for start in range(0, resamples, _BLOCK):
+        rows = min(_BLOCK, resamples - start)
+        signs = rng.integers(0, 2, size=(rows, nonzero.size)) * 2 - 1
+        hits += int(np.sum(np.abs((signs * nonzero).sum(axis=1) / n) >= observed - tol))
+    return (1 + hits) / (1 + resamples)
+
+
+def holm_adjust(p_values: Sequence[float | None]) -> list[float | None]:
+    """Holm-Bonferroni adjusted p-values (family-wise error control), in input order.
+
+    ``None`` entries (untestable) are passed through and do not count towards the family size.
+    """
+    indexed = sorted((p, i) for i, p in enumerate(p_values) if p is not None)
+    m = len(indexed)
+    adjusted: list[float | None] = [None] * len(p_values)
+    running = 0.0
+    for rank, (p, i) in enumerate(indexed):
+        running = max(running, min(1.0, (m - rank) * p))
+        adjusted[i] = running
+    return adjusted
+
+
+def cohens_dz(differences: Sequence[float]) -> float | None:
+    """Standardized paired effect size: mean difference / sample SD of the differences.
+
+    ``None`` with fewer than two differences or zero spread.
+    """
+    data = np.asarray(differences, dtype=np.float64)
+    if data.size < 2:
+        return None
+    sd = float(data.std(ddof=1))
+    return float(data.mean()) / sd if sd > 0.0 else None
+
+
+def bh_adjust(p_values: Sequence[float | None]) -> list[float | None]:
+    """Benjamini-Hochberg adjusted p-values (false-discovery-rate control), in input order.
+
+    ``None`` entries are passed through and do not count towards the family size.
+    """
+    indexed = sorted((p, i) for i, p in enumerate(p_values) if p is not None)
+    m = len(indexed)
+    adjusted: list[float | None] = [None] * len(p_values)
+    running = 1.0
+    for rank in range(m - 1, -1, -1):
+        p, i = indexed[rank]
+        running = min(running, p * m / (rank + 1))
+        adjusted[i] = min(1.0, running)
+    return adjusted

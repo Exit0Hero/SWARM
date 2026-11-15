@@ -223,3 +223,15 @@ def test_traffic_metrics_count_overhead_and_delivery_rate() -> None:
     empty = compute_comm_metrics(config, scenario, [EpisodeEnd(3, "time_limit", False, True)])
     assert empty["message_delivery_rate"] is None
     assert empty["messages_sent"] == 0
+
+
+def test_the_mission_brief_hides_partition_schedules() -> None:
+    from swarm.policies.base import MissionBrief
+
+    comms = replace(COMMS, partitions=((1, 5, ("drone_0",)),))
+    config = replace(make_config(drones=1, grounds=2), comms=comms, failures=FailureConfig(1, 2, 3))
+    brief = MissionBrief.from_config(config)
+    assert brief.comms is not None
+    assert brief.comms.partitions == ()
+    assert brief.comms.ranges == COMMS.ranges
+    assert "failure" not in repr(brief).lower()
