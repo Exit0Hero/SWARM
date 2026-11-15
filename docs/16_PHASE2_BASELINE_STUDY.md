@@ -217,3 +217,8 @@ Paired time to recall target:
 - The decentralized policies still occasionally strand an agent (frontier 1 of 50 episodes; astar_waypoint 2 of 50),
   because the energy commit rule does not budget for waiting behind other agents.
 - `centralized_pooled` assumes perfect communication. Moving it into realistic communication is Phase 3.
+
+### Fresh-seed validation
+The corrected implementation was validated on fresh seeds 100–149 under a separate pre-registration: see
+`docs/17_PHASE2_VALIDATION_STUDY.md` (verdict: partially successful; 13 of 17 headline effects replicated, Q1 not
+established).

@@ -61,8 +61,8 @@ The file-level map of what was built is in `docs/02_SYSTEM_ARCHITECTURE.md` ("Im
 - Not in M2: dynamic hazards, localization noise, confirmation rules, communication, pathfinding, rewards.
 
 ## Phase 2 — Navigation and classical baselines
-Status: implemented, in review; PR #5 review corrections applied (ADR-0016 rules 15–16). Fresh-seed validation
-(seeds 100–149) pending. Design: ADR-0014 to ADR-0016. Study and results: `docs/16_PHASE2_BASELINE_STUDY.md`.
+Status: implemented and merged (PR #5, with review corrections, ADR-0016 rules 15–16). Fresh-seed validation
+(seeds 100–149, `docs/17_PHASE2_VALIDATION_STUDY.md`): partially successful, 13 of 17 headline effects replicated. Design: ADR-0014 to ADR-0016. Study and results: `docs/16_PHASE2_BASELINE_STUDY.md`.
 
 Acceptance:
 - A* per layer: known map, unknown cells impassable, Manhattan heuristic, deterministic tie-breaking. Separate
