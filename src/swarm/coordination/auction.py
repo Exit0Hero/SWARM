@@ -190,9 +190,16 @@ class ClaimTable:
 class LeaseAuction:
     """One agent's side of the auction: which sector it holds, and its claims."""
 
-    def __init__(self, owner: AgentId, *, honor_failures: bool = True) -> None:
+    def __init__(
+        self,
+        owner: AgentId,
+        *,
+        honor_failures: bool = True,
+        suspicion_steps: int = SUSPICION_STEPS,
+    ) -> None:
         self.owner = owner
         self.honor_failures = honor_failures
+        self.suspicion_steps = suspicion_steps
         self.lease: int | None = LEASE_STEPS if honor_failures else None
         self.table = ClaimTable()
         self.holding: int | None = None
@@ -268,10 +275,10 @@ class LeaseAuction:
 
     def _allowance(self, sector: int, holder: AgentId, now: int) -> int:
         """Incumbency allowance of a valid holder: steps since its claim was stamped, or 0 if the
-        holder is suspected (unheard for more than ``SUSPICION_STEPS``)."""
+        holder is suspected (unheard for more than ``suspicion_steps``)."""
         stamp = self.table.stamp(sector, holder)
         assert stamp is not None
         heard = max(stamp, self.table.last_heard(holder) or stamp)
-        if now - heard > SUSPICION_STEPS:
+        if now - heard > self.suspicion_steps:
             return 0
         return max(0, now - stamp)

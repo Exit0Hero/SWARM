@@ -27,9 +27,10 @@ truth when a numbered document in `docs/` and an ADR disagree; fix the document.
 | [0017](0017-communication-channel.md) | Communication channel in the environment | Accepted |
 | [0018](0018-belief-maps-and-information-sharing.md) | Belief maps and information sharing | Accepted |
 | [0019](0019-lease-based-auction.md) | Lease-based auction over search sectors | Accepted |
+| [0020](0020-failure-detection-and-reassignment.md) | Failure detection and reassignment metrics | Accepted |
 
 ADR-0001 to ADR-0010 were accepted on 2026-11-15 from the Phase 0 repository audit; ADR-0011 to ADR-0013 and
-ADR-0009 revision 2 with Phase 1 M2; ADR-0014 to ADR-0016 with Phase 2; ADR-0017 with Phase 3 M3.1 (it amends ADR-0005, 0006 and 0007); ADR-0018 with M3.2; ADR-0019 with M3.3. Parameter values
+ADR-0009 revision 2 with Phase 1 M2; ADR-0014 to ADR-0016 with Phase 2; ADR-0017 with Phase 3 M3.1 (it amends ADR-0005, 0006 and 0007); ADR-0018 with M3.2; ADR-0019 with M3.3; ADR-0020 with M3.4. Parameter values
 marked *default* are starting points that Phase 1 may tune without a new ADR. Changing a
 rule (not a default) requires a new ADR that supersedes the old one.
 
