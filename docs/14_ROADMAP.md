@@ -115,6 +115,8 @@ Acceptance: live and replay views, policy comparison views, and run summaries. T
 consumers of events and snapshots. A headless mode is preserved.
 
 ## Phase 7 — Research experiments and reporting
+Status: run and analysed, in review ([docs/20](20_PHASE7_FINAL_VALIDATION.md), paper draft [docs/21](21_RESEARCH_PAPER_DRAFT.md)). The
+user's directive calls this "Phase 5"; canonical numbering is kept.
 Acceptance: the research questions in [docs/06](06_MARL_RESEARCH_PLAN.md) run as pre-registered
 experiment configs. A reproducible report with methodology, confidence intervals and limitations.
 

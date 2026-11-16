@@ -1,6 +1,6 @@
 # Phase 7 Final Validation: pre-registration
 
-Status: **pre-registered**. This document and `configs/phase7/study.json` were committed before any run on
+Status: **complete** (run and analysed). This document and `configs/phase7/study.json` were committed before any run on
 evaluation seeds 500–549, and before the Phase 4 evaluation results (docs/19) were known. Results are appended
 under "Results".
 
@@ -82,4 +82,75 @@ python -m swarm.experiments.scalability --config configs/phase3/nominal.json \
 - **Simulation only:** no claim about real operations.
 
 ## Results
-Not yet run.
+
+### Provenance
+- Every cell ran at commit `75f5cd5` (clean tree). That commit is the pre-registration plus the
+  merged Phase 4 models.
+- The run was interrupted once by an environment shutdown after 31 of 137 cells. It was resumed
+  with `--resume`, which skips only finished cells with the same config hash and seeds. Episodes
+  are deterministic, so the interruption cannot change any result.
+- 137 cells × 50 seeds = 6 850 episodes. All completed, with no crash.
+- Files: `docs/results/phase7/runs.tar.gz`, `analysis.json`, `results.md`, `figures/` and
+  `scalability.json`.
+- Not tested: 144 exploratory "condition vs nominal" comparisons that cannot be paired, because the
+  map or team differs (listed in `analysis.json`). No confirmatory test was affected.
+
+### Confirmatory verdicts (54 tests, Holm)
+| Family | Supported / detected | Inconclusive | Contradicted |
+|---|---|---|---|
+| C: `frontier` → `frontier_shared` (belief sharing) | 17 / 17 | 0 | 0 |
+| A: `frontier_shared` → `auction_comm` (auction allocation) | 7 / 17 | 10 | 0 |
+| L: `frontier_shared` → `mappo` (learned allocation, two-sided) | 1 / 17 | 16 | 0 |
+| R: reassignment, `unresolved_sectors` (fail_1_early, fail_2_early) | 0 / 2 | 2 | 0 |
+| S: auction, `mission_success` at recall target 1.0 | 0 / 1 | 1 | 0 |
+
+Details in steps (lower is faster); intervals are 95% bootstrap:
+- **C: sharing helps everywhere.** Reductions range from −12.9 steps (`comms_poor`) to −125.7 to
+  −91.7 (`map_30`, interval). At nominal: 92.0 → 48.0.
+- **A: the auction's advantage is clear where communication or team size makes allocation
+  matter.**
+  - Supported: nominal −11.9 [−16.5, −7.3]; `obstacles_low` −27.7; `comms_poor` −30.4; `team_3x3`
+    −11.6; `team_4x4` −13.9; `hazards_none` −12.0; `hazards_high` −10.0.
+  - Inconclusive on larger maps (`map_30` −2.6 [−24.4, +21.1]), with high obstacle density
+    (−1.0), with early failures, and with a 1 + 1 team.
+  - All A point estimates favour the auction. None is contradicted.
+- **L: no detectable difference** between learned allocation and belief sharing in 16 of 17
+  conditions. The one exception is `obstacles_low`, where MAPPO was faster: −13.6 [−19.4, −7.9].
+  MAPPO was trained only at nominal, so 16 conditions are out of distribution.
+- **R: reassignment did not survive the correction.** Unresolved sectors fell from 0.80 to 0.66
+  and from 1.46 to 1.28, with intervals excluding 0 (unadjusted). After Holm across 54 tests both
+  are inconclusive. Study B of docs/18 (B2) had detected this effect with a 6-test family.
+- **S: with full recall required, success stays saturated.** 0.98 vs 0.96 [−0.08, +0.04] at time
+  limit 200. Question 3 cannot be answered on this scenario, because the time limit is generous
+  enough for every coordinated policy.
+
+### Scale and generalization (descriptive)
+- **Success.** At map 40 (time limit 400), success falls to:
+  - 0.02 for `frontier`;
+  - about 0.45 for `frontier_shared`, `auction_comm` and `mappo`;
+  - 0.78 for centralized `assignment`.
+
+  This is the clearest gap between communication-limited and centralized coordination in the
+  project.
+- **Team size.** Larger teams help the auction most: 36 → 26 → 22 steps for 2 + 2, 3 + 3 and
+  4 + 4 agents.
+- **Runtime (`scalability.json`, development seeds, one machine).**
+  - `auction_comm` costs 1.9 ms per step for a team of 1 + 1 and 38 ms for 8 + 8. Growth with team
+    size is superlinear: claim tables and record sharing are pairwise.
+  - Map size matters less: 5 ms per step at 20 × 20 and 13 ms at 60 × 60.
+  - Profiling hotspots are policy-side (target selection and belief merging), not the
+    environment.
+
+### Conclusions (simulation only, these scenarios)
+1. **Belief sharing is the single most robust improvement.** It was supported in all 17
+   conditions.
+2. **The lease auction adds a further, frequent speedup.** It was supported in 7 of 17
+   conditions, and the point estimate favours it in all 17. The benefit is largest under poor
+   communication and with larger teams. It was not shown on larger maps or under early failures.
+3. **The learned allocator (MAPPO, small CPU budget) matches belief sharing but not the auction.**
+   - It generalizes without collapse to unseen maps, teams and faults.
+   - It did not outperform the classical methods, apart from one condition.
+4. **Failure reassignment reclaims sectors**, but the effect is small and only detectable in a
+   focused test.
+5. **Centralized pooled assignment remains the upper reference among non-oracle policies.** The
+   gap grows with map size.
