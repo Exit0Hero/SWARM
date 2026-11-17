@@ -59,7 +59,7 @@ That question is coordination: who searches where.
 5. **Reward** (`swarm.learning.rewards`).
    - The team reward is shared by all agents.
    - Components are logged separately: first true survivor detection +1, new sensed cell +0.01,
-     step −0.01, agent lost to energy or hazard −1, hazard exposure −0.1, mission success +2.
+     step −0.05, agent lost to energy or hazard −1, hazard exposure −0.1, mission success +2.
    - The module docstring lists the exploit each component could invite and the metric that would
      reveal it.
    - The survivor term uses the evaluator's true-positive flag as a training signal only.
@@ -76,6 +76,15 @@ That question is coordination: who searches where.
    - Training scenario seeds are drawn from 10 000–59 999.
    - Checkpoint selection uses validation seeds 3000–3019.
    - Evaluation seeds are fixed in each study's pre-registration and are disjoint from both.
+
+9. **Hyperparameters.**
+   - Fixed before any evaluation: PPO with learning rate 5e-4, 8 epochs, minibatch 128, 16
+     episodes per update, γ = 0.99 per decision epoch, GAE λ = 0.95, clip 0.2, entropy 0.01,
+     two tanh layers of 64 units.
+   - Set from two development runs on seeds 1000–1019. The first run used −0.01 per step, 4
+     epochs and learning rate 3e-4, and its policy barely moved, because the speed signal was
+     tiny next to the detection terms.
+   - No search was run on validation or evaluation seeds.
 
 ## Alternatives considered
 - *Primitive-action MARL.* The adapter exists (`SwarmParallelEnv`, passes the API test) for future

@@ -19,8 +19,8 @@ not control real aircraft or robots, and it is not validated for real disaster o
 | Phase 3 M3.3: lease-based auction over 4×4 sectors (`auction_comm`, `auction_no_reassign` control; ADR-0019) | Complete (merged) |
 | Phase 3 M3.4: failure detection (active / disconnected / suspected / disabled) and failure, reassignment and duplicate-ownership metrics (ADR-0020) | Complete (merged) |
 | Phase 3 M3.5: scheduled failures and partitions (ADR-0021), study runner, pre-registered coordination study (4 450 episodes) and replay viewer | Complete (merged). Sharing and auction coordination speed up search; reassignment reclaims sectors but did not speed up the mission. See `docs/18_PHASE3_COORDINATION_STUDY.md` |
-| Phase 4 M4.1: learned sector-selection agent, event-based reward, PettingZoo adapters (optional `learning` extra; ADR-0022) | In review |
-| Phase 4 training and evaluation; Phase 7 final validation | Planned (Phases 5 perception and 6 dashboard deferred) |
+| Phase 4: learned sector selection with IPPO/MAPPO (optional `learning` extra; ADR-0022), nine trained models, pre-registered evaluation | In review. MAPPO beats belief sharing alone (−7 steps) but is slower than the lease auction (+6 steps) at this small training budget. See `docs/19_PHASE4_MARL_STUDY.md` |
+| Phase 7 final validation (directive "Phase 5"): 17 conditions × 8 policies, 6 850 episodes, scalability; paper draft | Run, in review. See `docs/20_PHASE7_FINAL_VALIDATION.md` and `docs/21_RESEARCH_PAPER_DRAFT.md`. Phases 5 and 6 deferred |
 | 3D feasibility (Phase 8) | Planned |
 
 **Policies** (`python -m swarm.experiments.run_episode --policy <name>`):

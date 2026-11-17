@@ -168,7 +168,11 @@ def render(analysis: dict[str, Any]) -> str:
             f"{_fmt(r['cohens_dz'], 2)} | {r['p_adjusted_bh']:.4f} |"
         )
     out += ["", "## Runtime (wall clock, single process; not deterministic)", ""]
-    times = [v["metrics"]["runtime_seconds_per_episode"]["mean"] for v in s.values()]
+    times = [
+        v["metrics"]["runtime_seconds_per_episode"]["mean"]
+        for v in s.values()
+        if "runtime_seconds_per_episode" in v["metrics"]
+    ]
     out.append(
         f"Mean seconds per episode across cells: {min(times):.3f} to {max(times):.3f} "
         f"(median {sorted(times)[len(times) // 2]:.3f})."

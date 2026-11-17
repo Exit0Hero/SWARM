@@ -9,8 +9,9 @@ Components (default weight; the exploit each could invite; the metric that would
   detections earn nothing. Revealed by recall and precision.
 - ``coverage`` (+0.01 per footprint cell the team senses for the first time). Could reward
   sweeping open area instead of finishing the search. Revealed by recall versus coverage_sensed.
-- ``time`` (-0.01 per primitive step). Could reward ending episodes early by losing agents.
-  Revealed by agents_disabled.
+- ``time`` (-0.05 per primitive step; at -0.01 the speed signal was negligible next to the
+  detection terms in development runs on seeds 1000-1019). Could reward ending episodes early
+  by losing agents. Revealed by agents_disabled.
 - ``disabled`` (-1.0 per agent disabled by energy or a hazard; injected failures are excluded).
   The counterweight to ``time``.
 - ``hazard`` (-0.1 per hazard exposure event).
@@ -42,7 +43,7 @@ COMPONENTS: Final[tuple[str, ...]] = (
 DEFAULT_WEIGHTS: Final[dict[str, float]] = {
     "survivor": 1.0,
     "coverage": 0.01,
-    "time": -0.01,
+    "time": -0.05,
     "disabled": -1.0,
     "hazard": -0.1,
     "success": 2.0,

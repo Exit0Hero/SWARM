@@ -17,6 +17,9 @@ Confirmatory hypotheses are Holm-adjusted as one family. Their verdicts:
 - *inconclusive*: otherwise.
 
 Exploratory comparisons are Benjamini-Hochberg adjusted as one family and are descriptive only.
+An exploratory comparison against nominal whose condition changes the scenario itself (for
+example the map size) cannot be paired by seed; it is listed under ``exploratory_not_pairable``
+instead of being tested. Confirmatory comparisons always raise on a pairing mismatch.
 
 ``time_censored`` is derived: ``time_to_recall_target`` for successful episodes, otherwise
 ``time_limit + 1`` (a pre-registered, conservative penalty for not reaching the target).
@@ -32,6 +35,7 @@ Example::
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import json
 import sys
 from collections.abc import Sequence
@@ -117,18 +121,55 @@ class StudyData:
                     raise ValueError(f"{c.id}/{p}: result seeds do not match the spec")
                 self._cells[(c.id, p)] = record
 
+        # Pooled policies (Phase 4): one value per scenario seed, the mean over member policies
+        # (for example, one learned policy per training seed). Undefined if any member is.
+        self.pooled: dict[str, list[str]] = dict(study.raw.get("pooled_policies", {}))
+
+    def available(self, cid: str, policy: str) -> bool:
+        """Whether ``policy`` (or every member of a pooled policy) ran in condition ``cid``."""
+        return all((cid, m) in self._cells for m in self.pooled.get(policy, [policy]))
+
+    def members(self, cid: str, policy: str) -> list[str]:
+        if policy not in self.pooled:
+            return [policy]
+        members = self.pooled[policy]
+        missing = [m for m in members if (cid, m) not in self._cells]
+        if missing:
+            raise ValueError(f"pooled policy {policy}: no {cid} results for {missing}")
+        return members
+
     def cell(self, cid: str, policy: str) -> dict[str, Any]:
         return self._cells[(cid, policy)]
 
     def values(self, cid: str, policy: str, metric: str) -> list[Any]:
         limit = self.study.condition(cid).config.time_limit
-        return [_value(ep, metric, limit) for ep in self.cell(cid, policy)["episodes"]]
+        columns = [
+            [_value(ep, metric, limit) for ep in self.cell(cid, m)["episodes"]]
+            for m in self.members(cid, policy)
+        ]
+        if len(columns) == 1:
+            return columns[0]
+        return [
+            None if any(v is None for v in row) else float(np.mean([float(v) for v in row]))
+            for row in zip(*columns, strict=True)
+        ]
 
     def failed(self, cid: str, policy: str) -> int:
-        return sum(ep["status"] != "completed" for ep in self.cell(cid, policy)["episodes"])
+        return sum(
+            ep["status"] != "completed"
+            for m in self.members(cid, policy)
+            for ep in self.cell(cid, m)["episodes"]
+        )
 
     def scenarios(self, cid: str, policy: str) -> list[str | None]:
-        return [ep["scenario_sha256"] for ep in self.cell(cid, policy)["episodes"]]
+        columns = [
+            [ep["scenario_sha256"] for ep in self.cell(cid, m)["episodes"]]
+            for m in self.members(cid, policy)
+        ]
+        for col in columns[1:]:
+            if col != columns[0]:
+                raise PairingError(f"pooled policy {policy}: members ran different scenarios")
+        return columns[0]
 
 
 def compare(
@@ -224,17 +265,17 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
         r["practical"] = practical(r, thresholds.get(r["metric"]))
 
     exploratory = []
+    skipped: list[dict[str, Any]] = []
     ex = raw.get("exploratory", {})
     for c in study.conditions:
         if c.id == "nominal":
             continue
         for policy in ex.get("vs_nominal_policies", []):
-            if policy not in c.policies:
+            if not data.available(c.id, policy):
                 continue
             for metric in ex.get("vs_nominal_metrics", []):
-                exploratory.append(
-                    {"kind": "vs_nominal"}
-                    | compare(
+                try:
+                    result = compare(
                         data,
                         ["nominal", policy],
                         [c.id, policy],
@@ -243,10 +284,22 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
                         resamples=resamples,
                         perm_seed=perm_seed,
                     )
-                )
+                except PairingError as exc:
+                    # A condition that changes the scenario itself (map size, terrain, survivors)
+                    # cannot be paired with nominal by seed: recorded, not tested.
+                    skipped.append(
+                        {
+                            "a": ["nominal", policy],
+                            "b": [c.id, policy],
+                            "metric": metric,
+                            "reason": str(exc),
+                        }
+                    )
+                    continue
+                exploratory.append({"kind": "vs_nominal"} | result)
     for c in study.conditions:
         for pa, pb in ex.get("pairs", []):
-            if pa not in c.policies or pb not in c.policies:
+            if not (data.available(c.id, pa) and data.available(c.id, pb)):
                 continue
             for metric in ex.get("pair_metrics", []):
                 exploratory.append(
@@ -300,6 +353,22 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
                 "end_reasons": cell["end_reasons"],
                 "metrics": per_metric,
             }
+        for pooled, members in data.pooled.items():
+            if not all(m in c.policies for m in members):
+                continue
+            per_metric = {}
+            for metric in ("time_censored", "mission_success", "recall", "energy_used"):
+                values = [v for v in data.values(c.id, pooled, metric) if v is not None]
+                per_metric[metric] = summarize(
+                    values, n_failed=data.failed(c.id, pooled), spec=spec, metric=metric
+                ).to_dict()
+            summaries[f"{c.id}/{pooled}"] = {
+                "condition": c.id,
+                "policy": pooled,
+                "pooled_members": members,
+                "n_failed": data.failed(c.id, pooled),
+                "metrics": per_metric,
+            }
     return {
         "study": study.name,
         "seeds": list(study.seeds),
@@ -315,6 +384,7 @@ def analyze(study: Study, runs: Path) -> dict[str, Any]:
         "corrections": {"confirmatory": "Holm", "exploratory": "Benjamini-Hochberg"},
         "confirmatory": confirmatory,
         "exploratory": exploratory,
+        "exploratory_not_pairable": skipped,
         "summaries": summaries,
     }
 
@@ -329,12 +399,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         study = load_study(args.spec)
         if args.seeds is not None:
-            study = Study(
-                study.name,
-                tuple(parse_seeds(args.seeds)),
-                "development",
-                study.conditions,
-                study.raw,
+            study = dataclasses.replace(
+                study, seeds=tuple(parse_seeds(args.seeds)), designation="development"
             )
         result = analyze(study, args.runs)
     except (OSError, ValueError, KeyError) as exc:

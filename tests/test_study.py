@@ -156,13 +156,77 @@ def test_verdict_rule(diff: float, p: float, expected: str, outcome: str) -> Non
     assert verdict({"mean_difference": diff, "p_adjusted": p}, expected, 0.05) == outcome
 
 
-@pytest.mark.parametrize(("name", "first"), [("study.json", 200), ("study_b.json", 300)])
-def test_the_phase3_specs_load_with_their_evaluation_seeds(name: str, first: int) -> None:
-    study = load_study(ROOT / "configs" / "phase3" / name)
+@pytest.mark.parametrize(
+    ("name", "first"),
+    [("phase3/study.json", 200), ("phase3/study_b.json", 300), ("phase4/study.json", 400)],
+)
+def test_the_study_specs_load_with_their_evaluation_seeds(name: str, first: int) -> None:
+    study = load_study(ROOT / "configs" / name)
     assert study.seeds == tuple(range(first, first + 50))
     assert study.designation == "evaluation"
     oracle = [c for c in study.conditions if "assignment_oracle" in c.policies]
     assert [c.id for c in oracle] in (["nominal"], [])
     for h in study.raw["hypotheses"]:
         for cid, policy in (h["a"], h["b"]):
-            assert policy in study.condition(cid).policies
+            members = study.raw.get("pooled_policies", {}).get(policy, [policy])
+            assert all(m in study.condition(cid).policies for m in members)
+
+
+def test_learned_policies_run_through_the_study(tmp_path: Path) -> None:
+    import numpy as np
+
+    from swarm.learning.sector import N_ACTIONS, OBS_SIZE
+
+    run = tmp_path / "run"
+    run.mkdir()
+    rng = np.random.default_rng(0)
+    np.savez(
+        run / "best_actor.npz", w0=rng.normal(size=(OBS_SIZE, N_ACTIONS)), b0=np.zeros(N_ACTIONS)
+    )
+    (run / "model.json").write_text(json.dumps({"best": {"mode": "sampled", "update": 1}}))
+    spec = _spec(tmp_path, learned_policies={"learned_x": "run"})
+    raw = json.loads(spec.read_text())
+    raw["conditions"][0]["policies"].append("learned_x")
+    spec.write_text(json.dumps(raw))
+    study = load_study(spec)
+    assert study.learned["learned_x"].sample
+    out = tmp_path / "runs"
+    assert run_study(study, out, jobs=2)
+    record = json.loads((out / "nominal" / "learned_x.json").read_text())
+    assert record["policy"]["name"] == "learned_x"
+    clash = _spec(tmp_path, learned_policies={"frontier": "run"})
+    with pytest.raises(ValueError, match="clashes"):
+        load_study(clash)
+
+
+def test_pooled_policies_average_members_per_seed(tmp_path: Path) -> None:
+    from swarm.experiments.study_analysis import StudyData
+
+    spec = _spec(tmp_path, pooled_policies={"pool": ["frontier", "auction_comm"]})
+    raw = json.loads(spec.read_text())
+    raw["hypotheses"].append(
+        {
+            "id": "H2",
+            "a": ["nominal", "frontier"],
+            "b": ["nominal", "pool"],
+            "metric": "time_censored",
+            "expected": "two-sided",
+        }
+    )
+    spec.write_text(json.dumps(raw))
+    study = load_study(spec)
+    out = tmp_path / "runs"
+    run_study(study, out)
+    data = StudyData(study, out)
+    a = data.values("nominal", "frontier", "time_censored")
+    b = data.values("nominal", "auction_comm", "time_censored")
+    assert data.values("nominal", "pool", "time_censored") == [
+        (x + y) / 2 for x, y in zip(a, b, strict=True)
+    ]
+    assert data.available("nominal", "pool")
+    assert not data.available("lossy", "pool")
+    result = analyze(study, out)
+    assert result["confirmatory"][1]["n_pairs"] == 3
+    assert result["summaries"]["nominal/pool"]["pooled_members"] == ["frontier", "auction_comm"]
+    with pytest.raises(ValueError, match="no lossy results"):
+        data.values("lossy", "pool", "recall")
