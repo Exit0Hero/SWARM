@@ -1,0 +1,72 @@
+{
+ "swarm_version": "0.1.0",
+ "commit": "5fe1b56",
+ "kind": "prerecorded",
+ "note": "Episodes were run ahead of time with the SWARM simulator and are replayed in the browser. Nothing on this site runs a simulation.",
+ "episodes": [
+  {
+   "id": "coordinated",
+   "title": "Coordinated search",
+   "config": "basic",
+   "policy": "auction_comm",
+   "summary": "Two drones and two ground robots share belief maps and divide the map into sectors with a lease auction, over a channel with an 8 / 5 cell range.",
+   "seed": 1000,
+   "config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+   "event_stream_sha256": "272c3b002de4e90edb2597604a23e0fb9710154431ddf526e542adfb6785a509",
+   "steps": 60,
+   "end_reason": "mission_success",
+   "recall": 0.75,
+   "time_to_recall_target": 60,
+   "agents_disabled": 1,
+   "file": "episode-coordinated.json"
+  },
+  {
+   "id": "independent",
+   "title": "Independent search",
+   "config": "basic",
+   "policy": "frontier",
+   "summary": "Same map and seed, but every robot explores on its own information only. Compare the time to the recall target with the coordinated run.",
+   "seed": 1000,
+   "config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+   "event_stream_sha256": "d3237486c90c67d5f76b170db4fb2211b471378d2c82623e57af1e3dab5897fb",
+   "steps": 102,
+   "end_reason": "mission_success",
+   "recall": 0.75,
+   "time_to_recall_target": 102,
+   "agents_disabled": 1,
+   "file": "episode-independent.json"
+  },
+  {
+   "id": "faults",
+   "title": "Faults and noisy sensing",
+   "config": "advanced",
+   "policy": "auction_comm",
+   "summary": "20% message loss, 1-step latency with jitter, two scheduled robot failures, more hazards and a noisy sensor that misreads terrain and hazards.",
+   "seed": 1000,
+   "config_hash": "7189601979d65689aef3892cc636f06940c0e2d338e6441789dbcfd5cd235d99",
+   "event_stream_sha256": "20d1c0a99cbf72607d353e339dd9798095d309d63836f04e5e88d5b7a54ba3ca",
+   "steps": 163,
+   "end_reason": "mission_success",
+   "recall": 0.75,
+   "time_to_recall_target": 163,
+   "agents_disabled": 3,
+   "file": "episode-faults.json"
+  },
+  {
+   "id": "learned",
+   "title": "Learned allocation (MAPPO)",
+   "config": "basic",
+   "policy": "learned:mappo_s0",
+   "summary": "A sector-selection policy trained with MAPPO (Phase 4), run with NumPy inference. Same map and seed as the coordinated run.",
+   "seed": 1000,
+   "config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+   "event_stream_sha256": "560258d6402ca81bf5c1be1dac083d71ea800fb265020227c1922900a70a3be3",
+   "steps": 70,
+   "end_reason": "mission_success",
+   "recall": 0.75,
+   "time_to_recall_target": 70,
+   "agents_disabled": 1,
+   "file": "episode-learned.json"
+  }
+ ]
+}

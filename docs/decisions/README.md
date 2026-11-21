@@ -35,6 +35,7 @@ truth when a numbered document in `docs/` and an ADR disagree; fix the document.
 | [0025](0025-perception-model.md) | Replaceable perception model | Accepted |
 | [0026](0026-dashboard.md) | Dashboard: standard-library server over the real runner | Accepted |
 | [0027](0027-3d-kinematic-co-simulation.md) | 3D kinematic co-simulation and visualization (supersedes part of 0024) | Accepted |
+| [0028](0028-public-website.md) | Public website: static, read-only showcase on Vercel | Accepted |
 
 ADR-0001 to ADR-0010 were accepted on 2026-11-15 from the Phase 0 repository audit; ADR-0011 to ADR-0013 and
 ADR-0009 revision 2 with Phase 1 M2; ADR-0014 to ADR-0016 with Phase 2; ADR-0017 with Phase 3 M3.1 (it amends ADR-0005, 0006 and 0007); ADR-0018 with M3.2; ADR-0019 with M3.3; ADR-0020 with M3.4; ADR-0021 with M3.5; ADR-0022 with Phase 4; ADR-0023 with Phase 7. Parameter values
