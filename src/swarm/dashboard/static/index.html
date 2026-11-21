@@ -87,6 +87,12 @@
       <input id="scrub" type="range" min="0" value="0"><span id="stepLbl" class="note"></span>
       <select id="speed"><option value="400">slow</option><option value="150" selected>normal</option><option value="40">fast</option></select>
     </div>
+    <div class="controls">
+      <button id="view2d" class="primary">2D map</button><button id="view3d">3D view</button>
+      <span id="ctl3d" style="display:none" class="note">yaw <input id="yaw" type="range" min="0" max="359" value="35" style="width:110px">
+        pitch <input id="pitch" type="range" min="15" max="85" value="40" style="width:90px"></span>
+    </div>
+    <div id="info3d" class="note"></div>
     <div class="controls legend">
       <label style="margin:0"><input type="checkbox" id="showTruth" checked> survivors (ground truth)</label>
       <label style="margin:0"><input type="checkbox" id="showRadius" checked> sensor range</label>
@@ -227,8 +233,29 @@ $("btnRun").onclick = async () => {
   catch (e) { say("simMsg", e.message, true); }
   finally { $("btnRun").disabled = false; status(""); }
 };
+let view = "2d", scene = null;
+function setView(v) {
+  view = v; $("view2d").classList.toggle("primary", v === "2d"); $("view3d").classList.toggle("primary", v === "3d");
+  $("ctl3d").style.display = v === "3d" ? "" : "none"; if (run) draw();
+}
+$("view2d").onclick = () => setView("2d");
+$("view3d").onclick = async () => {
+  if (!run) return say("simMsg", "Run or open an episode first.", true);
+  if (!scene || scene.id !== run.id) {
+    status("building 3D scene…");
+    try { const s = await api(`/api/runs/${run.id}/scene3d`); scene = { id: run.id, ...s }; }
+    catch (e) { status(""); return say("simMsg", e.message, true); }
+    status("");
+    const a = scene.analysis;
+    $("info3d").textContent = a.unavailable ? `3D view from the recorded episode. ${a.unavailable}.` :
+      `3D kinematic co-simulation (${a.engine}): ${a.boxes} obstacle boxes, ${a.contacts} robot–obstacle contacts, ` +
+      `${a.reports_occluded} of ${a.reports_checked} detection reports would be blocked for a line-of-sight sensor. Not a flight-dynamics model.`;
+  }
+  setView("3d");
+};
+["yaw","pitch"].forEach((id) => $(id).oninput = () => run && view === "3d" && draw());
 function load(r) {
-  run = r; frame = 0; stop();
+  run = r; frame = 0; stop(); scene = null; $("info3d").textContent = ""; if (view === "3d") setView("2d");
   $("scrub").max = r.frames.length - 1;
   $("runLabel").textContent = `${r.policy}, seed ${r.seed}, run ${r.id}`;
   const all = { ...r.metrics, ...r.extension_metrics };
@@ -253,7 +280,47 @@ document.querySelectorAll("[data-export]").forEach((b) => b.onclick = () => {
 
 const TERRAIN = { 0: null, 1: "#d9d7cf", 2: "#52514e", 3: "#cde2fb" };
 const AGENT_COLORS = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#6250d6","#a0522d"];
+function draw3d() {
+  const f = run.frames[frame], s = scene.scene, cv = $("map"), g = cv.getContext("2d");
+  const [h, w] = s.shape, yaw = +$("yaw").value * Math.PI / 180, pitch = +$("pitch").value * Math.PI / 180;
+  cv.width = 640; cv.height = 520;
+  const css = getComputedStyle(document.body); g.fillStyle = css.getPropertyValue("--panel"); g.fillRect(0, 0, cv.width, cv.height);
+  const cx0 = w / 2, cy0 = h / 2, scale = 1.25 * Math.min(cv.width, cv.height) / Math.hypot(w, h);
+  const P = (x, y, z) => { const dx = x - cx0, dy = y - cy0, rx = dx * Math.cos(yaw) - dy * Math.sin(yaw), ry = dx * Math.sin(yaw) + dy * Math.cos(yaw);
+    return [cv.width / 2 + rx * scale, cv.height * 0.55 + (ry * Math.sin(pitch) - z * Math.cos(pitch)) * scale, ry * Math.cos(pitch) + z * Math.sin(pitch)]; };
+  const poly = (pts, fill, stroke) => { g.beginPath(); pts.forEach(([x, y], k) => k ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath();
+    g.fillStyle = fill; g.fill(); if (stroke) { g.strokeStyle = stroke; g.lineWidth = 0.6; g.stroke(); } };
+  poly([P(-.5, -.5, 0), P(w - .5, -.5, 0), P(w - .5, h - .5, 0), P(-.5, h - .5, 0)], "#efeee9", "#d6d5cf");
+  s.hazards.forEach(([x, y]) => poly([P(x - .5, y - .5, 0), P(x + .5, y - .5, 0), P(x + .5, y + .5, 0), P(x - .5, y + .5, 0)], "#f3b9b0cc"));
+  poly([P(s.base[0] - .5, s.base[1] - .5, 0), P(s.base[0] + .5, s.base[1] - .5, 0), P(s.base[0] + .5, s.base[1] + .5, 0), P(s.base[0] - .5, s.base[1] + .5, 0)], "#9cc4f0");
+  const items = [];
+  s.boxes.forEach((b) => items.push({ depth: P(b.x, b.y, b.h / 2)[2], draw: () => {
+    const c = b.kind === "structure" ? ["#6b6a66", "#52514e", "#8a8985"] : ["#d9d7cf", "#c8c6bd", "#e6e4dc"];
+    const v = [[-.5, -.5], [.5, -.5], [.5, .5], [-.5, .5]].map(([dx, dy]) => [b.x + dx, b.y + dy]);
+    for (let k = 0; k < 4; k++) { const a = v[k], bb = v[(k + 1) % 4];
+      poly([P(a[0], a[1], 0), P(bb[0], bb[1], 0), P(bb[0], bb[1], b.h), P(a[0], a[1], b.h)], c[k % 2], "#00000022"); }
+    poly(v.map(([x, y]) => P(x, y, b.h)), c[2], "#00000033"); } }));
+  if ($("showTruth").checked) s.survivors_ground_truth.forEach(([x, y]) => items.push({ depth: P(x, y, 0.1)[2], draw: () => {
+    const [px, py] = P(x, y, 0.1); g.strokeStyle = css.getPropertyValue("--ink"); star(g, px, py, 6); } }));
+  const color = {}; f.agents.forEach((a, k) => color[a.id] = AGENT_COLORS[k % AGENT_COLORS.length]);
+  Object.entries(s.tracks).forEach(([aid, tr]) => {
+    const pts = tr.points.slice(0, frame + 1), [x, y, z] = pts[pts.length - 1];
+    if ($("showTrails").checked) items.push({ depth: -1e9, draw: () => { g.strokeStyle = color[aid] + "88"; g.lineWidth = 2; g.beginPath();
+      pts.forEach((p, k) => { const [px, py] = P(...p); k ? g.lineTo(px, py) : g.moveTo(px, py); }); g.stroke(); } });
+    items.push({ depth: P(x, y, z)[2] + 0.01, draw: () => {
+      const [px, py] = P(x, y, z), [gx, gy] = P(x, y, 0), dead = tr.disabled_at !== null && frame >= tr.disabled_at;
+      g.strokeStyle = "#00000044"; g.setLineDash([2, 2]); g.beginPath(); g.moveTo(px, py); g.lineTo(gx, gy); g.stroke(); g.setLineDash([]);
+      g.fillStyle = dead ? "#777" : color[aid]; g.beginPath();
+      if (tr.layer === "air") { g.moveTo(px, py - 8); g.lineTo(px + 8, py + 6); g.lineTo(px - 8, py + 6); } else g.rect(px - 6, py - 6, 12, 12);
+      g.fill(); g.fillStyle = css.getPropertyValue("--ink"); g.font = "11px system-ui"; g.fillText(aid + (dead ? " ✕" : ""), px + 9, py - 6); } });
+  });
+  if ($("showMsgs").checked) f.messages.forEach((m) => { const a = s.tracks[m.sender].points[frame];
+    m.recipients.forEach((rid) => { const b = s.tracks[rid].points[frame]; items.push({ depth: 1e9, draw: () => {
+      const [x1, y1] = P(...a), [x2, y2] = P(...b); g.strokeStyle = "#6250d6aa"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); } }); }); });
+  items.sort((p, q) => p.depth - q.depth).forEach((i) => i.draw());  // far first (painter's algorithm)
+}
 function draw() {
+  if (view === "3d" && scene && scene.id === run.id) { draw3d(); return panels(); }
   const f = run.frames[frame], sc = run.scenario, cv = $("map"), g = cv.getContext("2d");
   const [h, w] = sc.shape, cell = Math.floor(Math.min(560 / w, 560 / h));
   cv.width = w * cell; cv.height = h * cell;
@@ -286,6 +353,11 @@ function draw() {
     if (a.layer === "air") { g.moveTo(x, y - s); g.lineTo(x + s, y + s); g.lineTo(x - s, y + s); } else g.rect(x - s * 0.8, y - s * 0.8, s * 1.6, s * 1.6);
     g.fill();
     if (!a.active) { g.strokeStyle = "#000"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(x - s, y - s); g.lineTo(x + s, y + s); g.moveTo(x + s, y - s); g.lineTo(x - s, y + s); g.stroke(); } });
+  panels();
+}
+function panels() {
+  const f = run.frames[frame], sc = run.scenario, color = {};
+  f.agents.forEach((a, k) => color[a.id] = AGENT_COLORS[k % AGENT_COLORS.length]);
   $("scrub").value = frame; $("stepLbl").textContent = `step ${f.step} / ${run.steps}`;
   const total = sc.survivors_ground_truth.length, limit = run.config.time_limit;
   $("mission").innerHTML = `Step <b>${f.step}</b> of ${limit} (episode ended at ${run.steps}: ${run.end_reason}).<br>

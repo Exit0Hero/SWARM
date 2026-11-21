@@ -199,3 +199,15 @@ def test_trained_marl_actors_run_through_the_dashboard() -> None:
     plain = run_episode(_config(), learned["learned:mappo_s0"], 5, designation="development")
     assert record["event_stream_sha256"] == plain.event_stream_sha256
     assert service.learned_catalog(ROOT / "no-such-dir") == {}
+
+
+def test_scene3d_endpoint_returns_the_recorded_tracks(tmp_path: Path) -> None:
+    store = Store(tmp_path)
+    record = service.record_episode(_config(), "frontier", 2)
+    store.save(record)
+    out = service.scene3d(store.load("runs", record["id"]))
+    tracks = out["scene"]["tracks"]
+    assert set(tracks) == {a["id"] for a in record["frames"][0]["agents"]}
+    assert all(len(t["points"]) == len(record["frames"]) for t in tracks.values())
+    analysis = out["analysis"]
+    assert "unavailable" in analysis or analysis["contacts"] == 0

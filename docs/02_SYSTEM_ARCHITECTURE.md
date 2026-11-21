@@ -31,7 +31,11 @@ Visualization / Analysis
 - `swarm.policies`: random, greedy, heuristic, learned policy adapters.
 - `swarm.learning`: training adapters and algorithms.
 - `swarm.evaluation`: metrics, benchmark suites, statistical summaries.
-- `swarm.visualization`: optional rendering and dashboard.
+- `swarm.visualization`: optional rendering (replay viewer, text renderer).
+- `swarm.core.perception`: replaceable sensor models (ADR-0025), used only by the environment.
+- `swarm.dashboard`: standard-library web dashboard (ADR-0026). A consumer of the runner, the experiment tools and
+  `env.snapshot()`; it never simulates.
+- `swarm.sim3d`: 3D scenes and optional MuJoCo co-simulation (ADR-0024, ADR-0027). A consumer of recorded episodes.
 - `swarm.experiments`: configs, runners, result storage.
 
 Subpackages are created only when they contain working, tested code (see

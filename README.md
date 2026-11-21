@@ -5,11 +5,11 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: Phase 4 (multi-agent reinforcement learning) — in progress
+## Current status: all roadmap phases implemented; Phases 5, 6 and the 3D co-simulation in review
 
 | What | Status |
 |---|---|
-| Docs, 26 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Docs, 27 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
 | Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
 | Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Complete (merged) |
 | Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded). See `docs/16_PHASE2_BASELINE_STUDY.md` |
@@ -22,7 +22,7 @@ not control real aircraft or robots, and it is not validated for real disaster o
 | Phase 4: learned sector selection with IPPO/MAPPO (optional `learning` extra; ADR-0022), nine trained models, pre-registered evaluation | In review. MAPPO beats belief sharing alone (−7 steps) but is slower than the lease auction (+6 steps) at this small training budget. See `docs/19_PHASE4_MARL_STUDY.md` |
 | Phase 5: replaceable perception model (range falloff, report confidence, terrain and hazard misreads; ADR-0025), exploratory sensor benchmark | In review. See `docs/22_PERCEPTION.md` |
 | Phase 6: web dashboard (`python -m swarm.dashboard`; replay, robots, comms, failures, experiments, history, exports; ADR-0026) | In review. See `docs/23_DASHBOARD.md` |
-| Phase 8: 3D feasibility (MuJoCo replay prototype, simulator comparison) | Decision: defer full 3D (ADR-0024) |
+| Phase 8: 3D feasibility (ADR-0024), then 3D kinematic co-simulation with line-of-sight analysis and a dashboard 3D view (ADR-0027) | Feasibility merged; co-simulation in review. Flight dynamics deferred. See `docs/24_3D_SIMULATION.md` |
 | Phase 7 final validation (directive "Phase 5"): 17 conditions × 8 policies, 6 850 episodes, scalability; paper draft | Run, in review. See `docs/20_PHASE7_FINAL_VALIDATION.md` and `docs/21_RESEARCH_PAPER_DRAFT.md`. Phases 5 and 6 deferred |
 | 3D feasibility (Phase 8) | Planned |
 
@@ -39,6 +39,13 @@ All results are simulation results on synthetic maps with illustrative parameter
 step, so nothing here shows that drones outperform ground robots, or the reverse. Hazards and false reports are simple
 probabilistic models. The simulator is a simplified abstraction, not a realistic model
 (see `docs/15_RISK_REGISTER_AND_LIMITATIONS.md`). Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
+
+## Dashboard, perception and 3D
+```bash
+python -m swarm.dashboard          # web UI at http://127.0.0.1:8765/ (docs/23_DASHBOARD.md)
+pip install -e ".[sim3d]"          # optional MuJoCo for the 3D analysis (docs/24_3D_SIMULATION.md)
+```
+Add a `perception` block to any config for noisy sensing (docs/22_PERCEPTION.md).
 
 ## Run an episode
 
@@ -88,6 +95,9 @@ Optional extras:
 - `.[learning]`: PyTorch, PettingZoo and Gymnasium, for MARL training (Phase 4). For CPU-only
   PyTorch, first run `pip install torch --index-url https://download.pytorch.org/whl/cpu`.
   Evaluating a trained policy needs only NumPy.
+- `.[sim3d]`: MuJoCo, for the 3D co-simulation analysis (Phase 8). The dashboard's 3D view works
+  without it.
+- The dashboard needs no extra.
 
 ## Quality gate
 

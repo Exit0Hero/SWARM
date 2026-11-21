@@ -440,5 +440,19 @@ def export_experiment(record: dict[str, Any], fmt: str) -> tuple[str, str, str]:
     raise DashboardError(f"unknown export format {fmt!r} (json, csv)")
 
 
+def scene3d(record: dict[str, Any]) -> dict[str, Any]:
+    """The run's 3D scene and, with the optional ``sim3d`` extra, its MuJoCo analysis (ADR-0027)."""
+    from swarm.sim3d.scene import build_scene
+
+    scene = build_scene(record["scenario"], record["frames"])
+    try:
+        from swarm.sim3d.mujoco_replay import analyze_scene
+
+        analysis: dict[str, Any] = analyze_scene(scene, record["frames"])
+    except ImportError:
+        analysis = {"unavailable": "install the sim3d extra (pip install -e .[sim3d]) for MuJoCo"}
+    return {"scene": scene, "analysis": analysis}
+
+
 def meta() -> dict[str, Any]:
     return {"policies": sorted(POLICIES), "sensor_models": sorted(SENSOR_MODELS)}

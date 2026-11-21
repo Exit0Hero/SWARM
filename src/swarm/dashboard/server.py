@@ -102,6 +102,8 @@ class Dashboard:
                 record = service.record_episode(config, policy, seed, self.learned)
                 self.store.save(record)
                 return {k: v for k, v in record.items() if k != "events_jsonl"}
+            case "GET", ["runs", rid, "scene3d"]:
+                return service.scene3d(self.store.load("runs", rid))
             case "GET", ["runs", rid]:
                 record = self.store.load("runs", rid)
                 return {k: v for k, v in record.items() if k != "events_jsonl"}
