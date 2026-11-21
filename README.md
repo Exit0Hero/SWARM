@@ -31,6 +31,7 @@ To see the 3D view, install `pip install -e ".[sim3d]"` and rerun `swarm demo`. 
 press "3D view". It is a kinematic view of the 2D episode, **not a flight simulation**.
 
 More:
+- [Public website and Vercel deployment](docs/29_WEB_DEPLOYMENT.md): replays real recorded runs; nothing runs on the server
 - [Installation and CLI guide](docs/26_INSTALL_AND_CLI.md)
 - [Reproducibility guide](docs/27_REPRODUCIBILITY.md)
 - [Benchmarks](docs/28_BENCHMARKS.md)
