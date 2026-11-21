@@ -121,6 +121,8 @@ Acceptance: the research questions in [docs/06](06_MARL_RESEARCH_PLAN.md) run as
 experiment configs. A reproducible report with methodology, confidence intervals and limitations.
 
 ## Phase 8 — 3D feasibility study
+Status: complete, decision **defer** ([ADR-0024](decisions/0024-3d-feasibility-decision.md)). A MuJoCo replay prototype is kept
+in the optional `sim3d` extra.
 Acceptance: evidence-based simulator comparison, an integration prototype, a performance and cost
 assessment, and a recorded decision to proceed or defer.
 
