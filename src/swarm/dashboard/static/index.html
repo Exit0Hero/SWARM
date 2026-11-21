@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SWARM dashboard</title>
+<style>
+  :root { --bg:#f7f7f5; --panel:#fff; --ink:#1d1d1b; --muted:#6b6a66; --line:#e3e2dd; --accent:#2a78d6;
+          --good:#1a8f5c; --bad:#c8402f; --warn:#b98000; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#151514; --panel:#1f1f1d; --ink:#ecebe6; --muted:#a3a29d;
+          --line:#33322f; --accent:#5d9ce8; } }
+  * { box-sizing:border-box } body { margin:0; font:14px/1.45 system-ui, sans-serif; background:var(--bg); color:var(--ink) }
+  header { display:flex; gap:16px; align-items:center; padding:10px 18px; border-bottom:1px solid var(--line); background:var(--panel) }
+  header h1 { font-size:16px; margin:0 } nav button { margin-right:4px }
+  main { padding:14px 18px; display:none } main.on { display:block }
+  .row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-start }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; }
+  .card h2 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin:0 0 8px }
+  label { display:block; font-size:12px; color:var(--muted); margin-top:6px }
+  input, select, textarea { font:inherit; color:inherit; background:var(--bg); border:1px solid var(--line); border-radius:5px; padding:4px 6px; width:100% }
+  input[type=checkbox] { width:auto } fieldset { border:1px solid var(--line); border-radius:6px; margin:8px 0; padding:6px 8px }
+  legend { font-size:12px; color:var(--muted) }
+  button { font:inherit; padding:5px 10px; border-radius:5px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent) } button:disabled { opacity:.5; cursor:default }
+  table { border-collapse:collapse; width:100%; font-size:12.5px } th, td { text-align:left; padding:3px 6px; border-bottom:1px solid var(--line) }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:0 8px }
+  .msg { padding:6px 10px; border-radius:5px; margin:6px 0; font-size:12.5px } .err { background:#c8402f22; color:var(--bad) }
+  .note { color:var(--muted); font-size:12px } canvas { background:var(--panel); border:1px solid var(--line); border-radius:6px; max-width:100% }
+  .bar { height:7px; background:var(--line); border-radius:4px; overflow:hidden } .bar i { display:block; height:100%; background:var(--good) }
+  .controls { display:flex; gap:6px; align-items:center; margin:8px 0; flex-wrap:wrap } .controls input[type=range] { width:240px }
+  .legend span { display:inline-flex; align-items:center; gap:4px; margin-right:10px; font-size:12px }
+  .sw { width:11px; height:11px; border-radius:2px; display:inline-block }
+</style>
+</head>
+<body>
+<header>
+  <h1>SWARM</h1>
+  <nav><button data-tab="sim" class="primary">Simulate</button><button data-tab="exp">Experiments</button><button data-tab="hist">History</button></nav>
+  <span class="note" id="status"></span>
+</header>
+
+<!-- ============================ SIMULATE ============================ -->
+<main id="sim" class="on">
+<div class="row">
+  <div class="card" style="width:300px">
+    <h2>Configuration</h2>
+    <label>Base config</label><select id="cfgName"></select>
+    <div class="grid2">
+      <div><label>Policy</label><select id="policy"></select></div>
+      <div><label>Seed</label><input id="seed" type="number" value="1000" min="0"></div>
+      <div><label>Time limit</label><input id="timeLimit" type="number" min="1"></div>
+      <div><label>p_detect</label><input id="pDetect" type="number" step="0.05" min="0" max="1"></div>
+    </div>
+    <fieldset><legend><input type="checkbox" id="commsOn"> Communication</legend>
+      <div class="grid2">
+        <div><label>Drone range</label><input id="rDrone" type="number" value="8" min="1"></div>
+        <div><label>Ground range</label><input id="rGround" type="number" value="5" min="1"></div>
+        <div><label>p_drop</label><input id="pDrop" type="number" value="0" step="0.05" min="0" max="1"></div>
+        <div><label>Latency</label><input id="lat" type="number" value="0" min="0"></div>
+        <div><label>Jitter</label><input id="jit" type="number" value="0" min="0"></div>
+        <div><label>Bandwidth (blank = ∞)</label><input id="bw" type="number" min="1"></div>
+      </div></fieldset>
+    <fieldset><legend><input type="checkbox" id="failOn"> Scheduled failures</legend>
+      <div class="grid2"><div><label>Count</label><input id="fCount" type="number" value="1" min="0"></div>
+        <div><label>Steps from–to</label><input id="fWin" value="5-25"></div></div></fieldset>
+    <fieldset><legend><input type="checkbox" id="percOn"> Noisy perception</legend>
+      <div class="grid2">
+        <div><label>Range falloff</label><input id="pFall" type="number" value="0.5" step="0.1" min="0" max="1"></div>
+        <div><label>Terrain error</label><input id="pTerr" type="number" value="0.05" step="0.01" min="0" max="1"></div>
+        <div><label>Hazard miss</label><input id="pHm" type="number" value="0.2" step="0.05" min="0" max="1"></div>
+        <div><label>Hazard false</label><input id="pHf" type="number" value="0.05" step="0.01" min="0" max="1"></div>
+      </div></fieldset>
+    <div class="controls"><button id="btnValidate">Validate</button><button id="btnRun" class="primary">Run episode</button></div>
+    <div class="controls"><input id="saveName" placeholder="name to save as" style="flex:1"><button id="btnSave">Save config</button></div>
+    <details><summary class="note">Effective config (JSON, editable)</summary>
+      <textarea id="cfgJson" rows="12" spellcheck="false"></textarea>
+      <label><input type="checkbox" id="useJson"> Use this JSON instead of the form</label></details>
+    <div id="simMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Map <span class="note" id="runLabel"></span></h2>
+    <div class="controls">
+      <button id="bFirst" title="first step">⏮</button><button id="bPrev">◀ step</button>
+      <button id="bPlay" class="primary">▶ play</button><button id="bNext">step ▶</button><button id="bLast">⏭</button>
+      <input id="scrub" type="range" min="0" value="0"><span id="stepLbl" class="note"></span>
+      <select id="speed"><option value="400">slow</option><option value="150" selected>normal</option><option value="40">fast</option></select>
+    </div>
+    <div class="controls legend">
+      <label style="margin:0"><input type="checkbox" id="showTruth" checked> survivors (ground truth)</label>
+      <label style="margin:0"><input type="checkbox" id="showRadius" checked> sensor range</label>
+      <label style="margin:0"><input type="checkbox" id="showMsgs" checked> messages</label>
+      <label style="margin:0"><input type="checkbox" id="showTrails" checked> trails</label>
+    </div>
+    <canvas id="map" width="560" height="560"></canvas>
+    <div class="legend">
+      <span><i class="sw" style="background:#d9d7cf"></i>debris</span><span><i class="sw" style="background:#52514e"></i>structure</span>
+      <span><i class="sw" style="background:#cde2fb"></i>base</span><span><i class="sw" style="background:#f3b9b0"></i>hazard</span>
+      <span>▲ drone ■ ground ✕ disabled</span><span style="color:var(--good)">● true report</span><span style="color:var(--bad)">● false report</span><span>☆ survivor (evaluation only)</span>
+    </div>
+  </div>
+
+  <div class="card" style="width:330px">
+    <h2>Mission</h2><div id="mission" class="note">Run an episode to begin.</div>
+    <h2 style="margin-top:12px">Robots</h2><table id="robots"></table>
+    <h2 style="margin-top:12px">This step</h2><table id="stepStats"></table>
+    <h2 style="margin-top:12px">Final metrics</h2><div style="max-height:260px;overflow:auto"><table id="metrics"></table></div>
+    <div class="controls"><button data-export="json">Export JSON</button><button data-export="events">Events</button><button data-export="csv">Metrics CSV</button></div>
+  </div>
+</div>
+</main>
+
+<!-- ============================ EXPERIMENTS ============================ -->
+<main id="exp">
+<div class="row">
+  <div class="card" style="width:300px">
+    <h2>Compare policies</h2>
+    <p class="note">Uses the configuration from the Simulate tab. Every policy runs on the same seeds.</p>
+    <label>Policies (first = baseline for differences)</label><div id="expPolicies"></div>
+    <label>Seeds (e.g. 1000-1019)</label><input id="expSeeds" value="1000-1009">
+    <div class="controls"><button id="btnExp" class="primary">Run comparison</button></div>
+    <div id="expMsg"></div>
+  </div>
+  <div class="card" style="flex:1;min-width:420px">
+    <h2>Results <span class="note" id="expLabel"></span></h2>
+    <p class="note">Exploratory: development seeds, no pre-registration or multiple-comparison correction.</p>
+    <label>Metric</label><select id="expMetric"></select>
+    <svg id="expChart" width="620" height="260"></svg>
+    <table id="expTable"></table>
+    <h2 style="margin-top:12px">Paired differences vs baseline</h2><table id="expPaired"></table>
+    <div class="controls"><button data-xexport="csv">Export seed CSV</button><button data-xexport="json">Export JSON</button></div>
+  </div>
+</div>
+</main>
+
+<!-- ============================ HISTORY ============================ -->
+<main id="hist"><div class="card"><h2>Stored runs and experiments</h2>
+  <div class="controls"><button id="btnHist">Refresh</button></div><table id="histTable"></table></div></main>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const api = async (path, opts = {}) => {
+  const res = await fetch(path, { headers: { "Content-Type": "application/json" }, ...opts,
+    body: opts.body ? JSON.stringify(opts.body) : undefined });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+};
+const fmt = (v, d = 3) => v === null || v === undefined ? "—" : typeof v === "number" ? (Number.isInteger(v) ? String(v) : v.toFixed(d)) : String(v);
+const say = (el, text, err = false) => { $(el).innerHTML = text ? `<div class="msg ${err ? "err" : ""}">${text}</div>` : ""; };
+const status = (t) => { $("status").textContent = t; };
+
+// ---------------- tabs
+document.querySelectorAll("nav button").forEach((b) => b.onclick = () => {
+  document.querySelectorAll("nav button").forEach((x) => x.classList.toggle("primary", x === b));
+  document.querySelectorAll("main").forEach((m) => m.classList.toggle("on", m.id === b.dataset.tab));
+  if (b.dataset.tab === "hist") loadHistory();
+});
+
+// ---------------- configuration form
+let configs = {}, catalog = [];
+function overrides() {
+  const o = {};
+  if ($("timeLimit").value) o.time_limit = +$("timeLimit").value;
+  if ($("pDetect").value) o.p_detect = +$("pDetect").value;
+  o.comms = $("commsOn").checked ? { ranges: { drone: +$("rDrone").value, ground: +$("rGround").value },
+    p_drop: +$("pDrop").value, latency: +$("lat").value, jitter: +$("jit").value,
+    bandwidth: $("bw").value ? +$("bw").value : null } : null;
+  if ($("failOn").checked) {
+    const [a, b] = $("fWin").value.split("-").map(Number);
+    o.failures = { count: +$("fCount").value, start: a, end: b ?? a };
+  } else o.failures = null;
+  o.perception = $("percOn").checked ? { model: "noisy", range_falloff: +$("pFall").value,
+    terrain_error: +$("pTerr").value, hazard_miss: +$("pHm").value, hazard_false: +$("pHf").value } : null;
+  return o;
+}
+function requestBody() {
+  if ($("useJson").checked) return { config: JSON.parse($("cfgJson").value) };
+  return { config_name: $("cfgName").value, overrides: overrides() };
+}
+function fillForm() {
+  const c = configs[$("cfgName").value]; if (!c) return;
+  $("timeLimit").value = c.time_limit; $("pDetect").value = c.p_detect;
+  $("commsOn").checked = !!c.comms;
+  if (c.comms) { $("rDrone").value = c.comms.ranges.drone ?? ""; $("rGround").value = c.comms.ranges.ground ?? "";
+    $("pDrop").value = c.comms.p_drop; $("lat").value = c.comms.latency; $("jit").value = c.comms.jitter; $("bw").value = c.comms.bandwidth ?? ""; }
+  $("failOn").checked = !!c.failures; $("percOn").checked = !!c.perception;
+  return validate();
+}
+async function validate() {
+  try {
+    const v = await api("/api/validate", { method: "POST", body: requestBody() });
+    catalog = v.policies; $("cfgJson").value = JSON.stringify(v.config, null, 2);
+    const keep = $("policy").value;
+    $("policy").innerHTML = catalog.map((p) => `<option value="${p.name}" ${p.available ? "" : "disabled"} title="${p.reason || p.information || ""}">${p.name}${p.oracle ? " (ORACLE)" : ""}${p.available ? "" : " — unavailable"}</option>`).join("");
+    if (catalog.some((p) => p.name === keep && p.available)) $("policy").value = keep;
+    else $("policy").value = (catalog.find((p) => p.name === "auction_comm" && p.available) || catalog.find((p) => p.available)).name;
+    $("expPolicies").innerHTML = catalog.filter((p) => p.available).map((p) =>
+      `<label style="margin:2px 0"><input type="checkbox" value="${p.name}" ${["frontier_shared","auction_comm"].includes(p.name) ? "checked" : ""}> ${p.name}${p.oracle ? " (ORACLE)" : ""}</label>`).join("");
+    say("simMsg", `Valid. Config hash <code>${v.config_hash.slice(0, 12)}</code>.`);
+  } catch (e) { say("simMsg", e.message, true); }
+}
+["commsOn","failOn","percOn","rDrone","rGround","pDrop","lat","jit","bw","fCount","fWin","pFall","pTerr","pHm","pHf","timeLimit","pDetect"]
+  .forEach((id) => $(id).addEventListener("change", validate));
+$("cfgName").onchange = fillForm;
+$("btnValidate").onclick = validate;
+$("btnSave").onclick = async () => {
+  try { const r = await api("/api/configs", { method: "POST", body: { ...requestBody(), name: $("saveName").value } });
+    configs = await api("/api/configs"); await populateConfigs(`saved/${r.saved}.json`);
+    say("simMsg", `Saved as saved/${r.saved}.json (config hash ${r.config_hash.slice(0, 12)}).`);
+  } catch (e) { say("simMsg", e.message, true); }
+};
+function populateConfigs(select) {
+  const names = Object.keys(configs);
+  $("cfgName").innerHTML = names.map((n) => `<option>${n}</option>`).join("");
+  const match = names.find((n) => n.endsWith(select)) || names.find((n) => n.endsWith("phase3/nominal.json")) || names[0];
+  $("cfgName").value = match; return fillForm();
+}
+
+// ---------------- run + replay
+let run = null, frame = 0, timer = null;
+$("btnRun").onclick = async () => {
+  $("btnRun").disabled = true; status("running episode…");
+  try { load(await api("/api/runs", { method: "POST", body: { ...requestBody(), policy: $("policy").value, seed: +$("seed").value } })); say("simMsg", ""); }
+  catch (e) { say("simMsg", e.message, true); }
+  finally { $("btnRun").disabled = false; status(""); }
+};
+function load(r) {
+  run = r; frame = 0; stop();
+  $("scrub").max = r.frames.length - 1;
+  $("runLabel").textContent = `${r.policy}, seed ${r.seed}, run ${r.id}`;
+  const all = { ...r.metrics, ...r.extension_metrics };
+  $("metrics").innerHTML = Object.entries(all).map(([k, v]) => `<tr><td>${k}</td><td class="num">${fmt(v)}</td></tr>`).join("");
+  draw();
+}
+function stop() { clearInterval(timer); timer = null; $("bPlay").textContent = "▶ play"; }
+$("bPlay").onclick = () => { if (!run) return; if (timer) return stop();
+  $("bPlay").textContent = "⏸ pause";
+  timer = setInterval(() => { if (frame >= run.frames.length - 1) return stop(); frame++; draw(); }, +$("speed").value); };
+$("speed").onchange = () => { if (timer) { stop(); $("bPlay").click(); } };
+$("bPrev").onclick = () => { if (run && frame > 0) { frame--; draw(); } };
+$("bNext").onclick = () => { if (run && frame < run.frames.length - 1) { frame++; draw(); } };
+$("bFirst").onclick = () => { if (run) { frame = 0; draw(); } };
+$("bLast").onclick = () => { if (run) { frame = run.frames.length - 1; draw(); } };
+$("scrub").oninput = () => { if (run) { frame = +$("scrub").value; draw(); } };
+["showTruth","showRadius","showMsgs","showTrails"].forEach((id) => $(id).onchange = () => run && draw());
+document.querySelectorAll("[data-export]").forEach((b) => b.onclick = () => {
+  if (!run) return say("simMsg", "Run or open an episode first.", true);
+  window.location = `/api/runs/${run.id}/export?format=${b.dataset.export}`;
+});
+
+const TERRAIN = { 0: null, 1: "#d9d7cf", 2: "#52514e", 3: "#cde2fb" };
+const AGENT_COLORS = ["#2a78d6","#eb6834","#1baf7a","#eda100","#e87ba4","#008300","#6250d6","#a0522d"];
+function draw() {
+  const f = run.frames[frame], sc = run.scenario, cv = $("map"), g = cv.getContext("2d");
+  const [h, w] = sc.shape, cell = Math.floor(Math.min(560 / w, 560 / h));
+  cv.width = w * cell; cv.height = h * cell;
+  const css = getComputedStyle(document.body);
+  g.fillStyle = css.getPropertyValue("--panel"); g.fillRect(0, 0, cv.width, cv.height);
+  const cx = (c) => c * cell + cell / 2, cy = (r) => r * cell + cell / 2;
+  for (let r = 0; r < h; r++) for (let c = 0; c < w; c++) {
+    if (sc.hazard[r][c]) { g.fillStyle = "#f3b9b0"; g.fillRect(c * cell, r * cell, cell, cell); }
+    const col = TERRAIN[sc.terrain[r][c]]; if (col) { g.fillStyle = col; g.fillRect(c * cell + 1, r * cell + 1, cell - 2, cell - 2); }
+  }
+  const color = {}; f.agents.forEach((a, k) => color[a.id] = AGENT_COLORS[k % AGENT_COLORS.length]);
+  if ($("showTrails").checked) f.agents.forEach((a) => {
+    g.strokeStyle = color[a.id] + "66"; g.lineWidth = 2; g.beginPath();
+    run.frames.slice(0, frame + 1).forEach((fr, k) => { const p = fr.agents.find((x) => x.id === a.id).pos;
+      k ? g.lineTo(cx(p[1]), cy(p[0])) : g.moveTo(cx(p[1]), cy(p[0])); });
+    g.stroke(); });
+  if ($("showTruth").checked) { g.strokeStyle = css.getPropertyValue("--ink"); g.lineWidth = 1.2;
+    sc.survivors_ground_truth.forEach(([r, c]) => star(g, cx(c), cy(r), cell * 0.38)); }
+  if ($("showRadius").checked) f.agents.filter((a) => a.active).forEach((a) => {
+    g.strokeStyle = color[a.id] + "88"; g.setLineDash([3, 3]); g.beginPath();
+    g.arc(cx(a.pos[1]), cy(a.pos[0]), a.radius * cell, 0, 2 * Math.PI); g.stroke(); g.setLineDash([]); });
+  if ($("showMsgs").checked) f.messages.forEach((m) => {
+    const s = f.agents.find((a) => a.id === m.sender).pos;
+    m.recipients.forEach((rid) => { const t = f.agents.find((a) => a.id === rid).pos;
+      g.strokeStyle = "#6250d6aa"; g.lineWidth = 1.5; g.beginPath(); g.moveTo(cx(s[1]), cy(s[0])); g.lineTo(cx(t[1]), cy(t[0])); g.stroke(); }); });
+  f.detections.forEach((d) => { g.fillStyle = d.true ? "#1a8f5c" : "#c8402f";
+    g.beginPath(); g.arc(cx(d.cell[1]), cy(d.cell[0]), cell * 0.22, 0, 2 * Math.PI); g.fill(); });
+  f.agents.forEach((a) => { const x = cx(a.pos[1]), y = cy(a.pos[0]), s = cell * 0.38; g.fillStyle = color[a.id];
+    g.beginPath();
+    if (a.layer === "air") { g.moveTo(x, y - s); g.lineTo(x + s, y + s); g.lineTo(x - s, y + s); } else g.rect(x - s * 0.8, y - s * 0.8, s * 1.6, s * 1.6);
+    g.fill();
+    if (!a.active) { g.strokeStyle = "#000"; g.lineWidth = 2.5; g.beginPath(); g.moveTo(x - s, y - s); g.lineTo(x + s, y + s); g.moveTo(x + s, y - s); g.lineTo(x - s, y + s); g.stroke(); } });
+  $("scrub").value = frame; $("stepLbl").textContent = `step ${f.step} / ${run.steps}`;
+  const total = sc.survivors_ground_truth.length, limit = run.config.time_limit;
+  $("mission").innerHTML = `Step <b>${f.step}</b> of ${limit} (episode ended at ${run.steps}: ${run.end_reason}).<br>
+    Survivors truly found: <b>${f.found}</b> / ${total} (target ${Math.ceil(run.config.recall_target * total)}).
+    <div class="bar"><i style="width:${100 * f.found / total}%"></i></div>
+    Active robots: ${f.agents.filter((a) => a.active).length} / ${f.agents.length}.`;
+  $("robots").innerHTML = "<tr><th>Robot</th><th>Energy</th><th>Status</th></tr>" + f.agents.map((a) =>
+    `<tr><td><span class="sw" style="background:${color[a.id]}"></span> ${a.id}</td>
+     <td><div class="bar"><i style="width:${100 * a.energy / a.capacity}%;background:${a.energy / a.capacity < .25 ? "var(--warn)" : "var(--good)"}"></i></div>${a.energy}/${a.capacity}</td>
+     <td>${a.active ? "active" : "<b style='color:var(--bad)'>disabled</b>"}</td></tr>`).join("");
+  const dis = run.frames.slice(1, frame + 1).flatMap((fr) => fr.disabled.map((d) => `${d.agent} (${d.reason}, step ${fr.step})`));
+  $("stepStats").innerHTML = [["messages sent", f.messages.length], ["deliveries", f.delivered], ["drops", f.dropped],
+    ["detection reports", f.detections.length], ["perception errors", f.perception_errors],
+    ["failures so far", dis.join(", ") || "none"]].map(([k, v]) => `<tr><td>${k}</td><td class="num">${v}</td></tr>`).join("");
+}
+function star(g, x, y, r) { g.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r;
+  g.lineTo(x + rr * Math.cos(a), y + rr * Math.sin(a)); } g.closePath(); g.stroke(); }
+
+// ---------------- experiments
+let exp = null;
+$("btnExp").onclick = async () => {
+  const policies = [...document.querySelectorAll("#expPolicies input:checked")].map((i) => i.value);
+  $("btnExp").disabled = true;
+  try {
+    const job = await api("/api/experiments", { method: "POST", body: { ...requestBody(), policies, seeds: $("expSeeds").value } });
+    say("expMsg", `Running ${job.label}…`);
+    for (;;) { await new Promise((r) => setTimeout(r, 1000)); const j = await api(`/api/jobs/${job.id}`);
+      if (j.status === "error") throw new Error(j.error);
+      if (j.status === "done") { showExp(await api(`/api/experiments/${j.result.id}`)); say("expMsg", "Done."); break; } }
+  } catch (e) { say("expMsg", e.message, true); } finally { $("btnExp").disabled = false; }
+};
+function showExp(x) {
+  exp = x; $("expLabel").textContent = `${x.policies.length} policies × ${x.seeds.length} seeds, experiment ${x.id}`;
+  const metrics = Object.keys(x.per_policy[x.policies[0]].summaries);
+  const keep = $("expMetric").value; $("expMetric").innerHTML = metrics.map((m) => `<option>${m}</option>`).join("");
+  $("expMetric").value = metrics.includes(keep) ? keep : "time_to_recall_target";
+  $("expTable").innerHTML = "<tr><th>Policy</th>" + metrics.map((m) => `<th class="num">${m}</th>`).join("") + "</tr>" +
+    x.policies.map((p) => `<tr><td title="${x.per_policy[p].information}">${p}${x.per_policy[p].oracle ? " (ORACLE)" : ""}</td>` + metrics.map((m) => {
+      const s = x.per_policy[p].summaries[m]; return `<td class="num">${fmt(s.mean, 2)} <span class="note">[${fmt(s.ci_low, 2)}, ${fmt(s.ci_high, 2)}]${s.n_undefined ? ` n/a ${s.n_undefined}` : ""}</span></td>`; }).join("") + "</tr>").join("");
+  $("expPaired").innerHTML = "<tr><th>B − A</th><th>Metric</th><th class='num'>n</th><th class='num'>Diff [95% CI]</th><th class='num'>p (unadj.)</th></tr>" +
+    x.paired_vs_first.map((d) => `<tr><td>${d.b} − ${d.a}</td><td>${d.metric}</td><td class="num">${d.n}</td><td class="num">${fmt(d.mean_difference, 2)} [${fmt(d.ci_low, 2)}, ${fmt(d.ci_high, 2)}]</td><td class="num">${fmt(d.p_value_unadjusted, 4)}</td></tr>`).join("");
+  chart();
+}
+$("expMetric").onchange = () => exp && chart();
+function chart() {
+  const m = $("expMetric").value, svg = $("expChart"), W = 620, L = 160, pad = 70;
+  const rows = exp.policies.map((p) => ({ p, s: exp.per_policy[p].summaries[m] })).filter((r) => r.s && r.s.mean !== null);
+  const hi = Math.max(...rows.map((r) => r.s.ci_high ?? r.s.mean), 1e-9);
+  const bh = 24, H = rows.length * (bh + 6) + 34, x = (v) => L + (W - L - pad) * v / hi;
+  svg.setAttribute("height", H);
+  svg.innerHTML = rows.map((r, k) => { const y = 10 + k * (bh + 6);
+    return `<text x="${L - 6}" y="${y + bh / 2 + 4}" text-anchor="end" font-size="12" fill="currentColor">${r.p}</text>
+      <rect x="${L}" y="${y}" width="${Math.max(x(r.s.mean) - L, 1)}" height="${bh}" rx="3" fill="#2a78d6"><title>${r.p}: ${fmt(r.s.mean, 2)}</title></rect>
+      ${r.s.ci_low !== null ? `<line x1="${x(r.s.ci_low)}" x2="${x(r.s.ci_high)}" y1="${y + bh / 2}" y2="${y + bh / 2}" stroke="currentColor" stroke-width="1.5"/>` : ""}
+      <text x="${x(r.s.ci_high ?? r.s.mean) + 5}" y="${y + bh / 2 + 4}" font-size="11" fill="currentColor">${fmt(r.s.mean, 2)}</text>`; }).join("") +
+    `<text x="${L}" y="${H - 6}" font-size="11" fill="currentColor">${m}: mean with 95% bootstrap interval</text>`;
+}
+document.querySelectorAll("[data-xexport]").forEach((b) => b.onclick = () => {
+  if (!exp) return say("expMsg", "Run or open an experiment first.", true);
+  window.location = `/api/experiments/${exp.id}/export?format=${b.dataset.xexport}`;
+});
+
+// ---------------- history
+async function loadHistory() {
+  const items = await api("/api/history");
+  $("histTable").innerHTML = "<tr><th>Created</th><th>Kind</th><th>Policy</th><th>Seed(s)</th><th>Config</th><th>End / recall</th><th></th></tr>" +
+    items.map((i) => `<tr><td>${i.created}</td><td>${i.kind}</td><td>${i.policy}</td><td>${i.seed ?? i.seeds}</td><td><code>${i.config_hash}</code></td>
+      <td>${i.end_reason ? `${i.end_reason}, ${fmt(i.recall)}` : ""}</td>
+      <td><button data-open="${i.kind}:${i.id}">Open</button> <button data-del="${i.kind}:${i.id}">Delete</button>
+      <a href="/api/${i.kind === "run" ? "runs" : "experiments"}/${i.id}/export?format=json">export</a></td></tr>`).join("");
+  document.querySelectorAll("[data-open]").forEach((b) => b.onclick = async () => {
+    const [kind, id] = b.dataset.open.split(":");
+    if (kind === "run") { load(await api(`/api/runs/${id}`)); document.querySelector('[data-tab="sim"]').click(); }
+    else { showExp(await api(`/api/experiments/${id}`)); document.querySelector('[data-tab="exp"]').click(); } });
+  document.querySelectorAll("[data-del]").forEach((b) => b.onclick = async () => {
+    const [kind, id] = b.dataset.del.split(":"); await api(`/api/${kind === "run" ? "runs" : "experiments"}/${id}`, { method: "DELETE" }); loadHistory(); });
+}
+$("btnHist").onclick = loadHistory;
+
+// ---------------- boot
+(async () => { try { configs = await api("/api/configs"); populateConfigs("phase3/nominal.json"); } catch (e) { say("simMsg", e.message, true); } })();
+</script>
+</body>
+</html>

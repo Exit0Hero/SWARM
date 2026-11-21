@@ -110,7 +110,7 @@ false-positive sweeps). An image-based detector only with a justified dataset, h
 and a baseline to beat.
 
 ## Phase 6 — Visualization dashboard and analytics
-Status: deferred (user decision, 2026-11-15). The Phase 3 replay viewer and study figures remain.
+Status: implemented, in review ([ADR-0026](decisions/0026-dashboard.md), [docs/23](23_DASHBOARD.md)): `python -m swarm.dashboard`.
 
 Acceptance: live and replay views, policy comparison views, and run summaries. These are all read-only
 consumers of events and snapshots. A headless mode is preserved.
