@@ -40,6 +40,8 @@ step, so nothing here shows that drones outperform ground robots, or the reverse
 probabilistic models. The simulator is a simplified abstraction, not a realistic model
 (see `docs/15_RISK_REGISTER_AND_LIMITATIONS.md`). Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
 
+Complete platform and implementation status: [`docs/25_COMPLETE_PLATFORM_STATUS.md`](docs/25_COMPLETE_PLATFORM_STATUS.md).
+
 ## Dashboard, perception and 3D
 ```bash
 python -m swarm.dashboard          # web UI at http://127.0.0.1:8765/ (docs/23_DASHBOARD.md)
