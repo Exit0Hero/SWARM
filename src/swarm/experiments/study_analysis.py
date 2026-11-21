@@ -81,6 +81,10 @@ SUMMARY_METRICS = (
     "reassignment_delay_mean",
     "unresolved_sectors",
     "duplicate_ownership_steps",
+    "perception_terrain_errors",
+    "perception_hazards_missed",
+    "perception_hazards_false",
+    "perception_false_reports",
 )
 
 

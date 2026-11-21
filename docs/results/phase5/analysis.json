@@ -1,0 +1,7276 @@
+{
+  "alpha": 0.05,
+  "bootstrap": {
+    "booleans": "counted as 0/1",
+    "confidence": 0.95,
+    "generator": "default_rng(SeedSequence(seed, spawn_key=(crc32(metric_name),)))",
+    "method": "percentile bootstrap of the mean",
+    "quantile_method": "numpy linear",
+    "resamples": 5000,
+    "seed": 0,
+    "std": "sample standard deviation, ddof=1"
+  },
+  "confirmatory": [],
+  "corrections": {
+    "confirmatory": "Holm",
+    "exploratory": "Benjamini-Hochberg"
+  },
+  "designation": "development",
+  "exploratory": [
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "ci_high": 5.9,
+      "ci_low": 2.15,
+      "cohens_dz": 0.9087761424957866,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 50.4,
+      "mean_difference": 3.95,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.003559288142371526,
+      "p_value": 0.0001220703125,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -0.03125,
+      "cohens_dz": -0.32489314482696546,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.75,
+      "mean_difference": -0.0125,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "ci_high": -0.01198596256684492,
+      "ci_low": -0.05168953513806455,
+      "cohens_dz": -0.6375932776438282,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.5389490901255607,
+      "mean_difference": -0.030322194145723548,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.024832589285714284,
+      "p_value": 0.0078125,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "ci_high": 32.45,
+      "ci_low": 11.7,
+      "cohens_dz": 0.8826074384075566,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 271.3,
+      "mean_difference": 21.55,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.003559288142371526,
+      "p_value": 0.0001220703125,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": 3.95,
+      "ci_low": 0.95,
+      "cohens_dz": 0.6632159348442994,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 36.75,
+      "mean_difference": 2.35,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.005112591911764706,
+      "p_value": 0.0009765625,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -0.02446303696303695,
+      "cohens_dz": -0.3222580136691369,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.6367782217782217,
+      "mean_difference": -0.009552947052947047,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": 24.0,
+      "ci_low": 5.7,
+      "cohens_dz": 0.6632159348442995,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 205.3,
+      "mean_difference": 14.1,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.005112591911764706,
+      "p_value": 0.0009765625,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "ci_high": -0.05,
+      "ci_low": -1.05,
+      "cohens_dz": -0.4358898943540674,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 45.95,
+      "mean_difference": -0.5,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.31785714285714284,
+      "p_value": 0.125,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.7625,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "ci_high": 0.008181818181818184,
+      "ci_low": 0.0,
+      "cohens_dz": 0.22360679774997902,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.571998556998557,
+      "mean_difference": 0.0027272727272727284,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "ci_high": -0.25,
+      "ci_low": -5.601249999999994,
+      "cohens_dz": -0.44012974157277696,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 247.0,
+      "mean_difference": -2.75,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.31785714285714284,
+      "p_value": 0.125,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -0.4,
+      "cohens_dz": -0.30652250154930544,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 34.25,
+      "mean_difference": -0.15,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": 0.008181818181818184,
+      "ci_low": 0.0,
+      "cohens_dz": 0.223606797749979,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.6490584415584416,
+      "mean_difference": 0.0027272727272727284,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -2.4,
+      "cohens_dz": -0.30652250154930544,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 190.3,
+      "mean_difference": -0.9,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "ci_high": 1.95,
+      "ci_low": -0.95,
+      "cohens_dz": 0.10319756248240887,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 46.8,
+      "mean_difference": 0.35,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 0.75,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "ci_high": 0.01875,
+      "ci_low": 0.0,
+      "cohens_dz": 0.22360679774997902,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.76875,
+      "mean_difference": 0.00625,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "ci_high": 0.4755521284271284,
+      "ci_low": 0.38586534992785,
+      "cohens_dz": 4.12181290774959,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 1.0,
+      "mean_difference": 0.4307287157287158,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.003559288142371526,
+      "p_value": 0.0001999600079984003,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "ci_high": 11.5,
+      "ci_low": -5.4,
+      "cohens_dz": 0.10372917142014741,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 251.8,
+      "mean_difference": 2.05,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 0.75,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": 2.1,
+      "ci_low": 0.0,
+      "cohens_dz": 0.22360679774997894,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 35.1,
+      "mean_difference": 0.7,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": 0.4130738636363636,
+      "ci_low": 0.29059496753246755,
+      "cohens_dz": 2.4865840047289307,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 1.0,
+      "mean_difference": 0.35366883116883113,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0003999200159968006,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": 12.6,
+      "ci_low": 0.0,
+      "cohens_dz": 0.22360679774997896,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 195.4,
+      "mean_difference": 4.2,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "ci_high": 12.15,
+      "ci_low": -1.0,
+      "cohens_dz": 0.21973958234855043,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 50.3,
+      "mean_difference": 3.85,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 0.5625,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -0.01875,
+      "cohens_dz": -0.22360679774997902,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.75625,
+      "mean_difference": -0.00625,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "ci_high": -0.40035531212809516,
+      "ci_low": -0.4924595953363506,
+      "cohens_dz": -4.0644801362138345,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.12451989443925655,
+      "mean_difference": -0.44475138983202767,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.003559288142371526,
+      "p_value": 0.0001999600079984003,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "ci_high": 68.85,
+      "ci_low": -5.2,
+      "cohens_dz": 0.2214830196224909,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 271.7,
+      "mean_difference": 21.95,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": 1.15,
+      "ci_low": -0.1,
+      "cohens_dz": 0.2665108579085993,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 34.8,
+      "mean_difference": 0.4,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": -0.43310617022468234,
+      "ci_low": -0.541971467399859,
+      "cohens_dz": -3.880808390239853,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.1590137855814765,
+      "mean_difference": -0.4873173832496923,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.003559288142371526,
+      "p_value": 0.0001999600079984003,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": 6.6,
+      "ci_low": -0.6,
+      "cohens_dz": 0.26651085790859924,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 193.6,
+      "mean_difference": 2.4,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "ci_high": 3.7,
+      "ci_low": 0.85,
+      "cohens_dz": 0.611879712722871,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 48.55,
+      "mean_difference": 2.1,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.00869140625,
+      "p_value": 0.001953125,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "ci_high": 0.03125,
+      "ci_low": 0.0,
+      "cohens_dz": 0.32489314482696546,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.775,
+      "mean_difference": 0.0125,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.9888888888888889,
+      "p_value": 0.5,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0015151515151515138,
+      "ci_low": -0.0262987012987013,
+      "cohens_dz": -0.31537879225582716,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.5588816738816738,
+      "mean_difference": -0.01038961038961039,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.6013513513513513,
+      "p_value": 0.25,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "ci_high": 19.95,
+      "ci_low": 4.05,
+      "cohens_dz": 0.5924386362630847,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 260.85,
+      "mean_difference": 11.1,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.00869140625,
+      "p_value": 0.001953125,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": 3.45,
+      "ci_low": 0.65,
+      "cohens_dz": 0.5937278905373671,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 36.35,
+      "mean_difference": 1.95,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.014830367259881357,
+      "p_value": 0.00390625,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": -0.012587412587412578,
+      "cohens_dz": -0.22360679774997894,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.6421353646353646,
+      "mean_difference": -0.004195804195804192,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": 21.6,
+      "ci_low": 4.2,
+      "cohens_dz": 0.5937278905373671,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 202.9,
+      "mean_difference": 11.7,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.014830367259881357,
+      "p_value": 0.00390625,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "ci_high": 21.1,
+      "ci_low": 3.8987500000000055,
+      "cohens_dz": 0.5904196578462344,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 58.25,
+      "mean_difference": 11.8,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.028228836991222445,
+      "p_value": 0.009198160367926415,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0125,
+      "ci_low": -0.025,
+      "cohens_dz": -0.1268924541304732,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.75625,
+      "mean_difference": -0.00625,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "ci_high": -0.00922711806167695,
+      "ci_low": -0.10285143777790834,
+      "cohens_dz": -0.5242754739213452,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.5136535033593856,
+      "mean_difference": -0.05561778091189855,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.07299423217773438,
+      "p_value": 0.0262451171875,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "ci_high": 82.05249999999997,
+      "ci_low": 3.1,
+      "cohens_dz": 0.438239852412782,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 290.65,
+      "mean_difference": 40.9,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.1661001133106712,
+      "p_value": 0.0615876824635073,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": 17.15124999999998,
+      "ci_low": 5.5,
+      "cohens_dz": 0.7938516768468791,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 45.65,
+      "mean_difference": 11.25,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.014406642481027606,
+      "p_value": 0.0033993201359728054,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": 0.01875,
+      "ci_low": 0.0,
+      "cohens_dz": 0.22360679774997902,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75625,
+      "mean_difference": 0.00625,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": -0.02128771963330787,
+      "ci_low": -0.10135244902156665,
+      "cohens_dz": -0.6379980651314762,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.5889409732424438,
+      "mean_difference": -0.057390195588725004,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.024832589285714284,
+      "p_value": 0.0078125,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": 72.95249999999997,
+      "ci_low": 16.998750000000005,
+      "cohens_dz": 0.6943210770871678,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 236.75,
+      "mean_difference": 45.55,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.020534354667528034,
+      "p_value": 0.00599880023995201,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 46.45,
+      "mean_difference": 0.0,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.7625,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.5692712842712842,
+      "mean_difference": 0.0,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 249.75,
+      "mean_difference": 0.0,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 34.4,
+      "mean_difference": 0.0,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.6463311688311688,
+      "mean_difference": 0.0,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 191.2,
+      "mean_difference": 0.0,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "ci_high": 23.85,
+      "ci_low": 5.5,
+      "cohens_dz": 0.6474571841613381,
+      "kind": "vs_nominal",
+      "mean_a": 46.45,
+      "mean_b": 60.65,
+      "mean_difference": 14.2,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.014830367259881357,
+      "p_value": 0.003999200159968006,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "ci_high": 0.0125,
+      "ci_low": -0.03125,
+      "cohens_dz": -0.12689245413047318,
+      "kind": "vs_nominal",
+      "mean_a": 0.7625,
+      "mean_b": 0.75625,
+      "mean_difference": -0.00625,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "uncertain"
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "ci_high": -0.014513555888555935,
+      "ci_low": -0.1320982871295371,
+      "cohens_dz": -0.5133371803053715,
+      "kind": "vs_nominal",
+      "mean_a": 0.5692712842712842,
+      "mean_b": 0.4993119380619381,
+      "mean_difference": -0.06995934620934621,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.06544497552102482,
+      "p_value": 0.022795440911817635,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "ci_high": 98.25249999999997,
+      "ci_low": 14.147500000000012,
+      "cohens_dz": 0.555368202079885,
+      "kind": "vs_nominal",
+      "mean_a": 249.75,
+      "mean_b": 304.4,
+      "mean_difference": 54.65,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.06169432780110644,
+      "p_value": 0.020795840831833633,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": 29.4,
+      "ci_low": 8.75,
+      "cohens_dz": 0.7395524353284336,
+      "kind": "vs_nominal",
+      "mean_a": 34.4,
+      "mean_b": 52.35,
+      "mean_difference": 17.95,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0003999200159968006,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 1.0,
+      "mean_b": 1.0,
+      "mean_difference": 0.0,
+      "metric": "mission_success",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "cohens_dz": null,
+      "kind": "vs_nominal",
+      "mean_a": 0.75,
+      "mean_b": 0.75,
+      "mean_difference": 0.0,
+      "metric": "recall",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 1.0,
+      "p_value": 1.0,
+      "practical": "within threshold"
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": -0.04845243298368306,
+      "ci_low": -0.16560816267066267,
+      "cohens_dz": -0.7541200273324491,
+      "kind": "vs_nominal",
+      "mean_a": 0.6463311688311688,
+      "mean_b": 0.5438465700965701,
+      "mean_difference": -0.10248459873459874,
+      "metric": "precision",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.0047457175231620345,
+      "p_value": 0.000732421875,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "auction_comm"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": 132.75124999999997,
+      "ci_low": 35.89875000000001,
+      "cohens_dz": 0.7083872330075028,
+      "kind": "vs_nominal",
+      "mean_a": 191.2,
+      "mean_b": 271.55,
+      "mean_difference": 80.35,
+      "metric": "energy_used",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.00869140625,
+      "p_value": 0.001799640071985603,
+      "practical": null
+    },
+    {
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "nominal",
+        "auction_comm"
+      ],
+      "ci_high": -6.948750000000018,
+      "ci_low": -17.85,
+      "cohens_dz": -0.9363084137811012,
+      "kind": "pair",
+      "mean_a": 46.45,
+      "mean_b": 34.4,
+      "mean_difference": -12.05,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0005998800239952009,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "pdetect_50",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_50",
+        "auction_comm"
+      ],
+      "ci_high": -8.25,
+      "ci_low": -19.1,
+      "cohens_dz": -1.0825960477996521,
+      "kind": "pair",
+      "mean_a": 50.4,
+      "mean_b": 36.75,
+      "mean_difference": -13.65,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.0047457175231620345,
+      "p_value": 0.0007998400319936012,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "pdetect_95",
+        "frontier_shared"
+      ],
+      "b": [
+        "pdetect_95",
+        "auction_comm"
+      ],
+      "ci_high": -6.55,
+      "ci_low": -17.5,
+      "cohens_dz": -0.8981557930262524,
+      "kind": "pair",
+      "mean_a": 45.95,
+      "mean_b": 34.25,
+      "mean_difference": -11.7,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0005998800239952009,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "fp_0",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_0",
+        "auction_comm"
+      ],
+      "ci_high": -6.2,
+      "ci_low": -18.051249999999996,
+      "cohens_dz": -0.8523324399759135,
+      "kind": "pair",
+      "mean_a": 46.8,
+      "mean_b": 35.1,
+      "mean_difference": -11.7,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0005998800239952009,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "fp_2pct",
+        "frontier_shared"
+      ],
+      "b": [
+        "fp_2pct",
+        "auction_comm"
+      ],
+      "ci_high": -7.4,
+      "ci_low": -25.601249999999997,
+      "cohens_dz": -0.7123737612828771,
+      "kind": "pair",
+      "mean_a": 50.3,
+      "mean_b": 34.8,
+      "mean_difference": -15.5,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0005998800239952009,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "falloff_50",
+        "frontier_shared"
+      ],
+      "b": [
+        "falloff_50",
+        "auction_comm"
+      ],
+      "ci_high": -7.3,
+      "ci_low": -17.1,
+      "cohens_dz": -1.0262385199243658,
+      "kind": "pair",
+      "mean_a": 48.55,
+      "mean_b": 36.35,
+      "mean_difference": -12.2,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.0047457175231620345,
+      "p_value": 0.0007998400319936012,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "terrain_10",
+        "frontier_shared"
+      ],
+      "b": [
+        "terrain_10",
+        "auction_comm"
+      ],
+      "ci_high": -5.1,
+      "ci_low": -20.5,
+      "cohens_dz": -0.6964565876479043,
+      "kind": "pair",
+      "mean_a": 58.25,
+      "mean_b": 45.65,
+      "mean_difference": -12.6,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.020534354667528034,
+      "p_value": 0.0057988402319536095,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "hazard_noise",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazard_noise",
+        "auction_comm"
+      ],
+      "ci_high": -6.85,
+      "ci_low": -17.851249999999997,
+      "cohens_dz": -0.9363084137811012,
+      "kind": "pair",
+      "mean_a": 46.45,
+      "mean_b": 34.4,
+      "mean_difference": -12.05,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.004449110177964407,
+      "p_value": 0.0005998800239952009,
+      "practical": "practically significant"
+    },
+    {
+      "a": [
+        "noisy_all",
+        "frontier_shared"
+      ],
+      "b": [
+        "noisy_all",
+        "auction_comm"
+      ],
+      "ci_high": 5.0,
+      "ci_low": -20.701249999999995,
+      "cohens_dz": -0.27944052191066054,
+      "kind": "pair",
+      "mean_a": 60.65,
+      "mean_b": 52.35,
+      "mean_difference": -8.3,
+      "metric": "time_censored",
+      "n_excluded": 0,
+      "n_pairs": 20,
+      "p_adjusted_bh": 0.5966751094225599,
+      "p_value": 0.24135172965406917,
+      "practical": "uncertain"
+    }
+  ],
+  "exploratory_not_pairable": [],
+  "permutation": {
+    "exact_when_nonzero_differences_at_most": 16,
+    "resamples": 5000,
+    "seed": 0,
+    "test": "two-sided paired sign-flip"
+  },
+  "seeds": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004,
+    1005,
+    1006,
+    1007,
+    1008,
+    1009,
+    1010,
+    1011,
+    1012,
+    1013,
+    1014,
+    1015,
+    1016,
+    1017,
+    1018,
+    1019
+  ],
+  "study": "phase5_sensor_benchmark",
+  "summaries": {
+    "falloff_50/auction_comm": {
+      "condition": "falloff_50",
+      "config_hash": "a402699a2b6d729f3cf193d8bf9945733a877e99d46f8c946314f5b63775a6ab",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7713248757356732,
+          "ci_low": 0.6606331366559298,
+          "mean": 0.7179815201225798,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12665559867275222
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 20.0,
+          "mean": 20.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 0.7071067811865476
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.1,
+          "ci_low": 3.2,
+          "mean": 4.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.2687812633774613
+        },
+        "energy_used": {
+          "ci_high": 236.05249999999998,
+          "ci_low": 169.69500000000002,
+          "mean": 202.9,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 76.27022596282939
+        },
+        "false_suspicions": {
+          "ci_high": 13.55,
+          "ci_low": 9.5,
+          "mean": 11.5,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.6509761284453415
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 236.97506817778333,
+          "ci_low": 219.85546549247402,
+          "mean": 228.39359275709717,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.137307267525546
+        },
+        "messages_sent": {
+          "ci_high": 164.00124999999997,
+          "ci_low": 121.09875,
+          "mean": 142.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 51.91823024313278
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 4.75,
+          "ci_low": 2.9,
+          "mean": 3.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.1667341419992585
+        },
+        "perception_hazards_false": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_hazards_missed": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_terrain_errors": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.7053734598734599,
+          "ci_low": 0.5841800907425908,
+          "mean": 0.6421353646353646,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14653588793419023
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.3123052,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 6.411657783189033,
+          "ci_low": 2.664757124819626,
+          "mean": 4.470777417027417,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.498017123786308
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.44603174603174606,
+          "ci_low": 0.29166666666666663,
+          "mean": 0.3654761904761905,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.188331616186753
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 42.1,
+          "ci_low": 30.5,
+          "mean": 36.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.693160028968748
+        },
+        "time_to_recall_target": {
+          "ci_high": 42.35,
+          "ci_low": 30.5,
+          "mean": 36.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.693160028968748
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "falloff_50/frontier_shared": {
+      "condition": "falloff_50",
+      "config_hash": "a402699a2b6d729f3cf193d8bf9945733a877e99d46f8c946314f5b63775a6ab",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7718301887394086,
+          "ci_low": 0.6565975410507869,
+          "mean": 0.7138237505614952,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13305152358944206
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 289.95124999999996,
+          "ci_low": 232.8475,
+          "mean": 260.85,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 67.30157971087266
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.14847762303594,
+          "ci_low": 177.64456786488634,
+          "mean": 185.84249140946312,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.013247218891422
+        },
+        "messages_sent": {
+          "ci_high": 210.2,
+          "ci_low": 168.45,
+          "mean": 189.2,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 47.81389359854133
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 6.4,
+          "ci_low": 4.4,
+          "mean": 5.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.3457688673327066
+        },
+        "perception_hazards_false": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_hazards_missed": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_terrain_errors": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.6057075216450216,
+          "ci_low": 0.5141266233766234,
+          "mean": 0.5588816738816738,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.10775709264669955
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.80625,
+          "ci_low": 0.75,
+          "mean": 0.775,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.06539354547257462
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.3347249,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 5.303308857808858,
+          "ci_low": 2.4136074342324343,
+          "mean": 3.7725815850815847,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 3.3845992141239485
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.5823065476190474,
+          "ci_low": 0.4593184523809524,
+          "mean": 0.5196031746031745,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1461701833731029
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 54.15,
+          "ci_low": 43.19875000000001,
+          "mean": 48.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.914598023371195
+        },
+        "time_to_recall_target": {
+          "ci_high": 53.95,
+          "ci_low": 43.1,
+          "mean": 48.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.914598023371195
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "fp_0/auction_comm": {
+      "condition": "fp_0",
+      "config_hash": "5079946bd96413b0529463b96766820c42fb6ee36b7d09af892f877ddc2e4793",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7627987137054916,
+          "ci_low": 0.64127858466513,
+          "mean": 0.7042825481478596,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1376750715146044
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 15.0,
+          "mean": 18.0,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.242640687119285
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.5,
+          "ci_low": 0.0,
+          "mean": 0.2,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.6155870112510925
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 4.85,
+          "ci_low": 3.15,
+          "mean": 3.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.038446260732605
+        },
+        "energy_used": {
+          "ci_high": 230.60499999999993,
+          "ci_low": 159.54875,
+          "mean": 195.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 81.43153404450948
+        },
+        "false_suspicions": {
+          "ci_high": 13.1,
+          "ci_low": 8.55,
+          "mean": 10.85,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.294237184752969
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 237.6469193670815,
+          "ci_low": 220.44140733425155,
+          "mean": 228.99981235304236,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.445733383056293
+        },
+        "messages_sent": {
+          "ci_high": 160.9,
+          "ci_low": 114.05,
+          "mean": 137.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 55.53213863208072
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.23165945,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 7.476122564935063,
+          "ci_low": 2.6712648809523825,
+          "mean": 4.903079004329005,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.708667989329054
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.4591269841269841,
+          "ci_low": 0.3063492063492063,
+          "mean": 0.3813492063492063,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.17953605605119682
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 41.25,
+          "ci_low": 28.8,
+          "mean": 35.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.621181462810076
+        },
+        "time_to_recall_target": {
+          "ci_high": 41.45,
+          "ci_low": 28.95,
+          "mean": 35.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.621181462810076
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "fp_0/frontier_shared": {
+      "condition": "fp_0",
+      "config_hash": "5079946bd96413b0529463b96766820c42fb6ee36b7d09af892f877ddc2e4793",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7525205460408575,
+          "ci_low": 0.6344689085649564,
+          "mean": 0.6937729070204883,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1354290972148569
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 284.50124999999997,
+          "ci_low": 220.64875,
+          "mean": 251.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 73.98975747038448
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.6732751665358,
+          "ci_low": 178.68553384273054,
+          "mean": 186.43721781027406,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 17.319726033217687
+        },
+        "messages_sent": {
+          "ci_high": 206.20124999999996,
+          "ci_low": 159.34875,
+          "mean": 182.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 54.20050495006578
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.7875,
+          "ci_low": 0.75,
+          "mean": 0.76875,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0457934435665654
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2224857,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 4.006843647671772,
+          "ci_low": 1.638793064574315,
+          "mean": 2.7042906399156403,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.8614250215280634
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.5922251984126984,
+          "ci_low": 0.47114781746031753,
+          "mean": 0.5313095238095238,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14192994264110062
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 52.85,
+          "ci_low": 41.048750000000005,
+          "mean": 46.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.054780044713015
+        },
+        "time_to_recall_target": {
+          "ci_high": 52.7,
+          "ci_low": 40.9,
+          "mean": 46.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.054780044713015
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "fp_2pct/auction_comm": {
+      "condition": "fp_2pct",
+      "config_hash": "063a8656a6e5ef6c20fefa5c2953f1a223ff2d3d1051309020acacaaa42802ee",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7535843989034464,
+          "ci_low": 0.639198974784821,
+          "mean": 0.6994030861733891,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13118773350050716
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 25.5,
+          "ci_low": 15.0,
+          "mean": 20.25,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 7.424621202458749
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.3,
+          "ci_low": 3.25,
+          "mean": 4.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.4553914898486258
+        },
+        "energy_used": {
+          "ci_high": 227.8,
+          "ci_low": 158.4,
+          "mean": 193.6,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 79.19821901240483
+        },
+        "false_suspicions": {
+          "ci_high": 12.95,
+          "ci_low": 8.5,
+          "mean": 10.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.094889079935117
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 239.25256748987067,
+          "ci_low": 222.55332456487352,
+          "mean": 230.94129939254964,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 19.721177656021826
+        },
+        "messages_sent": {
+          "ci_high": 158.85,
+          "ci_low": 113.45,
+          "mean": 136.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 54.35388428476943
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.1821278839215945,
+          "ci_low": 0.1378105718922209,
+          "mean": 0.1590137855814765,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.05198713477214413
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.22786610000000002,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 7.102661525974019,
+          "ci_low": 2.6164074675324676,
+          "mean": 4.723317099567099,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.383551015589631
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.456001984126984,
+          "ci_low": 0.30486111111111114,
+          "mean": 0.37822420634920634,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.17971556186197582
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 40.90124999999998,
+          "ci_low": 28.548750000000005,
+          "mean": 34.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.358566121052323
+        },
+        "time_to_recall_target": {
+          "ci_high": 41.15,
+          "ci_low": 28.7,
+          "mean": 34.8,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.358566121052323
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "fp_2pct/frontier_shared": {
+      "condition": "fp_2pct",
+      "config_hash": "063a8656a6e5ef6c20fefa5c2953f1a223ff2d3d1051309020acacaaa42802ee",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7640760576885692,
+          "ci_low": 0.6388600484414725,
+          "mean": 0.7018832861193591,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14507651023072113
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 327.4024999999999,
+          "ci_low": 227.9475,
+          "mean": 271.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 119.40911540625892
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 201.9231268679288,
+          "ci_low": 185.64645095241565,
+          "mean": 194.04823927176602,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.98193455637203
+        },
+        "messages_sent": {
+          "ci_high": 236.60124999999996,
+          "ci_low": 163.15,
+          "mean": 196.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 86.74226797030141
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.14732950746695764,
+          "ci_low": 0.10523331368131059,
+          "mean": 0.12451989443925655,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.04900600598759033
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.76875,
+          "ci_low": 0.75,
+          "mean": 0.75625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.027950849718747367
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.24944435,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 5.115422979797978,
+          "ci_low": 2.002202380952381,
+          "mean": 3.404522005772005,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 3.6016550633157034
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.6283333333333333,
+          "ci_low": 0.4958333333333334,
+          "mean": 0.5602777777777777,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.15523436974992658
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 60.351249999999986,
+          "ci_low": 41.84875000000001,
+          "mean": 50.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 21.815252993213136
+        },
+        "time_to_recall_target": {
+          "ci_high": 60.2,
+          "ci_low": 41.99875000000001,
+          "mean": 50.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 21.815252993213136
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "hazard_noise/auction_comm": {
+      "condition": "hazard_noise",
+      "config_hash": "f3a25cacc46bf43ded17ce57ad8e1f0af3b56556a0d3498ed6c0fd7dc602ea4c",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7488084457026519,
+          "ci_low": 0.6371362047465825,
+          "mean": 0.6963179463779482,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12903328719313828
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 20.0,
+          "mean": 20.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 0.7071067811865476
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.05,
+          "ci_low": 3.2,
+          "mean": 4.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.2354794611117845
+        },
+        "energy_used": {
+          "ci_high": 223.80124999999998,
+          "ci_low": 157.44875,
+          "mean": 191.2,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 76.6952959512683
+        },
+        "false_suspicions": {
+          "ci_high": 13.1,
+          "ci_low": 8.55,
+          "mean": 10.85,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.294237184752969
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 237.86100488661367,
+          "ci_low": 220.47504804299598,
+          "mean": 229.07417525092268,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.551567788170633
+        },
+        "messages_sent": {
+          "ci_high": 156.50249999999997,
+          "ci_low": 112.45,
+          "mean": 134.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 52.47302565178257
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 4.6,
+          "ci_low": 2.85,
+          "mean": 3.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.054520048960084
+        },
+        "perception_hazards_false": {
+          "ci_high": 116.95,
+          "ci_low": 83.34875,
+          "mean": 99.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 39.85615583438444
+        },
+        "perception_hazards_missed": {
+          "ci_high": 45.8,
+          "ci_low": 30.2,
+          "mean": 38.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.286894933689247
+        },
+        "perception_terrain_errors": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.7084742965367965,
+          "ci_low": 0.5893387445887445,
+          "mean": 0.6463311688311688,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14223079956125817
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.237828,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 6.308027326839827,
+          "ci_low": 2.4633046536796535,
+          "mean": 4.2770670995671,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.535949578045378
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.45476190476190465,
+          "ci_low": 0.3,
+          "mean": 0.3738095238095238,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.18178260057547188
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 40.35,
+          "ci_low": 28.35,
+          "mean": 34.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.937454271815474
+        },
+        "time_to_recall_target": {
+          "ci_high": 40.6,
+          "ci_low": 28.45,
+          "mean": 34.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.937454271815474
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "hazard_noise/frontier_shared": {
+      "condition": "hazard_noise",
+      "config_hash": "f3a25cacc46bf43ded17ce57ad8e1f0af3b56556a0d3498ed6c0fd7dc602ea4c",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.750441765416894,
+          "ci_low": 0.6364133879187225,
+          "mean": 0.6941305417702424,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13128083980495212
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 278.05375,
+          "ci_low": 221.19875,
+          "mean": 249.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 66.6648135707365
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.95786524923517,
+          "ci_low": 177.83751954449065,
+          "mean": 186.21608320024637,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.853204997564056
+        },
+        "messages_sent": {
+          "ci_high": 201.85,
+          "ci_low": 159.65,
+          "mean": 181.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 48.701129350354904
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 6.05,
+          "ci_low": 4.15,
+          "mean": 5.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.282081229238369
+        },
+        "perception_hazards_false": {
+          "ci_high": 141.0,
+          "ci_low": 110.54875,
+          "mean": 126.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 35.953185935983036
+        },
+        "perception_hazards_missed": {
+          "ci_high": 58.75,
+          "ci_low": 39.8,
+          "mean": 49.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 21.603849559499196
+        },
+        "perception_terrain_errors": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.6144483225108223,
+          "ci_low": 0.525777867965368,
+          "mean": 0.5692712842712842,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.10449982213382002
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.78125,
+          "ci_low": 0.75,
+          "mean": 0.7625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.03847418820319328
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.261973,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 4.00017794011544,
+          "ci_low": 1.8403045183982687,
+          "mean": 2.826516955266956,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.597461740629481
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.5836527777777776,
+          "ci_low": 0.46865079365079365,
+          "mean": 0.5257539682539683,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13675117606379672
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 51.85,
+          "ci_low": 41.0,
+          "mean": 46.45,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.767042273802206
+        },
+        "time_to_recall_target": {
+          "ci_high": 51.7,
+          "ci_low": 40.95,
+          "mean": 46.45,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.767042273802206
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "noisy_all/auction_comm": {
+      "condition": "noisy_all",
+      "config_hash": "b16ce2076ed3914cc6eac8d3a003536279e8fdb3f202918bada8bc1f14e968df",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7844895455240567,
+          "ci_low": 0.6825117892081178,
+          "mean": 0.7331661688569471,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.11670456366754803
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 39.0,
+          "ci_low": 5.666666666666667,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 3,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 17,
+          "std": 16.914819275153697
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.44721359549995787
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 7.95,
+          "ci_low": 3.8,
+          "mean": 5.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.925497570376973
+        },
+        "energy_used": {
+          "ci_high": 325.20124999999996,
+          "ci_low": 225.4,
+          "mean": 271.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 118.03767239853198
+        },
+        "false_suspicions": {
+          "ci_high": 15.4,
+          "ci_low": 10.65,
+          "mean": 12.9,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.655923769306878
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 241.55493692796625,
+          "ci_low": 224.27016697201807,
+          "mean": 232.51298795839404,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.224294371331627
+        },
+        "messages_sent": {
+          "ci_high": 247.7,
+          "ci_low": 166.1,
+          "mean": 203.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 96.62759494711207
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 7.05,
+          "ci_low": 4.45,
+          "mean": 5.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.989014975926984
+        },
+        "perception_hazards_false": {
+          "ci_high": 169.15124999999998,
+          "ci_low": 118.15,
+          "mean": 142.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 61.513263439256484
+        },
+        "perception_hazards_missed": {
+          "ci_high": 87.7,
+          "ci_low": 45.7,
+          "mean": 63.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 50.50739914528417
+        },
+        "perception_terrain_errors": {
+          "ci_high": 370.30249999999995,
+          "ci_low": 248.7,
+          "mean": 304.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 146.81290456689567
+        },
+        "precision": {
+          "ci_high": 0.6045393460705959,
+          "ci_low": 0.4867248168498167,
+          "mean": 0.5438465700965701,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13839288430890173
+        },
+        "reassignment_delay_mean": {
+          "ci_high": 40.0,
+          "ci_low": 35.0,
+          "mean": 37.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 3.5355339059327378
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.40147769999999994,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 12.207862689393938,
+          "ci_low": 5.722708333333333,
+          "mean": 8.811060606060606,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 7.6524042679842195
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.6115797152194211,
+          "ci_low": 0.42777777777777776,
+          "mean": 0.5199112978524743,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.21677816839163572
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 6.666666666666667,
+          "ci_low": 3.3333333333333335,
+          "mean": 4.666666666666667,
+          "n_completed": 20,
+          "n_defined": 3,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 17,
+          "std": 1.763834207376394
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 63.85,
+          "ci_low": 42.3,
+          "mean": 52.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 25.770801511134955
+        },
+        "time_to_recall_target": {
+          "ci_high": 64.5,
+          "ci_low": 42.3,
+          "mean": 52.35,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 25.770801511134955
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "noisy_all/frontier_shared": {
+      "condition": "noisy_all",
+      "config_hash": "b16ce2076ed3914cc6eac8d3a003536279e8fdb3f202918bada8bc1f14e968df",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.35,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7795021827815557,
+          "ci_low": 0.670074140605147,
+          "mean": 0.7282957627253994,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1290866958568999
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 357.6524999999999,
+          "ci_low": 253.24875,
+          "mean": 304.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 121.75402295309654
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.7682758901671,
+          "ci_low": 180.36186725394407,
+          "mean": 187.2976318301824,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 15.644355686362132
+        },
+        "messages_sent": {
+          "ci_high": 282.00124999999997,
+          "ci_low": 195.29875,
+          "mean": 236.5,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 102.27131099497835
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 8.65,
+          "ci_low": 5.6,
+          "mean": 7.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 3.4864398973587276
+        },
+        "perception_hazards_false": {
+          "ci_high": 201.05,
+          "ci_low": 138.8,
+          "mean": 168.85,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 73.75155662942416
+        },
+        "perception_hazards_missed": {
+          "ci_high": 85.75124999999998,
+          "ci_low": 51.34875000000001,
+          "mean": 67.45,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 40.46632778262103
+        },
+        "perception_terrain_errors": {
+          "ci_high": 425.05,
+          "ci_low": 291.15,
+          "mean": 351.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 156.968811853619
+        },
+        "precision": {
+          "ci_high": 0.5551952734765233,
+          "ci_low": 0.4455320408757909,
+          "mean": 0.4993119380619381,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12873230801836785
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.76875,
+          "ci_low": 0.75,
+          "mean": 0.75625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.02795084971874737
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.30162754999999997,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 11.157337076118328,
+          "ci_low": 4.162227987290488,
+          "mean": 7.201778360528363,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 8.071448283418189
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.6556973622782447,
+          "ci_low": 0.4940762138188611,
+          "mean": 0.5750700280112044,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.19305708894898066
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 72.65,
+          "ci_low": 49.64875000000001,
+          "mean": 60.65,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 27.026838512856067
+        },
+        "time_to_recall_target": {
+          "ci_high": 72.6,
+          "ci_low": 49.6,
+          "mean": 60.65,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 27.026838512856067
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "nominal/auction_comm": {
+      "condition": "nominal",
+      "config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7488084457026519,
+          "ci_low": 0.6371362047465825,
+          "mean": 0.6963179463779482,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12903328719313828
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 20.0,
+          "mean": 20.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 0.7071067811865476
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.05,
+          "ci_low": 3.2,
+          "mean": 4.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.2354794611117845
+        },
+        "energy_used": {
+          "ci_high": 223.80124999999998,
+          "ci_low": 157.44875,
+          "mean": 191.2,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 76.6952959512683
+        },
+        "false_suspicions": {
+          "ci_high": 13.1,
+          "ci_low": 8.55,
+          "mean": 10.85,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.294237184752969
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 237.86100488661367,
+          "ci_low": 220.47504804299598,
+          "mean": 229.07417525092268,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.551567788170633
+        },
+        "messages_sent": {
+          "ci_high": 156.50249999999997,
+          "ci_low": 112.45,
+          "mean": 134.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 52.47302565178257
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.7084742965367965,
+          "ci_low": 0.5893387445887445,
+          "mean": 0.6463311688311688,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14223079956125817
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2196862,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 6.308027326839827,
+          "ci_low": 2.4633046536796535,
+          "mean": 4.2770670995671,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.535949578045378
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.45476190476190465,
+          "ci_low": 0.3,
+          "mean": 0.3738095238095238,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.18178260057547188
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 40.35,
+          "ci_low": 28.35,
+          "mean": 34.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.937454271815474
+        },
+        "time_to_recall_target": {
+          "ci_high": 40.6,
+          "ci_low": 28.45,
+          "mean": 34.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.937454271815474
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "nominal/frontier_shared": {
+      "condition": "nominal",
+      "config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.750441765416894,
+          "ci_low": 0.6364133879187225,
+          "mean": 0.6941305417702424,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13128083980495212
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 278.05375,
+          "ci_low": 221.19875,
+          "mean": 249.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 66.6648135707365
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.95786524923517,
+          "ci_low": 177.83751954449065,
+          "mean": 186.21608320024637,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.853204997564056
+        },
+        "messages_sent": {
+          "ci_high": 201.85,
+          "ci_low": 159.65,
+          "mean": 181.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 48.701129350354904
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.6144483225108223,
+          "ci_low": 0.525777867965368,
+          "mean": 0.5692712842712842,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.10449982213382002
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.78125,
+          "ci_low": 0.75,
+          "mean": 0.7625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.03847418820319328
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2213232,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 4.00017794011544,
+          "ci_low": 1.8403045183982687,
+          "mean": 2.826516955266956,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.597461740629481
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.5836527777777776,
+          "ci_low": 0.46865079365079365,
+          "mean": 0.5257539682539683,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13675117606379672
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 51.85,
+          "ci_low": 41.0,
+          "mean": 46.45,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.767042273802206
+        },
+        "time_to_recall_target": {
+          "ci_high": 51.7,
+          "ci_low": 40.95,
+          "mean": 46.45,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.767042273802206
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "pdetect_50/auction_comm": {
+      "condition": "pdetect_50",
+      "config_hash": "0565d2ae81a05eae6bb429ee4feed58c244b7122de4de44f09c46e2b0458a9eb",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7738832429172526,
+          "ci_low": 0.6679403552452736,
+          "mean": 0.7230042317748946,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1198282569194793
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 20.0,
+          "mean": 20.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 0.7071067811865476
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.4,
+          "ci_low": 3.3487500000000057,
+          "mean": 4.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.515216847405743
+        },
+        "energy_used": {
+          "ci_high": 236.6,
+          "ci_low": 174.19625,
+          "mean": 205.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 72.52302719608588
+        },
+        "false_suspicions": {
+          "ci_high": 13.65,
+          "ci_low": 9.8,
+          "mean": 11.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.485062928620311
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 235.83761454807222,
+          "ci_low": 218.74005341609194,
+          "mean": 227.31343893006684,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.18493535061145
+        },
+        "messages_sent": {
+          "ci_high": 164.65249999999997,
+          "ci_low": 123.34875,
+          "mean": 143.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 49.48840906292046
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.6986950757575754,
+          "ci_low": 0.5805081168831169,
+          "mean": 0.6367782217782217,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14007801223767744
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.24236635,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 6.247249458874458,
+          "ci_low": 2.626709145021645,
+          "mean": 4.365977633477634,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.35805756038921
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.4392956349206347,
+          "ci_low": 0.275,
+          "mean": 0.35367063492063494,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1940987530712854
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 42.2,
+          "ci_low": 31.098750000000006,
+          "mean": 36.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.094293654710416
+        },
+        "time_to_recall_target": {
+          "ci_high": 42.45,
+          "ci_low": 31.198750000000004,
+          "mean": 36.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 13.094293654710416
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "pdetect_50/frontier_shared": {
+      "condition": "pdetect_50",
+      "config_hash": "0565d2ae81a05eae6bb429ee4feed58c244b7122de4de44f09c46e2b0458a9eb",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7904548338338447,
+          "ci_low": 0.674869421616481,
+          "mean": 0.7344056961110111,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1326632846997665
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 300.5,
+          "ci_low": 243.1475,
+          "mean": 271.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 67.30457089349798
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 193.33457891922393,
+          "ci_low": 177.35394575797852,
+          "mean": 185.62615988500207,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.43374246533605
+        },
+        "messages_sent": {
+          "ci_high": 217.8,
+          "ci_low": 175.29875,
+          "mean": 196.6,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 48.44682380550974
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.5871685397935398,
+          "ci_low": 0.49482863704922536,
+          "mean": 0.5389490901255607,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.10777480146693712
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.26230715,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 4.392339962121211,
+          "ci_low": 2.2246330544455546,
+          "mean": 3.2436242923742924,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.5172842310138046
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.5905555555555555,
+          "ci_low": 0.4486111111111112,
+          "mean": 0.518611111111111,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.16843385723336066
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 55.9,
+          "ci_low": 45.0,
+          "mean": 50.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.873473338204949
+        },
+        "time_to_recall_target": {
+          "ci_high": 55.9,
+          "ci_low": 44.94875000000001,
+          "mean": 50.4,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.873473338204949
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "pdetect_95/auction_comm": {
+      "condition": "pdetect_95",
+      "config_hash": "d3eda6cb04a9e4d3d81e1db473f831e42c0fb6107c772033148466fa659474a6",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7469770019899713,
+          "ci_low": 0.6343750121528066,
+          "mean": 0.6936719039566335,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.13005641284070563
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": 21.0,
+          "ci_low": 20.0,
+          "mean": 20.5,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 0.7071067811865476
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 5.05,
+          "ci_low": 3.2,
+          "mean": 4.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.2354794611117845
+        },
+        "energy_used": {
+          "ci_high": 223.10124999999996,
+          "ci_low": 156.34875,
+          "mean": 190.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 77.09467863402901
+        },
+        "false_suspicions": {
+          "ci_high": 13.25,
+          "ci_low": 8.65,
+          "mean": 10.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.31606304663418
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 237.98352397155776,
+          "ci_low": 220.53343164661877,
+          "mean": 229.17412104515512,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 20.61084369177297
+        },
+        "messages_sent": {
+          "ci_high": 156.05124999999998,
+          "ci_low": 111.79875,
+          "mean": 133.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 52.73216835051796
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.7096669372294372,
+          "ci_low": 0.593093344155844,
+          "mean": 0.6490584415584416,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.14070950483432088
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 24.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.75,
+          "ci_low": 0.75,
+          "mean": 0.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2381895,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 6.496517857142855,
+          "ci_low": 2.512783279220779,
+          "mean": 4.390854978354978,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 4.652002705309308
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.4571428571428572,
+          "ci_low": 0.30277777777777776,
+          "mean": 0.37658730158730164,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.18155586465700868
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.666666666666667,
+          "ci_low": 0.0,
+          "mean": 2.8333333333333335,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 4.006938426723769
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 40.2,
+          "ci_low": 28.2,
+          "mean": 34.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.00704709855195
+        },
+        "time_to_recall_target": {
+          "ci_high": 40.5,
+          "ci_low": 28.298750000000005,
+          "mean": 34.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 14.00704709855195
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.15,
+          "ci_low": 0.0,
+          "mean": 0.05,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22360679774997894
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "pdetect_95/frontier_shared": {
+      "condition": "pdetect_95",
+      "config_hash": "d3eda6cb04a9e4d3d81e1db473f831e42c0fb6107c772033148466fa659474a6",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.3,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.36634754853252327
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7424092373957069,
+          "ci_low": 0.6310191691095829,
+          "mean": 0.6874699711077749,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12848156300564073
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 274.70124999999996,
+          "ci_low": 218.9,
+          "mean": 247.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 65.5390602698317
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 194.0804188439759,
+          "ci_low": 177.96212895317547,
+          "mean": 186.3175358823783,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 18.74974274386881
+        },
+        "messages_sent": {
+          "ci_high": 199.50249999999997,
+          "ci_low": 158.2,
+          "mean": 179.3,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 47.78912010070911
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "precision": {
+          "ci_high": 0.6170119047619047,
+          "ci_low": 0.528322601010101,
+          "mean": 0.571998556998557,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1045572873157892
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.78125,
+          "ci_low": 0.75,
+          "mean": 0.7625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.03847418820319328
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2072812,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 4.311274463383839,
+          "ci_low": 1.8439963023088022,
+          "mean": 2.9510182178932185,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.9452235568211083
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.6111111111111109,
+          "ci_low": 0.47638392857142864,
+          "mean": 0.5424206349206349,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.15906636803632418
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 51.35,
+          "ci_low": 40.65,
+          "mean": 45.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.596887669077962
+        },
+        "time_to_recall_target": {
+          "ci_high": 51.101249999999986,
+          "ci_low": 40.5,
+          "mean": 45.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 12.596887669077962
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    },
+    "terrain_10/auction_comm": {
+      "condition": "terrain_10",
+      "config_hash": "f7b4e35581a689c6d5fcdacafd11329e0dba9783acac3ee3b2c984c881ae5141",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "agents_disabled": {
+          "ci_high": 0.4,
+          "ci_low": 0.0,
+          "mean": 0.15,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.4893604849295929
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7543761553381628,
+          "ci_low": 0.6421182867630987,
+          "mean": 0.7003709547726398,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.12803666677753417
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 29.333333333333332,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": 0.65,
+          "ci_low": 0.0,
+          "mean": 0.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.7863975156570492
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": 6.2,
+          "ci_low": 3.5487500000000054,
+          "mean": 4.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 3.1267100584278174
+        },
+        "energy_used": {
+          "ci_high": 275.45,
+          "ci_low": 198.44875,
+          "mean": 236.75,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 90.68213716052351
+        },
+        "false_suspicions": {
+          "ci_high": 12.8,
+          "ci_low": 8.5,
+          "mean": 10.7,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 5.089721324188067
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 243.41064140242403,
+          "ci_low": 224.14601072550823,
+          "mean": 233.25815654382797,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 22.679472435198587
+        },
+        "messages_sent": {
+          "ci_high": 207.60499999999993,
+          "ci_low": 146.6975,
+          "mean": 176.9,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 71.40241776829336
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 6.2,
+          "ci_low": 3.8,
+          "mean": 4.95,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.7810448623342614
+        },
+        "perception_hazards_false": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_hazards_missed": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_terrain_errors": {
+          "ci_high": 310.60125,
+          "ci_low": 221.14625,
+          "mean": 265.9,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 107.07936063352363
+        },
+        "precision": {
+          "ci_high": 0.6580058167935006,
+          "ci_low": 0.5267496336384203,
+          "mean": 0.5889409732424438,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.15442709507343547
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": 27.0,
+          "n_completed": 20,
+          "n_defined": 1,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 19,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.76875,
+          "ci_low": 0.75,
+          "mean": 0.75625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.027950849718747367
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.35257995000000003,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 9.796442911255406,
+          "ci_low": 3.831332025613276,
+          "mean": 6.682706321456321,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 6.895131234481523
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.589484126984127,
+          "ci_low": 0.3968253968253968,
+          "mean": 0.49226190476190473,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.22229111520113093
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": 5.6,
+          "ci_low": 4.0,
+          "mean": 4.8,
+          "n_completed": 20,
+          "n_defined": 2,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 18,
+          "std": 1.1313708498984758
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "time_censored": {
+          "ci_high": 53.85,
+          "ci_low": 37.39875000000001,
+          "mean": 45.65,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 19.142883795290615
+        },
+        "time_to_recall_target": {
+          "ci_high": 53.851249999999986,
+          "ci_low": 37.44875000000001,
+          "mean": 45.65,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 19.142883795290615
+        },
+        "unresolved_sectors": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        }
+      },
+      "n_failed": 0,
+      "policy": "auction_comm"
+    },
+    "terrain_10/frontier_shared": {
+      "condition": "terrain_10",
+      "config_hash": "f7b4e35581a689c6d5fcdacafd11329e0dba9783acac3ee3b2c984c881ae5141",
+      "end_reasons": {
+        "mission_success": 20
+      },
+      "metrics": {
+        "abandoned_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "agents_disabled": {
+          "ci_high": 0.25,
+          "ci_low": 0.0,
+          "mean": 0.1,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.30779350562554625
+        },
+        "agents_disabled_injected": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "coverage_sensed": {
+          "ci_high": 0.7676170244790314,
+          "ci_low": 0.658497230943285,
+          "mean": 0.7161445976101789,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.1282233935003858
+        },
+        "disabled_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "disabled_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "duplicate_ownership_steps": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "energy_used": {
+          "ci_high": 338.25124999999997,
+          "ci_low": 245.05,
+          "mean": 290.65,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 108.59207831920436
+        },
+        "false_suspicions": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "message_delivery_rate": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "message_units_per_step": {
+          "ci_high": 194.2867441074347,
+          "ci_low": 180.4402834665922,
+          "mean": 187.51028591241578,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 16.285826898674582
+        },
+        "messages_sent": {
+          "ci_high": 265.9049999999999,
+          "ci_low": 190.5,
+          "mean": 227.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 88.60260183895042
+        },
+        "mission_success": {
+          "ci_high": 1.0,
+          "ci_low": 1.0,
+          "mean": 1.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_false_reports": {
+          "ci_high": 7.8,
+          "ci_low": 5.35,
+          "mean": 6.55,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 2.910507280798134
+        },
+        "perception_hazards_false": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_hazards_missed": {
+          "ci_high": 0.0,
+          "ci_low": 0.0,
+          "mean": 0.0,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.0
+        },
+        "perception_terrain_errors": {
+          "ci_high": 404.40374999999995,
+          "ci_low": 283.89125,
+          "mean": 339.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 142.85910430984273
+        },
+        "precision": {
+          "ci_high": 0.5658224067599067,
+          "ci_low": 0.4642302636089401,
+          "mean": 0.5136535033593856,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.11844875862025225
+        },
+        "reassignment_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "recall": {
+          "ci_high": 0.76875,
+          "ci_low": 0.75,
+          "mean": 0.75625,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.027950849718747367
+        },
+        "runtime_seconds_per_episode": {
+          "mean": 0.2920686,
+          "note": "wall clock, not deterministic; whole cell duration / episodes"
+        },
+        "survivor_info_delay_mean": {
+          "ci_high": 10.158681433150182,
+          "ci_low": 3.6528470175657675,
+          "mean": 6.386327977577977,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 7.700959755986292
+        },
+        "survivor_info_informed_fraction": {
+          "ci_high": 0.6396825396825397,
+          "ci_low": 0.5111111111111112,
+          "mean": 0.5753968253968254,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 0.15063967867916947
+        },
+        "suspicion_detection_delay_mean": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "suspicion_detection_unresolved": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        },
+        "time_censored": {
+          "ci_high": 69.15124999999999,
+          "ci_low": 48.44875000000001,
+          "mean": 58.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 24.034788383332586
+        },
+        "time_to_recall_target": {
+          "ci_high": 68.80124999999998,
+          "ci_low": 48.14875000000001,
+          "mean": 58.25,
+          "n_completed": 20,
+          "n_defined": 20,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 0,
+          "std": 24.034788383332586
+        },
+        "unresolved_sectors": {
+          "ci_high": null,
+          "ci_low": null,
+          "mean": null,
+          "n_completed": 20,
+          "n_defined": 0,
+          "n_failed": 0,
+          "n_seeds": 20,
+          "n_undefined": 20,
+          "std": null
+        }
+      },
+      "n_failed": 0,
+      "policy": "frontier_shared"
+    }
+  }
+}

@@ -197,7 +197,7 @@ def test_dynamics_children_do_not_change_m1_streams() -> None:
 
 
 def test_seed_derivation_records_dynamics_children() -> None:
-    children = ["hazard", "false_positive", "comms", "failure"]
+    children = ["hazard", "false_positive", "comms", "failure", "perception"]
     assert seed_derivation(0, AGENTS)["dynamics_children"] == children
 
 

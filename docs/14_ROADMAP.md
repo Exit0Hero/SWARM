@@ -102,7 +102,8 @@ then MAPPO with action masking and a centralized critic. Checkpointing. Evaluati
 seeds as the baselines.
 
 ## Phase 5 — Perception
-Status: deferred (user decision, 2026-11-15). Phase 7 proceeds without it, using the synthetic sensor model.
+Status: implemented, in review ([ADR-0025](decisions/0025-perception-model.md), [docs/22](22_PERCEPTION.md)). Synthetic noisy sensor and an exploratory
+benchmark; an image-based detector is not built (no dataset).
 
 Acceptance: replaceable perception interface. Synthetic sensor benchmark (`p_detect` and
 false-positive sweeps). An image-based detector only with a justified dataset, held-out evaluation

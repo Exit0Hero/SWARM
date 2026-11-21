@@ -79,8 +79,10 @@ def test_brief_is_an_allow_list_without_ground_truth() -> None:
         "p_false_positive",
         "recall_target",
         "comms",  # public channel parameters only (ADR-0018); None without a channel
+        "perception",  # public sensor-model parameters only (ADR-0025); None by default
     }
     assert brief.comms is None
+    assert brief.perception is None
     assert brief.hazard is not None
     assert set(type(brief.hazard).__dataclass_fields__) == {
         "affected_layers",

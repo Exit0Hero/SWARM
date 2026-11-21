@@ -35,6 +35,7 @@ from swarm.evaluation.metrics import (
     EpisodeMetrics,
     compute_metrics,
 )
+from swarm.evaluation.perception_metrics import compute_perception_metrics
 from swarm.policies.base import (
     CommunicatingTeam,
     MissionBrief,
@@ -186,11 +187,21 @@ def run_episode(
         final_snapshot=snapshot,
         policy_diagnostics=dict(team.diagnostics()),
         decision_log=tuple(team.decision_log()),
-        comm_metrics=None
-        if config.comms is None
-        else compute_comm_metrics(config, snapshot.scenario, events)
-        | compute_failure_metrics(config, events, team.decision_log()),
+        comm_metrics=_extension_metrics(config, snapshot.scenario, events, team.decision_log()),
     )
+
+
+def _extension_metrics(
+    config: ScenarioConfig, scenario: Any, events: list[Event], log: Any
+) -> dict[str, Any] | None:
+    """Channel, failure and perception metrics; ``None`` when none is configured."""
+    out: dict[str, Any] = {}
+    if config.comms is not None:
+        out |= compute_comm_metrics(config, scenario, events)
+        out |= compute_failure_metrics(config, events, log)
+    if config.perception is not None:
+        out |= compute_perception_metrics(events)
+    return out or None
 
 
 def describe_policy(

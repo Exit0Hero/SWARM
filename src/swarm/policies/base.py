@@ -17,7 +17,7 @@ from swarm.core.messages import Message
 from swarm.core.observation import Observation
 from swarm.core.oracle import OracleView
 from swarm.core.types import AgentId, AgentStatus, Layer, Position
-from swarm.scenarios.config import AgentTypeSpec, CommsConfig, ScenarioConfig
+from swarm.scenarios.config import AgentTypeSpec, CommsConfig, PerceptionConfig, ScenarioConfig
 
 
 class Policy(Protocol):
@@ -90,6 +90,9 @@ class MissionBrief:
 
     Scheduled partitions are experimental conditions, not public knowledge: they are removed
     (ADR-0021). The brief never mentions scheduled failures either."""
+    perception: PerceptionConfig | None = None
+    """Public sensor model (ADR-0025): lets a policy compute report confidence with
+    :func:`swarm.core.perception.report_confidence`. ``None`` = the ADR-0012 sensor."""
 
     @classmethod
     def from_config(cls, config: ScenarioConfig) -> MissionBrief:
@@ -106,6 +109,7 @@ class MissionBrief:
             p_false_positive=config.p_false_positive,
             recall_target=config.recall_target,
             comms=None if config.comms is None else replace(config.comms, partitions=()),
+            perception=config.perception,
         )
 
     @property

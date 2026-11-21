@@ -36,6 +36,7 @@ from swarm.core.events import (
     InvalidAction,
     MoveConflict,
     Moved,
+    PerceptionError,
     Recharged,
 )
 from swarm.core.messages import Delivery, Message, outbox_size, validate_message
@@ -49,6 +50,7 @@ from swarm.core.observation import (
     in_footprint,
 )
 from swarm.core.oracle import OracleView
+from swarm.core.perception import SensorModel, corrupt_view, make_sensor
 from swarm.core.rng import episode_streams
 from swarm.core.types import (
     ACTION_DELTAS,
@@ -125,6 +127,13 @@ class SwarmEnv:
         self._false_positive_rng: np.random.Generator | None = None
         self._channel: Channel | None = None
         self._injected: dict[int, list[AgentId]] = {}
+        self._sensor: SensorModel | None = (
+            None
+            if config.perception is None
+            else make_sensor(config.perception.model, **config.perception.params())
+        )
+        self._perception_rng: np.random.Generator | None = None
+        self._perception_errors: list[Event] = []
         if config.comms is not None:
             ranges = {aid: config.comms.range_for(spec.name) for aid, (spec, _) in roster.items()}
             self._channel = Channel(config.comms, ranges)
@@ -189,6 +198,8 @@ class SwarmEnv:
         if self._channel is not None:
             self._channel.reset(streams.comms)
         self._injected = self._schedule_failures(streams.failure)
+        self._perception_rng = streams.perception
+        self._perception_errors = []
         self._last_seq = {}
         self._found = set()
         self._pos[:] = scenario.base
@@ -226,7 +237,8 @@ class SwarmEnv:
         for aid, batch in outbox.items():
             self._last_seq[aid] = batch[-1].seq
         t = self._step + 1
-        events: list[Event] = []
+        events: list[Event] = list(self._perception_errors)  # from the reset observation
+        self._perception_errors = []
 
         # 1. Validate actions: masked actions become STAY plus an event (ADR-0004).
         effective: dict[AgentId, Action] = {}
@@ -337,7 +349,11 @@ class SwarmEnv:
             for s_index, survivor in enumerate(scenario.survivors):
                 # One draw per (agent, survivor in footprint), in sorted order (ADR-0006).
                 in_range = in_footprint(here, survivor, radius)
-                if in_range and rng.random() < self._config.p_detect:
+                p = self._config.p_detect
+                if in_range and self._sensor is not None:
+                    d = float(np.hypot(survivor[0] - here[0], survivor[1] - here[1]))
+                    p = self._sensor.detect_probability(p, d, radius)
+                if in_range and rng.random() < p:
                     found.append(survivor)
                     self._found.add(s_index)
                     events.append(Detection(t, aid, survivor, True, s_index))
@@ -392,6 +408,12 @@ class SwarmEnv:
             aid: self._observe(self._index[aid], tuple(reports.get(aid, ())), inboxes.get(aid, ()))
             for aid in acting
         }
+        if self._perception_errors:  # readings taken at the end of this step (ADR-0025)
+            end = events.pop() if events and isinstance(events[-1], EpisodeEnd) else None
+            events.extend(self._perception_errors)
+            self._perception_errors = []
+            if end is not None:
+                events.append(end)
         return StepResult(
             observations=observations,
             terminations=terminations,
@@ -586,12 +608,52 @@ class SwarmEnv:
         view.flags.writeable = False
         return view
 
+    def _perceive(
+        self, i: int, terrain: npt.NDArray[np.int8], hazard: npt.NDArray[np.bool_]
+    ) -> tuple[npt.NDArray[np.int8], npt.NDArray[np.bool_]]:
+        """Corrupt one agent's footprint view with the sensor model (ADR-0025).
+
+        Two ``perception`` draws per in-grid footprint cell, row-major; the agent's own cell and
+        the base are never corrupted. Errors are queued as evaluator-only events.
+        """
+        assert self._sensor is not None
+        assert self._perception_rng is not None
+        scenario = self._require_scenario()
+        radius = self._specs[i].sensor_radius
+        r, c = self._position(i)
+        h, w = scenario.shape
+        cells = [
+            (dr + radius, dc + radius)
+            for dr, dc in footprint_offsets(radius)
+            if 0 <= r + dr < h and 0 <= c + dc < w
+        ]
+        draws = self._perception_rng.random(2 * len(cells))
+        eligible = [
+            k
+            for k, (vr, vc) in enumerate(cells)
+            if (vr - radius, vc - radius) != (0, 0)
+            and (r + vr - radius, c + vc - radius) != scenario.base
+        ]
+        keep = [cells[k] for k in eligible]
+        picked = np.array([draws[2 * k + j] for k in eligible for j in (0, 1)], dtype=np.float64)
+        new_t, new_h, errors = corrupt_view(self._sensor, terrain, hazard, keep, picked)
+        aid = self.possible_agents[i]
+        for vr, vc, kind in errors:
+            self._perception_errors.append(
+                PerceptionError(self._step, aid, (r + vr - radius, c + vc - radius), kind)
+            )
+        return new_t, new_h
+
     def _observe(
         self, i: int, detections: tuple[Position, ...], inbox: tuple[Delivery, ...] = ()
     ) -> Observation:
         scenario = self._require_scenario()
         spec = self._specs[i]
         here = self._position(i)
+        terrain, hazard = self._local_terrain(i), self._local_hazard(i)
+        ordered = tuple(sorted(set(detections)))
+        if self._sensor is not None:
+            terrain, hazard = self._perceive(i, terrain, hazard)
         visible = tuple(
             VisibleAgent(
                 agent_id=other,
@@ -615,10 +677,10 @@ class SwarmEnv:
             sensor_radius=spec.sensor_radius,
             grid_shape=scenario.shape,
             base_position=scenario.base,
-            local_terrain=self._local_terrain(i),
-            local_hazard=self._local_hazard(i),
+            local_terrain=terrain,
+            local_hazard=hazard,
             visible_agents=visible,
-            detections=tuple(sorted(set(detections))),
+            detections=ordered,
             action_mask=self._mask(i),
             inbox=inbox,
         )
