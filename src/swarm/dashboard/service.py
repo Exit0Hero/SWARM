@@ -404,7 +404,7 @@ def list_configs(roots: list[Path]) -> dict[str, dict[str, Any]]:
                 config = ScenarioConfig.from_json(path.read_text(encoding="utf-8"))
             except Exception:  # study specs and other JSON files are not scenario configs
                 continue
-            found[str(path.relative_to(root.parent))] = config.to_dict()
+            found[path.relative_to(root.parent).as_posix()] = config.to_dict()
     return found
 
 

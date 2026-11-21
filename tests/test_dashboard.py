@@ -227,11 +227,22 @@ def test_http_hardening(base_url: str) -> None:
     run = base_url + "/api/runs"
     body = b'{"config_name": "examples/basic.json", "policy": "frontier", "seed": 1}'
     assert _raw(run, "POST", body, {"Content-Type": "text/plain"}) == 403  # no simple CSRF posts
-    assert (
-        _raw(run, "POST", body, {"Content-Type": "application/json", "Host": "evil.example"}) == 403
-    )
-    big = b"{" + b" " * 1_000_001 + b"}"
-    assert _raw(run, "POST", big, {"Content-Type": "application/json"}) == 413
+    rebinding = {"Content-Type": "application/json", "Host": "evil.example"}
+    assert _raw(run, "POST", body, rebinding) == 403
+    # Size limit: declare an oversized body but never send it. The server answers 413 from the
+    # headers alone (sending the body would race the server closing the connection).
+    import http.client
+
+    port = int(base_url.rsplit(":", 1)[1])
+    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=30)
+    conn.putrequest("POST", "/api/runs")
+    conn.putheader("Content-Type", "application/json")
+    conn.putheader("Content-Length", "2000000")
+    conn.endheaders()
+    response = conn.getresponse()
+    assert response.status == 413
+    response.read()
+    conn.close()
     assert _raw(run, "POST", body, {"Content-Type": "application/json"}) == 200  # packaged example
     with urllib.request.urlopen(base_url + "/", timeout=30) as res:
         assert res.headers["X-Content-Type-Options"] == "nosniff"
