@@ -9,7 +9,7 @@ not control real aircraft or robots, and it is not validated for real disaster o
 
 | What | Status |
 |---|---|
-| Docs, 24 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
+| Docs, 25 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
 | Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
 | Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Complete (merged) |
 | Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded). See `docs/16_PHASE2_BASELINE_STUDY.md` |
@@ -20,6 +20,7 @@ not control real aircraft or robots, and it is not validated for real disaster o
 | Phase 3 M3.4: failure detection (active / disconnected / suspected / disabled) and failure, reassignment and duplicate-ownership metrics (ADR-0020) | Complete (merged) |
 | Phase 3 M3.5: scheduled failures and partitions (ADR-0021), study runner, pre-registered coordination study (4 450 episodes) and replay viewer | Complete (merged). Sharing and auction coordination speed up search; reassignment reclaims sectors but did not speed up the mission. See `docs/18_PHASE3_COORDINATION_STUDY.md` |
 | Phase 4: learned sector selection with IPPO/MAPPO (optional `learning` extra; ADR-0022), nine trained models, pre-registered evaluation | In review. MAPPO beats belief sharing alone (−7 steps) but is slower than the lease auction (+6 steps) at this small training budget. See `docs/19_PHASE4_MARL_STUDY.md` |
+| Phase 5: replaceable perception model (range falloff, report confidence, terrain and hazard misreads; ADR-0025), exploratory sensor benchmark | In review. See `docs/22_PERCEPTION.md` |
 | Phase 8: 3D feasibility (MuJoCo replay prototype, simulator comparison) | Decision: defer full 3D (ADR-0024) |
 | Phase 7 final validation (directive "Phase 5"): 17 conditions × 8 policies, 6 850 episodes, scalability; paper draft | Run, in review. See `docs/20_PHASE7_FINAL_VALIDATION.md` and `docs/21_RESEARCH_PAPER_DRAFT.md`. Phases 5 and 6 deferred |
 | 3D feasibility (Phase 8) | Planned |

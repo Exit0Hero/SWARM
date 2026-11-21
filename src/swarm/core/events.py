@@ -170,6 +170,19 @@ class SurvivorReportReceived(Event):
 
 
 @dataclass(frozen=True, slots=True)
+class PerceptionError(Event):
+    """A footprint reading the sensor model corrupted (ADR-0025). Evaluator-only.
+
+    ``error`` is ``terrain`` (misread type), ``hazard_missed`` or ``hazard_false``.
+    """
+
+    kind: ClassVar[str] = "perception_error"
+    agent_id: AgentId
+    cell: Position
+    error: str
+
+
+@dataclass(frozen=True, slots=True)
 class EpisodeEnd(Event):
     kind: ClassVar[str] = "episode_end"
     reason: str  # "mission_success" | "all_disabled" | "time_limit" (that precedence, ADR-0009)

@@ -24,11 +24,12 @@ import numpy as np
 from swarm.core.types import AgentId
 
 SPAWN_ORDER: Final[tuple[str, str, str]] = ("scenario", "dynamics", "policies")
-DYNAMICS_CHILDREN: Final[tuple[str, str, str, str]] = (
+DYNAMICS_CHILDREN: Final[tuple[str, str, str, str, str]] = (
     "hazard",
     "false_positive",
     "comms",
     "failure",
+    "perception",
 )
 
 
@@ -48,6 +49,8 @@ class EpisodeStreams:
     """Message drop and jitter draws (ADR-0017)."""
     failure: np.random.Generator
     """Scheduled-failure draws (ADR-0021); used only when failures are configured."""
+    perception: np.random.Generator
+    """Terrain and hazard misread draws (ADR-0025); used only when perception is configured."""
     policies: dict[AgentId, np.random.Generator]
 
 
@@ -66,7 +69,7 @@ def episode_streams(root_seed: int, agent_ids: Sequence[AgentId]) -> EpisodeStre
     if len(set(ids)) != len(ids):
         raise ValueError(f"agent_ids: must be unique, got {list(agent_ids)}")
     children = policies_seq.spawn(len(ids))
-    hazard_seq, false_positive_seq, comms_seq, failure_seq = dynamics_seq.spawn(
+    hazard_seq, false_positive_seq, comms_seq, failure_seq, perception_seq = dynamics_seq.spawn(
         len(DYNAMICS_CHILDREN)
     )
     return EpisodeStreams(
@@ -77,6 +80,7 @@ def episode_streams(root_seed: int, agent_ids: Sequence[AgentId]) -> EpisodeStre
         false_positive=np.random.default_rng(false_positive_seq),
         comms=np.random.default_rng(comms_seq),
         failure=np.random.default_rng(failure_seq),
+        perception=np.random.default_rng(perception_seq),
         policies={aid: np.random.default_rng(seq) for aid, seq in zip(ids, children, strict=True)},
     )
 
@@ -87,7 +91,7 @@ def seed_derivation(root_seed: int, agent_ids: Sequence[AgentId]) -> dict[str, A
         "root_seed": validate_seed(root_seed),
         "method": (
             "numpy.random.SeedSequence(root_seed).spawn(3); dynamics child spawned into "
-            "(hazard, false_positive, comms, failure); policies child spawned per agent"
+            "(hazard, false_positive, comms, failure, perception); policies child spawned per agent"
         ),
         "spawn_order": list(SPAWN_ORDER),
         "dynamics_children": list(DYNAMICS_CHILDREN),

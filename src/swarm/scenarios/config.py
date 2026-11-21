@@ -439,6 +439,50 @@ class SurvivorLayout:
 
 
 @dataclass(frozen=True, slots=True)
+class PerceptionConfig:
+    """Optional perception model (Phase 5, ADR-0025); absent = the ADR-0012 synthetic sensor.
+
+    ``model`` names a registered sensor (``swarm.core.perception.SENSOR_MODELS``). The other
+    fields are that model's parameters: detection range falloff, terrain misread rate, hazard
+    miss and false-alarm rates, and the survivor prior used for detection confidence.
+    """
+
+    model: str = "noisy"
+    range_falloff: float = 0.0
+    terrain_error: float = 0.0
+    hazard_miss: float = 0.0
+    hazard_false: float = 0.0
+    prior: float = 0.02
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.model, str) or not self.model:
+            raise ConfigError(f"perception.model: must be a non-empty string, got {self.model!r}")
+        for name in ("range_falloff", "terrain_error", "hazard_miss", "hazard_false", "prior"):
+            object.__setattr__(
+                self, name, _check_fraction(getattr(self, name), f"perception.{name}")
+            )
+
+    def params(self) -> dict[str, float]:
+        return {
+            "range_falloff": self.range_falloff,
+            "terrain_error": self.terrain_error,
+            "hazard_miss": self.hazard_miss,
+            "hazard_false": self.hazard_false,
+            "prior": self.prior,
+        }
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"model": self.model} | self.params()
+
+    @classmethod
+    def from_dict(cls, data: object, path: str = "perception") -> PerceptionConfig:
+        d = _require_mapping(data, path)
+        keys = {"model", "range_falloff", "terrain_error", "hazard_miss", "hazard_false", "prior"}
+        _check_keys(d, path, set(), keys)
+        return cls(**d)
+
+
+@dataclass(frozen=True, slots=True)
 class FailureConfig:
     """Scheduled agent failures for controlled experiments (ADR-0021).
 
@@ -494,6 +538,7 @@ class ScenarioConfig:
     comms: CommsConfig | None = None
     failures: FailureConfig | None = None
     survivor_layout: SurvivorLayout | None = None
+    perception: PerceptionConfig | None = None
 
     def __post_init__(self) -> None:
         _check_int(self.height, "height", minimum=1, maximum=MAX_GRID_SIDE)
@@ -624,7 +669,12 @@ class ScenarioConfig:
         Without a channel or failures the result is the version-2 form (no ``comms`` key), so
         existing config hashes are unchanged. ``failures`` is written only when set.
         """
-        v2 = self.comms is None and self.failures is None and self.survivor_layout is None
+        v2 = (
+            self.comms is None
+            and self.failures is None
+            and self.survivor_layout is None
+            and self.perception is None
+        )
         out: dict[str, Any] = {
             "schema_version": 2 if v2 else SCHEMA_VERSION,
             "height": self.height,
@@ -646,6 +696,8 @@ class ScenarioConfig:
             out["failures"] = self.failures.to_dict()
         if self.survivor_layout is not None:
             out["survivor_layout"] = self.survivor_layout.to_dict()
+        if self.perception is not None:
+            out["perception"] = self.perception.to_dict()
         return out
 
     @classmethod
@@ -676,7 +728,9 @@ class ScenarioConfig:
             required |= {"hazards", "p_false_positive", "recall_target"}
         if version >= 3:
             required |= {"comms"}
-        optional = {"base_position"} | ({"failures", "survivor_layout"} if version >= 3 else set())
+        optional = {"base_position"} | (
+            {"failures", "survivor_layout", "perception"} if version >= 3 else set()
+        )
         _check_keys(d, "config", required, optional)
         base_raw = d.get("base_position")
         base: Position | None = None
@@ -710,6 +764,9 @@ class ScenarioConfig:
             survivor_layout=None
             if d.get("survivor_layout") is None
             else SurvivorLayout.from_dict(d["survivor_layout"]),
+            perception=None
+            if d.get("perception") is None
+            else PerceptionConfig.from_dict(d["perception"]),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:

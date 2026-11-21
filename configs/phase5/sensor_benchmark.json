@@ -1,0 +1,144 @@
+{
+  "name": "phase5_sensor_benchmark",
+  "description": "Exploratory sensor benchmark (ADR-0025). Development seeds only; not a validated result.",
+  "base_config": "../phase3/nominal.json",
+  "seeds": "1000-1019",
+  "designation": "development",
+  "conditions": [
+    {
+      "id": "nominal",
+      "overrides": {},
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "pdetect_50",
+      "overrides": {
+        "p_detect": 0.5
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "pdetect_95",
+      "overrides": {
+        "p_detect": 0.95
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "fp_0",
+      "overrides": {
+        "p_false_positive": 0.0
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "fp_2pct",
+      "overrides": {
+        "p_false_positive": 0.02
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "falloff_50",
+      "overrides": {
+        "perception": {
+          "model": "noisy",
+          "range_falloff": 0.5
+        }
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "terrain_10",
+      "overrides": {
+        "perception": {
+          "model": "noisy",
+          "terrain_error": 0.1
+        }
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "hazard_noise",
+      "overrides": {
+        "perception": {
+          "model": "noisy",
+          "hazard_miss": 0.3,
+          "hazard_false": 0.05
+        }
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    },
+    {
+      "id": "noisy_all",
+      "overrides": {
+        "perception": {
+          "model": "noisy",
+          "range_falloff": 0.5,
+          "terrain_error": 0.1,
+          "hazard_miss": 0.3,
+          "hazard_false": 0.05
+        }
+      },
+      "policies": [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    }
+  ],
+  "exploratory": {
+    "vs_nominal_policies": [
+      "frontier_shared",
+      "auction_comm"
+    ],
+    "vs_nominal_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall",
+      "precision",
+      "energy_used"
+    ],
+    "pairs": [
+      [
+        "frontier_shared",
+        "auction_comm"
+      ]
+    ],
+    "pair_metrics": [
+      "time_censored"
+    ]
+  },
+  "thresholds": {
+    "time_censored": 5,
+    "recall": 0.02,
+    "mission_success": 0.05
+  },
+  "bootstrap": {
+    "resamples": 5000,
+    "permutation_resamples": 5000
+  }
+}

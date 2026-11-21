@@ -71,6 +71,9 @@ class Observation:
     ``action_mask[a]`` is ``True`` when action ``a`` is valid (ADR-0004).
     ``inbox`` holds the messages delivered to this agent this step (ADR-0017); always empty when
     the scenario has no communication channel.
+    With a perception model (ADR-0025), ``local_terrain`` and ``local_hazard`` are the sensor's
+    possibly wrong readings, not ground truth. Report confidence is not a field: it depends only on
+    public sensor parameters (:func:`swarm.core.perception.report_confidence`).
     """
 
     agent_id: AgentId
