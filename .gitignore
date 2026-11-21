@@ -34,3 +34,4 @@ Thumbs.db
 
 # Claude Code: keep shared skills, ignore personal settings
 .claude/settings.local.json
+docs/results/phase4/models/*/checkpoint.pt

@@ -46,7 +46,7 @@ def test_features_and_masks_are_well_formed_at_every_decision() -> None:
     config = _nominal()
     seen: list[tuple[np.ndarray[Any, Any], np.ndarray[Any, Any]]] = []
 
-    def record(_: str, feats: np.ndarray[Any, Any], mask: np.ndarray[Any, Any]) -> int:
+    def record(_: str, feats: np.ndarray[Any, Any], mask: np.ndarray[Any, Any], __: Any) -> int:
         seen.append((feats, mask))
         return int(np.flatnonzero(mask)[0])
 
@@ -91,6 +91,12 @@ def test_numpy_actor_respects_the_mask_and_round_trips(tmp_path: Path) -> None:
     logits = np.tanh(feats @ w0 + b0) @ w1 + b1
     assert choice == (3 if logits[3] >= logits[11] else 11)
     result = run_episode(_nominal(), learned_policy("tiny", path), 1002, designation="development")
+    sampled = learned_policy("tiny_s", path, sample=True)
+    one = run_episode(_nominal(), sampled, 1002, designation="development")
+    two = run_episode(_nominal(), sampled, 1002, designation="development")
+    assert one.event_stream_sha256 == two.event_stream_sha256
+    with pytest.raises(ValueError, match="policy generator"):
+        NumpyActor.load(path, sample=True)("a", feats, mask)
     assert result.policy is not None
     assert result.policy["name"] == "tiny"
 
@@ -194,7 +200,9 @@ def test_training_adapter_reproduces_the_runner_episode() -> None:
 
     config = _nominal()
 
-    def rule(aid: str, feats: np.ndarray[Any, Any], mask: np.ndarray[Any, Any]) -> int:
+    def rule(
+        aid: str, feats: np.ndarray[Any, Any], mask: np.ndarray[Any, Any], _: Any = None
+    ) -> int:
         valid = np.flatnonzero(mask)
         return int(valid[(int(aid[-1]) * 7 + int(feats.sum() * 1000)) % len(valid)])
 

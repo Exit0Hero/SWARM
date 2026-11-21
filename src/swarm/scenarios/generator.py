@@ -138,7 +138,8 @@ def generate_scenario(config: ScenarioConfig, rng: np.random.Generator) -> Scena
     Each non-base cell draws one uniform number ``u``: ``u < structure_fraction`` gives
     ``STRUCTURE``; ``u < structure_fraction + debris_fraction`` gives ``DEBRIS``; otherwise
     ``OPEN``. Survivors are then drawn without replacement from all ``OPEN``/``DEBRIS`` cells in
-    row-major order. Reachability is *not* enforced: a survivor may be unreachable, which the
+    row-major order (or, with ``config.survivor_layout``, clustered: ADR-0023). Reachability is
+    *not* enforced: a survivor may be unreachable, which the
     coverage and recall metrics account for (ADR-0009). Finally, if ``config.hazards`` is set,
     each ``OPEN``/``DEBRIS`` cell is hazardous with probability ``hazards.fraction`` (one more
     uniform draw per cell, taken after survivor placement so terrain and survivors are unchanged).
@@ -162,8 +163,21 @@ def generate_scenario(config: ScenarioConfig, rng: np.random.Generator) -> Scena
             f"cells were generated; lower survivor_count or the structure/debris fractions"
         )
     survivors: list[Position] = []
-    if config.survivor_count > 0:
+    if config.survivor_count > 0 and config.survivor_layout is None:
         chosen = rng.choice(candidates, size=config.survivor_count, replace=False)
+        survivors = [(int(i) // w, int(i) % w) for i in chosen]
+    elif config.survivor_count > 0 and config.survivor_layout is not None:
+        layout = config.survivor_layout  # ADR-0023: clustered placement, same stream
+        centres = rng.choice(candidates, size=min(layout.clusters, len(candidates)), replace=False)
+        rows, cols = candidates // w, candidates % w
+        d2 = np.min([(rows - c // w) ** 2 + (cols - c % w) ** 2 for c in centres], axis=0).astype(
+            np.float64
+        )
+        weights = np.exp(-d2 / (2.0 * float(layout.spread) ** 2))
+        weights = np.maximum(weights, 1e-12)  # every eligible cell keeps a non-zero chance
+        chosen = rng.choice(
+            candidates, size=config.survivor_count, replace=False, p=weights / weights.sum()
+        )
         survivors = [(int(i) // w, int(i) % w) for i in chosen]
     hazards = np.zeros((h, w), dtype=np.bool_)
     if config.hazards is not None:

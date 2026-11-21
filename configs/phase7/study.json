@@ -1,0 +1,1150 @@
+{
+  "name": "phase7_final_validation",
+  "description": "Phase 7 final validation; pre-registered in docs/20_PHASE7_FINAL_VALIDATION.md",
+  "base_config": "../phase3/nominal.json",
+  "seeds": "500-549",
+  "designation": "evaluation",
+  "learned_policies": {
+    "mappo_s0": "../../docs/results/phase4/models/mappo_s0",
+    "mappo_s1": "../../docs/results/phase4/models/mappo_s1",
+    "mappo_s2": "../../docs/results/phase4/models/mappo_s2"
+  },
+  "pooled_policies": {
+    "mappo": [
+      "mappo_s0",
+      "mappo_s1",
+      "mappo_s2"
+    ]
+  },
+  "conditions": [
+    {
+      "id": "nominal",
+      "overrides": {},
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2",
+        "assignment_oracle"
+      ]
+    },
+    {
+      "id": "map_15",
+      "overrides": {
+        "height": 15,
+        "width": 15,
+        "survivor_count": 4
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "map_30",
+      "overrides": {
+        "height": 30,
+        "width": 30,
+        "survivor_count": 18,
+        "time_limit": 300
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "map_40",
+      "overrides": {
+        "height": 40,
+        "width": 40,
+        "survivor_count": 32,
+        "time_limit": 400
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "obstacles_low",
+      "overrides": {
+        "terrain": {
+          "structure_fraction": 0.05,
+          "debris_fraction": 0.05
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "obstacles_high",
+      "overrides": {
+        "terrain": {
+          "structure_fraction": 0.25,
+          "debris_fraction": 0.25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "hazards_none",
+      "overrides": {
+        "hazards": null
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "hazards_high",
+      "overrides": {
+        "hazards": {
+          "fraction": 0.2,
+          "disable_probability": 0.05
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "survivors_clustered",
+      "overrides": {
+        "survivor_layout": {
+          "kind": "clustered",
+          "clusters": 2,
+          "spread": 2.0
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "base_corner",
+      "overrides": {
+        "base_position": [
+          0,
+          0
+        ]
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "team_1x1",
+      "overrides": {
+        "roster": [
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          }
+        ]
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "team_3x3",
+      "overrides": {
+        "roster": [
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          }
+        ]
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "team_4x4",
+      "overrides": {
+        "roster": [
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "drone",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          },
+          {
+            "agent_type": "ground",
+            "initial_energy": null
+          }
+        ]
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "comms_poor",
+      "overrides": {
+        "comms": {
+          "ranges": {
+            "drone": 4,
+            "ground": 3
+          },
+          "p_drop": 0.3,
+          "latency": 2,
+          "jitter": 1
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "fail_1_early",
+      "overrides": {
+        "failures": {
+          "count": 1,
+          "start": 5,
+          "end": 25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "fail_2_early",
+      "overrides": {
+        "failures": {
+          "count": 2,
+          "start": 5,
+          "end": 25
+        }
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    },
+    {
+      "id": "recall_full",
+      "overrides": {
+        "recall_target": 1.0
+      },
+      "policies": [
+        "frontier",
+        "frontier_shared",
+        "auction_comm",
+        "auction_no_reassign",
+        "assignment",
+        "mappo_s0",
+        "mappo_s1",
+        "mappo_s2"
+      ]
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "C:nominal",
+      "a": [
+        "nominal",
+        "frontier"
+      ],
+      "b": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:nominal",
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "nominal",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:nominal",
+      "a": [
+        "nominal",
+        "frontier_shared"
+      ],
+      "b": [
+        "nominal",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:map_15",
+      "a": [
+        "map_15",
+        "frontier"
+      ],
+      "b": [
+        "map_15",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:map_15",
+      "a": [
+        "map_15",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_15",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:map_15",
+      "a": [
+        "map_15",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_15",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:map_30",
+      "a": [
+        "map_30",
+        "frontier"
+      ],
+      "b": [
+        "map_30",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:map_30",
+      "a": [
+        "map_30",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_30",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:map_30",
+      "a": [
+        "map_30",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_30",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:map_40",
+      "a": [
+        "map_40",
+        "frontier"
+      ],
+      "b": [
+        "map_40",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:map_40",
+      "a": [
+        "map_40",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_40",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:map_40",
+      "a": [
+        "map_40",
+        "frontier_shared"
+      ],
+      "b": [
+        "map_40",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:obstacles_low",
+      "a": [
+        "obstacles_low",
+        "frontier"
+      ],
+      "b": [
+        "obstacles_low",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:obstacles_low",
+      "a": [
+        "obstacles_low",
+        "frontier_shared"
+      ],
+      "b": [
+        "obstacles_low",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:obstacles_low",
+      "a": [
+        "obstacles_low",
+        "frontier_shared"
+      ],
+      "b": [
+        "obstacles_low",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:obstacles_high",
+      "a": [
+        "obstacles_high",
+        "frontier"
+      ],
+      "b": [
+        "obstacles_high",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:obstacles_high",
+      "a": [
+        "obstacles_high",
+        "frontier_shared"
+      ],
+      "b": [
+        "obstacles_high",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:obstacles_high",
+      "a": [
+        "obstacles_high",
+        "frontier_shared"
+      ],
+      "b": [
+        "obstacles_high",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:hazards_none",
+      "a": [
+        "hazards_none",
+        "frontier"
+      ],
+      "b": [
+        "hazards_none",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:hazards_none",
+      "a": [
+        "hazards_none",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazards_none",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:hazards_none",
+      "a": [
+        "hazards_none",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazards_none",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:hazards_high",
+      "a": [
+        "hazards_high",
+        "frontier"
+      ],
+      "b": [
+        "hazards_high",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:hazards_high",
+      "a": [
+        "hazards_high",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazards_high",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:hazards_high",
+      "a": [
+        "hazards_high",
+        "frontier_shared"
+      ],
+      "b": [
+        "hazards_high",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:survivors_clustered",
+      "a": [
+        "survivors_clustered",
+        "frontier"
+      ],
+      "b": [
+        "survivors_clustered",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:survivors_clustered",
+      "a": [
+        "survivors_clustered",
+        "frontier_shared"
+      ],
+      "b": [
+        "survivors_clustered",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:survivors_clustered",
+      "a": [
+        "survivors_clustered",
+        "frontier_shared"
+      ],
+      "b": [
+        "survivors_clustered",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:base_corner",
+      "a": [
+        "base_corner",
+        "frontier"
+      ],
+      "b": [
+        "base_corner",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:base_corner",
+      "a": [
+        "base_corner",
+        "frontier_shared"
+      ],
+      "b": [
+        "base_corner",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:base_corner",
+      "a": [
+        "base_corner",
+        "frontier_shared"
+      ],
+      "b": [
+        "base_corner",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:team_1x1",
+      "a": [
+        "team_1x1",
+        "frontier"
+      ],
+      "b": [
+        "team_1x1",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:team_1x1",
+      "a": [
+        "team_1x1",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_1x1",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:team_1x1",
+      "a": [
+        "team_1x1",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_1x1",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:team_3x3",
+      "a": [
+        "team_3x3",
+        "frontier"
+      ],
+      "b": [
+        "team_3x3",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:team_3x3",
+      "a": [
+        "team_3x3",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_3x3",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:team_3x3",
+      "a": [
+        "team_3x3",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_3x3",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:team_4x4",
+      "a": [
+        "team_4x4",
+        "frontier"
+      ],
+      "b": [
+        "team_4x4",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:team_4x4",
+      "a": [
+        "team_4x4",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_4x4",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:team_4x4",
+      "a": [
+        "team_4x4",
+        "frontier_shared"
+      ],
+      "b": [
+        "team_4x4",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:comms_poor",
+      "a": [
+        "comms_poor",
+        "frontier"
+      ],
+      "b": [
+        "comms_poor",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:comms_poor",
+      "a": [
+        "comms_poor",
+        "frontier_shared"
+      ],
+      "b": [
+        "comms_poor",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:comms_poor",
+      "a": [
+        "comms_poor",
+        "frontier_shared"
+      ],
+      "b": [
+        "comms_poor",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:fail_1_early",
+      "a": [
+        "fail_1_early",
+        "frontier"
+      ],
+      "b": [
+        "fail_1_early",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:fail_1_early",
+      "a": [
+        "fail_1_early",
+        "frontier_shared"
+      ],
+      "b": [
+        "fail_1_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:fail_1_early",
+      "a": [
+        "fail_1_early",
+        "frontier_shared"
+      ],
+      "b": [
+        "fail_1_early",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:fail_2_early",
+      "a": [
+        "fail_2_early",
+        "frontier"
+      ],
+      "b": [
+        "fail_2_early",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:fail_2_early",
+      "a": [
+        "fail_2_early",
+        "frontier_shared"
+      ],
+      "b": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:fail_2_early",
+      "a": [
+        "fail_2_early",
+        "frontier_shared"
+      ],
+      "b": [
+        "fail_2_early",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "C:recall_full",
+      "a": [
+        "recall_full",
+        "frontier"
+      ],
+      "b": [
+        "recall_full",
+        "frontier_shared"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "A:recall_full",
+      "a": [
+        "recall_full",
+        "frontier_shared"
+      ],
+      "b": [
+        "recall_full",
+        "auction_comm"
+      ],
+      "metric": "time_censored",
+      "expected": "-"
+    },
+    {
+      "id": "L:recall_full",
+      "a": [
+        "recall_full",
+        "frontier_shared"
+      ],
+      "b": [
+        "recall_full",
+        "mappo"
+      ],
+      "metric": "time_censored",
+      "expected": "two-sided"
+    },
+    {
+      "id": "R:fail_1_early",
+      "a": [
+        "fail_1_early",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_1_early",
+        "auction_comm"
+      ],
+      "metric": "unresolved_sectors",
+      "expected": "-"
+    },
+    {
+      "id": "R:fail_2_early",
+      "a": [
+        "fail_2_early",
+        "auction_no_reassign"
+      ],
+      "b": [
+        "fail_2_early",
+        "auction_comm"
+      ],
+      "metric": "unresolved_sectors",
+      "expected": "-"
+    },
+    {
+      "id": "S:recall_full",
+      "a": [
+        "recall_full",
+        "frontier_shared"
+      ],
+      "b": [
+        "recall_full",
+        "auction_comm"
+      ],
+      "metric": "mission_success",
+      "expected": "+"
+    }
+  ],
+  "exploratory": {
+    "vs_nominal_policies": [
+      "frontier",
+      "frontier_shared",
+      "auction_comm",
+      "mappo"
+    ],
+    "vs_nominal_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall",
+      "energy_used"
+    ],
+    "pairs": [
+      [
+        "assignment",
+        "auction_comm"
+      ],
+      [
+        "auction_no_reassign",
+        "auction_comm"
+      ],
+      [
+        "auction_comm",
+        "mappo"
+      ]
+    ],
+    "pair_metrics": [
+      "time_censored",
+      "mission_success",
+      "recall"
+    ]
+  },
+  "thresholds": {
+    "time_censored": 5,
+    "mission_success": 0.05,
+    "recall": 0.02,
+    "unresolved_sectors": 0.25
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "confidence": 0.95,
+    "seed": 0,
+    "permutation_resamples": 20000,
+    "permutation_seed": 0,
+    "alpha": 0.05
+  }
+}

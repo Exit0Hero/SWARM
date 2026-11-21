@@ -55,7 +55,9 @@ DECISION_INTERVAL: Final[int] = 8
 INTENT_TAG: Final[str] = "intent"
 HEARD_WINDOW: Final[int] = 10
 
-Chooser = Callable[[AgentId, npt.NDArray[np.float32], npt.NDArray[np.bool_]], int]
+Chooser = Callable[
+    [AgentId, npt.NDArray[np.float32], npt.NDArray[np.bool_], np.random.Generator], int
+]
 
 
 def grid_sectors(shape: tuple[int, int], per_side: int = 4) -> list[npt.NDArray[np.bool_]]:
@@ -318,7 +320,7 @@ class SectorTeam:
         if self.chooser is None:
             raise RuntimeError(f"{self.name}: no chooser (the training adapter drives prepare)")
         decide = self.prepare(observations)
-        choices = {aid: self.chooser(aid, f, m) for aid, (f, m) in decide.items()}
+        choices = {aid: self.chooser(aid, f, m, rngs[aid]) for aid, (f, m) in decide.items()}
         return self.advance(observations, rngs, choices)
 
     def outbox(self) -> Mapping[AgentId, Sequence[Message]]:
@@ -344,11 +346,18 @@ class SectorTeam:
 class NumpyActor:
     """A tanh MLP actor loaded from an ``.npz`` export (``w0, b0, w1, b1, ...``).
 
-    Greedy by default (argmax over valid actions, ties to the lowest index), so evaluation is
-    deterministic and needs no RNG or PyTorch.
+    ``sample=False`` (greedy): argmax over valid actions, ties to the lowest index.
+    ``sample=True``: one draw from the masked softmax using the agent's own policy stream
+    (ADR-0006), so sampled evaluation is still deterministic per seed. Needs no PyTorch.
     """
 
-    def __init__(self, weights: Sequence[tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]]):
+    def __init__(
+        self,
+        weights: Sequence[tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]],
+        *,
+        sample: bool = False,
+    ):
+        self.sample = sample
         if not weights:
             raise ValueError("NumpyActor: no layers")
         if weights[0][0].shape[0] != OBS_SIZE or weights[-1][0].shape[1] != N_ACTIONS:
@@ -359,10 +368,10 @@ class NumpyActor:
         self.layers = [(np.asarray(w, np.float64), np.asarray(b, np.float64)) for w, b in weights]
 
     @classmethod
-    def load(cls, path: Path) -> NumpyActor:
+    def load(cls, path: Path, *, sample: bool = False) -> NumpyActor:
         with np.load(path) as data:
             n = len([k for k in data.files if k.startswith("w")])
-            return cls([(data[f"w{i}"], data[f"b{i}"]) for i in range(n)])
+            return cls([(data[f"w{i}"], data[f"b{i}"]) for i in range(n)], sample=sample)
 
     def logits(self, features: npt.NDArray[np.float32]) -> npt.NDArray[np.float64]:
         x = np.asarray(features, dtype=np.float64)
@@ -373,22 +382,34 @@ class NumpyActor:
         return x
 
     def __call__(
-        self, agent_id: AgentId, features: npt.NDArray[np.float32], mask: npt.NDArray[np.bool_]
+        self,
+        agent_id: AgentId,
+        features: npt.NDArray[np.float32],
+        mask: npt.NDArray[np.bool_],
+        rng: np.random.Generator | None = None,
     ) -> int:
         logits = np.where(mask, self.logits(features), -np.inf)
-        return int(np.argmax(logits))
+        if not self.sample:
+            return int(np.argmax(logits))
+        if rng is None:
+            raise ValueError("NumpyActor(sample=True) needs the agent's policy generator")
+        p = np.exp(logits - logits.max())
+        p /= p.sum()
+        return int(rng.choice(len(p), p=p))
 
 
-def learned_policy(name: str, checkpoint: Path) -> TeamFactory:
+def learned_policy(name: str, checkpoint: Path, *, sample: bool = False) -> TeamFactory:
     """A registry-compatible factory for a trained actor (evaluated with the normal runner)."""
-    actor = NumpyActor.load(checkpoint)
+    actor = NumpyActor.load(checkpoint, sample=sample)
     return TeamFactory(name, lambda brief: SectorTeam(name, brief, actor))
 
 
 def fixed_choice_policy(name: str, choice: int) -> TeamFactory:
     """Every agent always picks ``choice`` when valid, else ``FREE`` (tests and sanity checks)."""
 
-    def choose(_: AgentId, __: npt.NDArray[np.float32], mask: npt.NDArray[np.bool_]) -> int:
+    def choose(
+        _: AgentId, __: npt.NDArray[np.float32], mask: npt.NDArray[np.bool_], ___: Any
+    ) -> int:
         return choice if mask[choice] else FREE
 
     return TeamFactory(name, lambda brief: SectorTeam(name, brief, choose))

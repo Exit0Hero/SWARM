@@ -1,0 +1,10 @@
+{
+  "scenario": "../phase3/nominal.json",
+  "total_episodes": 2400,
+  "episodes_per_update": 16,
+  "validate_every": 25,
+  "validation_seeds": "3000-3019",
+  "ppo": {
+    "algorithm": "ippo"
+  }
+}

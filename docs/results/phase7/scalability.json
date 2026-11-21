@@ -1,0 +1,911 @@
+{
+  "base_config_hash": "3412a5225c75db891bf55b3cc7d20e021ae37338d13e0451a52dfb0a77d05fbc",
+  "seeds": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004
+  ],
+  "designation": "development",
+  "note": "runtimes are wall clock on one machine; traffic and outcomes are deterministic",
+  "points": [
+    {
+      "factor": "team",
+      "value": 1,
+      "policy": "frontier_shared",
+      "agents": 2,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.11633497140001055,
+      "ms_per_step": 1.110066520992467,
+      "steps_mean": 104.8,
+      "message_units_per_step": 66.90585327537559,
+      "recall_mean": 0.7,
+      "mission_success_rate": 0.8,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.299188116
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.27218131
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.267502993
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.267140789
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.157788271
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 1,
+      "policy": "auction_comm",
+      "agents": 2,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.14546895220000805,
+      "ms_per_step": 1.8794438268734892,
+      "steps_mean": 77.4,
+      "message_units_per_step": 78.8386265851907,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.414623699
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.41396291
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.39198138000000005
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.271420086
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.26701071600000004
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 2,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.14584475540000313,
+      "ms_per_step": 3.103079902127726,
+      "steps_mean": 47.0,
+      "message_units_per_step": 173.281891397442,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.32015371000000004
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.301002461
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.25127713100000004
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.25100472500000004
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.155227753
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 2,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.17367157300000144,
+      "ms_per_step": 4.8242103611111515,
+      "steps_mean": 36.0,
+      "message_units_per_step": 221.71727694178443,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.49255718400000004
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.492078516
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.46618877400000003
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.290015047
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.27601344
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 4,
+      "policy": "frontier_shared",
+      "agents": 8,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.29974223879999046,
+      "ms_per_step": 6.5445903668120184,
+      "steps_mean": 45.8,
+      "message_units_per_step": 455.4253886104951,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 1.063165302
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.9941236760000001
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.5909183960000001
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.590033923
+        },
+        {
+          "function": "belief.py:129:merge_inbox",
+          "cumulative_s": 0.401889955
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 4,
+      "policy": "auction_comm",
+      "agents": 8,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.25302137400001357,
+      "ms_per_step": 11.934970471698753,
+      "steps_mean": 21.2,
+      "message_units_per_step": 744.8629898989899,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.5565747200000001
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.5561139740000001
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.526177094
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.224274676
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.19262362500000002
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 8,
+      "policy": "frontier_shared",
+      "agents": 16,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 2.6814541698000083,
+      "ms_per_step": 16.095163084033665,
+      "steps_mean": 166.6,
+      "message_units_per_step": 860.5837380952382,
+      "recall_mean": 0.4,
+      "mission_success_rate": 0.4,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 9.369121556000001
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 9.054068959
+        },
+        {
+          "function": "belief.py:129:merge_inbox",
+          "cumulative_s": 8.588283058
+        },
+        {
+          "function": "belief.py:134:merge_records",
+          "cumulative_s": 8.566073094
+        },
+        {
+          "function": "env.py:203:step",
+          "cumulative_s": 2.265933736
+        }
+      ]
+    },
+    {
+      "factor": "team",
+      "value": 8,
+      "policy": "auction_comm",
+      "agents": 16,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.736850185399976,
+      "ms_per_step": 38.377613822915414,
+      "steps_mean": 19.2,
+      "message_units_per_step": 2096.830550065876,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 2.300877538
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 2.300082148
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 2.218010978
+        },
+        {
+          "function": "belief.py:134:merge_records",
+          "cumulative_s": 1.327978542
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.43013286700000003
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 20,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.18327635140001347,
+      "ms_per_step": 3.8994968382981594,
+      "steps_mean": 47.0,
+      "message_units_per_step": 173.281891397442,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.394780028
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.369561888
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.297963083
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.297590578
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.182691073
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 20,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.18082426340004076,
+      "ms_per_step": 5.0228962055566875,
+      "steps_mean": 36.0,
+      "message_units_per_step": 221.71727694178443,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.5666643680000001
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.5660149790000001
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.5340468780000001
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.332744233
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.30736898100000004
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 30,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 900,
+      "survivors": 18,
+      "episodes": 5,
+      "seconds_per_episode": 0.774775332399986,
+      "ms_per_step": 4.842345827499912,
+      "steps_mean": 160.0,
+      "message_units_per_step": 172.7719256654897,
+      "recall_mean": 0.7444444444444445,
+      "mission_success_rate": 0.8,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.5659863780000001
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.5331423630000001
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.488476603
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.487952563
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.30347383
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 30,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 900,
+      "survivors": 18,
+      "episodes": 5,
+      "seconds_per_episode": 1.5197035387999904,
+      "ms_per_step": 8.170449133333282,
+      "steps_mean": 186.0,
+      "message_units_per_step": 199.16260716262155,
+      "recall_mean": 0.7555555555555556,
+      "mission_success_rate": 0.6,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 1.7655486390000001
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 1.764366083
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 1.6820799720000001
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 1.1526282030000001
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 1.0882539370000002
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 40,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 1600,
+      "survivors": 32,
+      "episodes": 5,
+      "seconds_per_episode": 1.980133823999995,
+      "ms_per_step": 5.159285627931201,
+      "steps_mean": 383.8,
+      "message_units_per_step": 157.71926645768025,
+      "recall_mean": 0.60625,
+      "mission_success_rate": 0.2,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 4.50546645
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 4.125185641
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 3.847378608
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 3.844276036
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 2.204690219
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 40,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 1600,
+      "survivors": 32,
+      "episodes": 5,
+      "seconds_per_episode": 4.259624560400039,
+      "ms_per_step": 11.971963351321076,
+      "steps_mean": 355.8,
+      "message_units_per_step": 195.93124860335197,
+      "recall_mean": 0.6375,
+      "mission_success_rate": 0.2,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 8.209223219
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 8.205362003000001
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 7.8046459100000005
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 5.935631218
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 5.515384066
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 60,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 3600,
+      "survivors": 72,
+      "episodes": 5,
+      "seconds_per_episode": 3.650414160399987,
+      "ms_per_step": 6.0840236006666455,
+      "steps_mean": 600.0,
+      "message_units_per_step": 166.11899999999997,
+      "recall_mean": 0.3972222222222222,
+      "mission_success_rate": 0.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 6.330223907000001
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 5.651930066
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 5.366871238000001
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 5.3620797620000005
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 2.793873371
+        }
+      ]
+    },
+    {
+      "factor": "map",
+      "value": 60,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 3600,
+      "survivors": 72,
+      "episodes": 5,
+      "seconds_per_episode": 7.632527169200012,
+      "ms_per_step": 12.720878615333351,
+      "steps_mean": 600.0,
+      "message_units_per_step": 198.53866666666667,
+      "recall_mean": 0.4333333333333334,
+      "mission_success_rate": 0.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 14.970535116
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 14.964586760000001
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 14.267968243
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 11.289217805
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 9.54438957
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 4,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 4,
+      "episodes": 5,
+      "seconds_per_episode": 0.08475840000000971,
+      "ms_per_step": 3.13920000000036,
+      "steps_mean": 27.0,
+      "message_units_per_step": 180.30008338219008,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.291348273
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.27162495200000003
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.23122520900000001
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.23090096400000001
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.142471815
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 4,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 4,
+      "episodes": 5,
+      "seconds_per_episode": 0.15379811040002095,
+      "ms_per_step": 5.825686000000794,
+      "steps_mean": 26.4,
+      "message_units_per_step": 229.25099008834303,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.08969297300000001
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.089561603
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.08399005500000001
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.039571880000000004
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.032454729
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 8,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.18463347180004347,
+      "ms_per_step": 3.928371740426457,
+      "steps_mean": 47.0,
+      "message_units_per_step": 173.281891397442,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.29931871400000004
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.28047259
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.23386171900000002
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.23358149
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.144715813
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 8,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 8,
+      "episodes": 5,
+      "seconds_per_episode": 0.17976256920001105,
+      "ms_per_step": 4.9934047000003075,
+      "steps_mean": 36.0,
+      "message_units_per_step": 221.71727694178443,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.48329936
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.48279870700000005
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.45667416600000005
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.28104716900000004
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.26520962200000003
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 16,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 16,
+      "episodes": 5,
+      "seconds_per_episode": 0.21033101499997428,
+      "ms_per_step": 4.060444305018809,
+      "steps_mean": 51.8,
+      "message_units_per_step": 181.72343823901446,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.39011805400000005
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.36250771200000004
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.284130258
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.283730397
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.168998165
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 16,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 16,
+      "episodes": 5,
+      "seconds_per_episode": 0.19345793219999904,
+      "ms_per_step": 5.464913338983024,
+      "steps_mean": 35.4,
+      "message_units_per_step": 219.39206349206347,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.32449151200000004
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.324137175
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.304947538
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.171637797
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.154520079
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 32,
+      "policy": "frontier_shared",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 32,
+      "episodes": 5,
+      "seconds_per_episode": 0.24760996039995006,
+      "ms_per_step": 4.359330288731515,
+      "steps_mean": 56.8,
+      "message_units_per_step": 184.59642175710866,
+      "recall_mean": 0.75,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.514210917
+        },
+        {
+          "function": "shared.py:45:act",
+          "cumulative_s": 0.476410027
+        },
+        {
+          "function": "decentralized.py:150:act",
+          "cumulative_s": 0.38672645600000005
+        },
+        {
+          "function": "decentralized.py:159:_decide",
+          "cumulative_s": 0.386148618
+        },
+        {
+          "function": "decentralized.py:110:_select_target",
+          "cumulative_s": 0.23073495000000002
+        }
+      ]
+    },
+    {
+      "factor": "survivors",
+      "value": 32,
+      "policy": "auction_comm",
+      "agents": 4,
+      "cells": 400,
+      "survivors": 32,
+      "episodes": 5,
+      "seconds_per_episode": 0.21120814959995188,
+      "ms_per_step": 5.415593579485945,
+      "steps_mean": 39.0,
+      "message_units_per_step": 218.66976493300027,
+      "recall_mean": 0.75625,
+      "mission_success_rate": 1.0,
+      "hotspots": [
+        {
+          "function": "auction.py:138:act",
+          "cumulative_s": 0.721988657
+        },
+        {
+          "function": "shared.py:79:act",
+          "cumulative_s": 0.721296369
+        },
+        {
+          "function": "auction.py:65:act",
+          "cumulative_s": 0.67819089
+        },
+        {
+          "function": "auction.py:73:_allocate",
+          "cumulative_s": 0.419451055
+        },
+        {
+          "function": "astar.py:105:cost_field",
+          "cumulative_s": 0.381969382
+        }
+      ]
+    }
+  ],
+  "software": {
+    "swarm": "0.0.1",
+    "python": "3.13.18",
+    "numpy": "2.5.4"
+  },
+  "code": {
+    "commit": "75f5cd5f22ead1288444d62d3e8c71a1e2467770",
+    "dirty": false
+  }
+}
