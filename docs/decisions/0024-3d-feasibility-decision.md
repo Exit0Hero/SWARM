@@ -1,6 +1,7 @@
 # ADR-0024: 3D feasibility study (Phase 8): defer a full 3D simulator
 
-- **Status:** Accepted (decision: **defer**)
+- **Status:** Accepted (decision: **defer**). Superseded in part by [ADR-0027](0027-3d-kinematic-co-simulation.md): 3D
+  environment, playback and visualization were later built as kinematic co-simulation. Flight dynamics remain deferred.
 - **Date:** 2026-11-21
 - **Phase:** 8
 

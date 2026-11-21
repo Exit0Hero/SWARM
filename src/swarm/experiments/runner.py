@@ -18,6 +18,7 @@ import subprocess
 import sys
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
@@ -25,7 +26,7 @@ from typing import Any, Final
 import numpy as np
 
 import swarm
-from swarm.core.env import EnvSnapshot, SwarmEnv
+from swarm.core.env import EnvSnapshot, StepResult, SwarmEnv
 from swarm.core.events import EVENT_SCHEMA_VERSION, Event, event_stream_sha256, events_to_jsonl
 from swarm.core.rng import episode_streams, seed_derivation, validate_seed
 from swarm.evaluation.comms_metrics import compute_comm_metrics, compute_failure_metrics
@@ -123,6 +124,7 @@ def run_episode(
     seed: int,
     *,
     designation: str = "evaluation",
+    on_step: Callable[[SwarmEnv, StepResult | None], None] | None = None,
 ) -> EpisodeResult:
     """Run one episode of ``config`` with the policy built by ``policy_factory``.
 
@@ -131,6 +133,10 @@ def run_episode(
     (ADR-0014). Oracle teams receive :meth:`SwarmEnv.oracle_view` after reset; no other policy
     does. A team that implements :class:`~swarm.policies.base.CommunicatingTeam` has its outbox
     passed to the environment each step; this requires a ``comms`` block in ``config``.
+
+    ``on_step``, if given, is called after reset (with ``None``) and after every step with the
+    environment and that step's result. It is a read-only observer hook for recorders such as the
+    dashboard (ADR-0026); it must not step or mutate the environment.
 
     Raises:
         ValueError: on an invalid seed or designation, an inconsistent policy identity, or
@@ -147,6 +153,8 @@ def run_episode(
     policy_rngs = episode_streams(seed, env.possible_agents).policies
 
     observations, _ = env.reset(seed)
+    if on_step is not None:
+        on_step(env, None)
     if team.uses_oracle:
         team.attach_oracle(env.oracle_view())
     events: list[Event] = []
@@ -162,6 +170,8 @@ def run_episode(
                 f"{team.name}: sends messages, but the config has no comms block (ADR-0017)"
             )
         result = env.step(actions, messages)
+        if on_step is not None:
+            on_step(env, result)
         events.extend(result.events)
         observations = result.observations
 

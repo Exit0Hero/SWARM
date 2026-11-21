@@ -110,7 +110,7 @@ false-positive sweeps). An image-based detector only with a justified dataset, h
 and a baseline to beat.
 
 ## Phase 6 — Visualization dashboard and analytics
-Status: deferred (user decision, 2026-11-15). The Phase 3 replay viewer and study figures remain.
+Status: implemented, in review ([ADR-0026](decisions/0026-dashboard.md), [docs/23](23_DASHBOARD.md)): `python -m swarm.dashboard`.
 
 Acceptance: live and replay views, policy comparison views, and run summaries. These are all read-only
 consumers of events and snapshots. A headless mode is preserved.
@@ -122,8 +122,8 @@ Acceptance: the research questions in [docs/06](06_MARL_RESEARCH_PLAN.md) run as
 experiment configs. A reproducible report with methodology, confidence intervals and limitations.
 
 ## Phase 8 — 3D feasibility study
-Status: complete, decision **defer** ([ADR-0024](decisions/0024-3d-feasibility-decision.md)). A MuJoCo replay prototype is kept
-in the optional `sim3d` extra.
+Status: feasibility complete ([ADR-0024](decisions/0024-3d-feasibility-decision.md)). 3D kinematic co-simulation, line-of-sight analysis
+and dashboard 3D view in review ([ADR-0027](decisions/0027-3d-kinematic-co-simulation.md), [docs/24](24_3D_SIMULATION.md)); flight dynamics still deferred.
 Acceptance: evidence-based simulator comparison, an integration prototype, a performance and cost
 assessment, and a recorded decision to proceed or defer.
 
