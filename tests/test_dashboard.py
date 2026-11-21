@@ -211,3 +211,39 @@ def test_scene3d_endpoint_returns_the_recorded_tracks(tmp_path: Path) -> None:
     assert all(len(t["points"]) == len(record["frames"]) for t in tracks.values())
     analysis = out["analysis"]
     assert "unavailable" in analysis or analysis["contacts"] == 0
+
+
+def _raw(url: str, method: str, body: bytes, headers: dict[str, str]) -> int:
+    req = urllib.request.Request(url, data=body, method=method, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as res:
+            return int(res.status)
+    except urllib.error.HTTPError as exc:
+        with exc:
+            return int(exc.code)
+
+
+def test_http_hardening(base_url: str) -> None:
+    run = base_url + "/api/runs"
+    body = b'{"config_name": "examples/basic.json", "policy": "frontier", "seed": 1}'
+    assert _raw(run, "POST", body, {"Content-Type": "text/plain"}) == 403  # no simple CSRF posts
+    rebinding = {"Content-Type": "application/json", "Host": "evil.example"}
+    assert _raw(run, "POST", body, rebinding) == 403
+    # Size limit: declare an oversized body but never send it. The server answers 413 from the
+    # headers alone (sending the body would race the server closing the connection).
+    import http.client
+
+    port = int(base_url.rsplit(":", 1)[1])
+    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=30)
+    conn.putrequest("POST", "/api/runs")
+    conn.putheader("Content-Type", "application/json")
+    conn.putheader("Content-Length", "2000000")
+    conn.endheaders()
+    response = conn.getresponse()
+    assert response.status == 413
+    response.read()
+    conn.close()
+    assert _raw(run, "POST", body, {"Content-Type": "application/json"}) == 200  # packaged example
+    with urllib.request.urlopen(base_url + "/", timeout=30) as res:
+        assert res.headers["X-Content-Type-Options"] == "nosniff"
+        assert res.headers["X-Frame-Options"] == "DENY"

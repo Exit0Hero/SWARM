@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "swarm"
-version = "0.0.1"
+version = "0.1.0"
 description = "Research simulator for autonomous multi-agent disaster response and search & rescue."
 readme = "README.md"
 license = "MIT"
@@ -17,7 +17,7 @@ requires-python = ">=3.12"
 # Runtime dependency policy: NumPy only until a phase needs more (docs/decisions/README.md).
 dependencies = ["numpy>=2.2"]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
@@ -42,8 +42,13 @@ viz = ["matplotlib>=3.9"]
 # Phase 8 3D feasibility prototype only (ADR-0024).
 sim3d = ["mujoco>=3.2"]
 
+[project.scripts]
+swarm = "swarm.cli:main"
+
 [project.urls]
 Repository = "https://github.com/Exit0Hero/SWARM"
+Documentation = "https://github.com/Exit0Hero/SWARM/tree/main/docs"
+Changelog = "https://github.com/Exit0Hero/SWARM/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/swarm"]

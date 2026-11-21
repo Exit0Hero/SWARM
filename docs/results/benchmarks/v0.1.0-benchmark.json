@@ -1,0 +1,297 @@
+{
+  "kind": "benchmark",
+  "note": "exploratory wall-clock timings on one machine; not a validated result",
+  "method": "median over repetitions of total time for all seeds; time.perf_counter",
+  "seeds": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004
+  ],
+  "repetitions": 3,
+  "environment": {
+    "swarm": "0.1.0",
+    "commit": "ab99ba2",
+    "dirty": false,
+    "python": "3.13.18",
+    "numpy": "2.5.4",
+    "platform": "Linux-6.18.44-fc-v726-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_count": 2
+  },
+  "results": [
+    {
+      "group": "overhead",
+      "case": "frontier, no channel",
+      "config_hash": "8db09395238e",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 470,
+      "seconds_median": 1.2102546609999933,
+      "seconds_all": [
+        1.2134112500000072,
+        1.2102546609999933,
+        1.1908930440000063
+      ],
+      "ms_per_step": 2.5750099170212626,
+      "episodes_per_second": 4.131361903509354
+    },
+    {
+      "group": "overhead",
+      "case": "frontier_shared (belief sharing)",
+      "config_hash": "3412a5225c75",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 235,
+      "seconds_median": 0.9598604980000118,
+      "seconds_all": [
+        0.9598604980000118,
+        0.9510543669999834,
+        1.0129405309999981
+      ],
+      "ms_per_step": 4.084512757446859,
+      "episodes_per_second": 5.209090290118324
+    },
+    {
+      "group": "overhead",
+      "case": "auction_comm",
+      "config_hash": "3412a5225c75",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 180,
+      "seconds_median": 1.2148464459999957,
+      "seconds_all": [
+        1.1218421790000264,
+        1.2148464459999957,
+        1.5324496420000173
+      ],
+      "ms_per_step": 6.749146922222199,
+      "episodes_per_second": 4.11574649328152
+    },
+    {
+      "group": "overhead",
+      "case": "auction_comm + perception",
+      "config_hash": "08e47d2a1920",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 183,
+      "seconds_median": 1.3645972550000067,
+      "seconds_all": [
+        1.2020212310000034,
+        1.3645972550000067,
+        1.5540869680000071
+      ],
+      "ms_per_step": 7.4568156010929325,
+      "episodes_per_second": 3.66408475590842
+    },
+    {
+      "group": "overhead",
+      "case": "auction_comm + failures",
+      "config_hash": "bff0b67cf512",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 360,
+      "seconds_median": 1.3253088009999772,
+      "seconds_all": [
+        1.2186130990000095,
+        1.4220312090000107,
+        1.3253088009999772
+      ],
+      "ms_per_step": 3.6814133361110475,
+      "episodes_per_second": 3.7727056488475594
+    },
+    {
+      "group": "overhead",
+      "case": "learned:mappo_s0",
+      "config_hash": "3412a5225c75",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 220,
+      "seconds_median": 1.0140611289999981,
+      "seconds_all": [
+        1.0422700069999848,
+        0.9313631500000099,
+        1.0140611289999981
+      ],
+      "ms_per_step": 4.60936876818181,
+      "episodes_per_second": 4.930669223985223
+    },
+    {
+      "group": "robots",
+      "case": "1+1 robots",
+      "config_hash": "4ae2f0a01c52",
+      "robots": 2,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 387,
+      "seconds_median": 1.0885973240000055,
+      "seconds_all": [
+        1.105630065000014,
+        1.020380758999977,
+        1.0885973240000055
+      ],
+      "ms_per_step": 2.812912981912159,
+      "episodes_per_second": 4.59306659107677
+    },
+    {
+      "group": "robots",
+      "case": "2+2 robots",
+      "config_hash": "3412a5225c75",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 180,
+      "seconds_median": 1.1665911819999906,
+      "seconds_all": [
+        1.1665911819999906,
+        1.2500752189999957,
+        1.1057658799999786
+      ],
+      "ms_per_step": 6.48106212222217,
+      "episodes_per_second": 4.285991594268745
+    },
+    {
+      "group": "robots",
+      "case": "4+4 robots",
+      "config_hash": "824a392c1974",
+      "robots": 8,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 106,
+      "seconds_median": 1.6314973990000112,
+      "seconds_all": [
+        1.6945431270000029,
+        1.6314973990000112,
+        1.5196014330000196
+      ],
+      "ms_per_step": 15.39148489622652,
+      "episodes_per_second": 3.0646693050596556
+    },
+    {
+      "group": "robots",
+      "case": "8+8 robots",
+      "config_hash": "3f4b5a78af96",
+      "robots": 16,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 96,
+      "seconds_median": 4.31434503700001,
+      "seconds_all": [
+        4.184057951,
+        4.336061654000019,
+        4.31434503700001
+      ],
+      "ms_per_step": 44.94109413541677,
+      "episodes_per_second": 1.1589244617942662
+    },
+    {
+      "group": "map",
+      "case": "20x20 map",
+      "config_hash": "3412a5225c75",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 180,
+      "seconds_median": 1.1401800040000012,
+      "seconds_all": [
+        1.0088612180000212,
+        1.1401800040000012,
+        1.2180341779999821
+      ],
+      "ms_per_step": 6.334333355555562,
+      "episodes_per_second": 4.385272485448706
+    },
+    {
+      "group": "map",
+      "case": "30x30 map",
+      "config_hash": "c3f7717faa43",
+      "robots": 4,
+      "cells": 900,
+      "episodes": 5,
+      "steps": 930,
+      "seconds_median": 8.448071959000004,
+      "seconds_all": [
+        9.416279379999992,
+        8.448071959000004,
+        8.371327750999995
+      ],
+      "ms_per_step": 9.083948343010757,
+      "episodes_per_second": 0.5918510192936198
+    },
+    {
+      "group": "map",
+      "case": "40x40 map",
+      "config_hash": "1a20737a75a6",
+      "robots": 4,
+      "cells": 1600,
+      "episodes": 5,
+      "steps": 1779,
+      "seconds_median": 22.597414552000004,
+      "seconds_all": [
+        22.725292357,
+        22.570231266999997,
+        22.597414552000004
+      ],
+      "ms_per_step": 12.702312845418776,
+      "episodes_per_second": 0.22126425076170808
+    },
+    {
+      "group": "duration",
+      "case": "time limit 50",
+      "config_hash": "274dc6e6e18d",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 250,
+      "seconds_median": 1.55188726800003,
+      "seconds_all": [
+        1.55188726800003,
+        1.4800438629999917,
+        1.6626119030000268
+      ],
+      "ms_per_step": 6.20754907200012,
+      "episodes_per_second": 3.2218835111932265
+    },
+    {
+      "group": "duration",
+      "case": "time limit 100",
+      "config_hash": "91390218ee7c",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 396,
+      "seconds_median": 2.871530493000023,
+      "seconds_all": [
+        2.9157454599999824,
+        2.796837371000038,
+        2.871530493000023
+      ],
+      "ms_per_step": 7.251339628787937,
+      "episodes_per_second": 1.7412317271881954
+    },
+    {
+      "group": "duration",
+      "case": "time limit 200",
+      "config_hash": "f1b93e193924",
+      "robots": 4,
+      "cells": 400,
+      "episodes": 5,
+      "steps": 402,
+      "seconds_median": 2.9703808680000066,
+      "seconds_all": [
+        3.0246253590000265,
+        2.828135524000004,
+        2.9703808680000066
+      ],
+      "ms_per_step": 7.3890071343283745,
+      "episodes_per_second": 1.6832858216483735
+    }
+  ]
+}

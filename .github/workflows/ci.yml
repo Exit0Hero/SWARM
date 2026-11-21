@@ -72,3 +72,68 @@ jobs:
 
       - name: Pytest
         run: pytest
+
+  sim3d:
+    name: Python 3.13 + sim3d extra (MuJoCo)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install package with dev and sim3d extras
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,sim3d]"
+
+      - name: Pytest (3D tests run instead of skipping)
+        run: pytest
+
+  package:
+    name: Package + clean-install smoke test (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, python-version: "3.12", extras: "" }
+          - { os: ubuntu-latest, python-version: "3.14", extras: "sim3d" }
+          - { os: macos-latest, python-version: "3.13", extras: "" }
+          - { os: windows-latest, python-version: "3.13", extras: "" }
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build sdist and wheel
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+
+      - name: Install the wheel into a clean virtual environment
+        run: |
+          python -m venv "$RUNNER_TEMP/clean"
+          if [ -d "$RUNNER_TEMP/clean/Scripts" ]; then BIN="$RUNNER_TEMP/clean/Scripts"; else BIN="$RUNNER_TEMP/clean/bin"; fi
+          echo "BIN=$BIN" >> "$GITHUB_ENV"
+          WHEEL=$(ls dist/*.whl)
+          if [ -n "${{ matrix.extras }}" ]; then SPEC="${WHEEL}[${{ matrix.extras }}]"; else SPEC="$WHEEL"; fi
+          "$BIN/python" -m pip install --upgrade pip
+          "$BIN/python" -m pip install "$SPEC"
+
+      - name: End-to-end smoke test (outside the source tree)
+        run: |
+          cd "$RUNNER_TEMP"
+          FLAGS=""
+          if [ "${{ matrix.extras }}" = "sim3d" ]; then FLAGS="--sim3d"; fi
+          PATH="$BIN:$PATH" "$BIN/python" "$GITHUB_WORKSPACE/scripts/smoke_test.py" $FLAGS

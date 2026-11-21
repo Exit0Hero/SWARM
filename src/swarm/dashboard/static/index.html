@@ -14,6 +14,10 @@
   header h1 { font-size:16px; margin:0 } nav button { margin-right:4px }
   main { padding:14px 18px; display:none } main.on { display:block }
   .row { display:flex; gap:14px; flex-wrap:wrap; align-items:flex-start }
+  .simgrid { display:grid; grid-template-columns:290px minmax(380px, 1fr) 320px; gap:14px; align-items:start }
+  .simgrid > .card { width:auto !important; min-width:0 }
+  @media (max-width: 1180px) { .simgrid { grid-template-columns:290px minmax(0, 1fr) } .simgrid > .card:last-child { grid-column:1 / -1 } }
+  @media (max-width: 760px) { .simgrid { grid-template-columns:1fr } }
   .card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; }
   .card h2 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin:0 0 8px }
   label { display:block; font-size:12px; color:var(--muted); margin-top:6px }
@@ -42,7 +46,7 @@
 
 <!-- ============================ SIMULATE ============================ -->
 <main id="sim" class="on">
-<div class="row">
+<div class="simgrid">
   <div class="card" style="width:300px">
     <h2>Configuration</h2>
     <label>Base config</label><select id="cfgName"></select>
@@ -99,7 +103,7 @@
       <label style="margin:0"><input type="checkbox" id="showMsgs" checked> messages</label>
       <label style="margin:0"><input type="checkbox" id="showTrails" checked> trails</label>
     </div>
-    <canvas id="map" width="560" height="560"></canvas>
+    <canvas id="map" width="560" height="560" style="width:100%;height:auto"></canvas>
     <div class="legend">
       <span><i class="sw" style="background:#d9d7cf"></i>debris</span><span><i class="sw" style="background:#52514e"></i>structure</span>
       <span><i class="sw" style="background:#cde2fb"></i>base</span><span><i class="sw" style="background:#f3b9b0"></i>hazard</span>
@@ -221,17 +225,18 @@ $("btnSave").onclick = async () => {
 function populateConfigs(select) {
   const names = Object.keys(configs);
   $("cfgName").innerHTML = names.map((n) => `<option>${n}</option>`).join("");
-  const match = names.find((n) => n.endsWith(select)) || names.find((n) => n.endsWith("phase3/nominal.json")) || names[0];
+  const match = names.find((n) => n.endsWith(select)) || names.find((n) => n.endsWith("phase3/nominal.json"))
+    || names.find((n) => n.endsWith("examples/basic.json")) || names[0];
   $("cfgName").value = match; return fillForm();
 }
 
 // ---------------- run + replay
 let run = null, frame = 0, timer = null;
 $("btnRun").onclick = async () => {
-  $("btnRun").disabled = true; status("running episode…");
+  $("btnRun").disabled = true; $("btnRun").textContent = "Running…"; status("running episode…");
   try { load(await api("/api/runs", { method: "POST", body: { ...requestBody(), policy: $("policy").value, seed: +$("seed").value } })); say("simMsg", ""); }
   catch (e) { say("simMsg", e.message, true); }
-  finally { $("btnRun").disabled = false; status(""); }
+  finally { $("btnRun").disabled = false; $("btnRun").textContent = "Run episode"; status(""); }
 };
 let view = "2d", scene = null;
 function setView(v) {
@@ -438,6 +443,16 @@ async function loadHistory() {
 $("btnHist").onclick = loadHistory;
 
 // ---------------- boot
+function emptyState() {
+  const cv = $("map"), g = cv.getContext("2d"), css = getComputedStyle(document.body);
+  g.fillStyle = css.getPropertyValue("--panel"); g.fillRect(0, 0, cv.width, cv.height);
+  g.fillStyle = css.getPropertyValue("--muted"); g.font = "15px system-ui"; g.textAlign = "center";
+  g.fillText("No episode loaded.", cv.width / 2, cv.height / 2 - 12);
+  g.fillText("Choose a config and policy, then press “Run episode”,", cv.width / 2, cv.height / 2 + 12);
+  g.fillText("or open a stored run from the History tab.", cv.width / 2, cv.height / 2 + 34);
+  g.textAlign = "start";
+}
+emptyState();
 (async () => { try { configs = await api("/api/configs"); populateConfigs("phase3/nominal.json"); } catch (e) { say("simMsg", e.message, true); } })();
 </script>
 </body>

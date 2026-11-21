@@ -5,28 +5,63 @@ platform for studying how simulated drones and ground robots search a disaster a
 uncertain information, divide work and learn to cooperate. It is a simulator for research. It does
 not control real aircraft or robots, and it is not validated for real disaster operations.
 
-## Current status: all roadmap phases implemented; Phases 5, 6 and the 3D co-simulation in review
+SWARM simulates heterogeneous teams of drones and ground robots searching a 2D disaster area for
+survivors under hazards, noisy sensing, battery limits, a lossy communication channel and robot
+failures. Its main features:
+- classical, coordinated and learned (MARL) policies;
+- pre-registered experiments with archived, reproducible results;
+- a web dashboard and a kinematic 3D view.
 
-| What | Status |
-|---|---|
-| Docs, 27 ADRs, 9 Claude Code skills, tooling and CI (Phase 0) | Complete |
-| Phase 1: deterministic 2D core, hazards, noisy detection, mission success, metric registry, multi-seed statistics | Complete |
-| Phase 2: A*, prioritized multi-agent planning, energy feasibility, frontier exploration, assignment, oracle reference | Complete (merged) |
-| Phase 2: pre-registered baseline study (8 policies × 2 configs × 50 seeds) | Run, then re-run after the PR #5 review corrections (original results superseded). See `docs/16_PHASE2_BASELINE_STUDY.md` |
-| Phase 2: pre-registered validation on fresh seeds 100–149 | Run: all 800 episodes complete; partially successful (13 of 17 headline effects replicated; planned-vs-random not established). See `docs/17_PHASE2_VALIDATION_STUDY.md` |
-| Phase 3 M3.1: communication channel (range, drops, latency, bandwidth, message events; opt-in, ADR-0017) | Complete (merged) |
-| Phase 3 M3.2: per-agent belief maps, information sharing (`frontier_shared`), survivor-information delay metric (ADR-0018) | Complete (merged) |
-| Phase 3 M3.3: lease-based auction over 4×4 sectors (`auction_comm`, `auction_no_reassign` control; ADR-0019) | Complete (merged) |
-| Phase 3 M3.4: failure detection (active / disconnected / suspected / disabled) and failure, reassignment and duplicate-ownership metrics (ADR-0020) | Complete (merged) |
-| Phase 3 M3.5: scheduled failures and partitions (ADR-0021), study runner, pre-registered coordination study (4 450 episodes) and replay viewer | Complete (merged). Sharing and auction coordination speed up search; reassignment reclaims sectors but did not speed up the mission. See `docs/18_PHASE3_COORDINATION_STUDY.md` |
-| Phase 4: learned sector selection with IPPO/MAPPO (optional `learning` extra; ADR-0022), nine trained models, pre-registered evaluation | In review. MAPPO beats belief sharing alone (−7 steps) but is slower than the lease auction (+6 steps) at this small training budget. See `docs/19_PHASE4_MARL_STUDY.md` |
-| Phase 5: replaceable perception model (range falloff, report confidence, terrain and hazard misreads; ADR-0025), exploratory sensor benchmark | In review. See `docs/22_PERCEPTION.md` |
-| Phase 6: web dashboard (`python -m swarm.dashboard`; replay, robots, comms, failures, experiments, history, exports; ADR-0026) | In review. See `docs/23_DASHBOARD.md` |
-| Phase 8: 3D feasibility (ADR-0024), then 3D kinematic co-simulation with line-of-sight analysis and a dashboard 3D view (ADR-0027) | Feasibility merged; co-simulation in review. Flight dynamics deferred. See `docs/24_3D_SIMULATION.md` |
-| Phase 7 final validation (directive "Phase 5"): 17 conditions × 8 policies, 6 850 episodes, scalability; paper draft | Run, in review. See `docs/20_PHASE7_FINAL_VALIDATION.md` and `docs/21_RESEARCH_PAPER_DRAFT.md`. Phases 5 and 6 deferred |
-| 3D feasibility (Phase 8) | Planned |
+![Dashboard replay of a real episode](docs/images/dashboard_replay.png)
 
-**Policies** (`python -m swarm.experiments.run_episode --policy <name>`):
+## Quick start
+
+Python 3.12–3.14. The core needs only NumPy.
+
+```bash
+git clone https://github.com/Exit0Hero/SWARM.git && cd SWARM
+python -m venv .venv
+source .venv/bin/activate            # Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -e .
+swarm demo                           # two scenarios, exports, a policy comparison (~5 s)
+swarm dashboard --data-dir swarm-demo/dashboard    # open http://127.0.0.1:8765/
+```
+
+To see the 3D view, install `pip install -e ".[sim3d]"` and rerun `swarm demo`. In the dashboard,
+press "3D view". It is a kinematic view of the 2D episode, **not a flight simulation**.
+
+More:
+- [Installation and CLI guide](docs/26_INSTALL_AND_CLI.md)
+- [Reproducibility guide](docs/27_REPRODUCIBILITY.md)
+- [Benchmarks](docs/28_BENCHMARKS.md)
+- [Complete platform status](docs/25_COMPLETE_PLATFORM_STATUS.md)
+
+## What SWARM includes (v0.1.0)
+
+| Area | Status | Docs |
+|---|---|---|
+| Deterministic 2D simulator: two layers, energy, hazards, noisy detection, events | Stable, tested | [04](docs/04_SIMULATION_SPECIFICATION.md), ADR-0001–0013 |
+| Classical baselines: A*, frontier, assignment, oracle reference | Stable, tested. Validated (docs/16–17) | [16](docs/16_PHASE2_BASELINE_STUDY.md) |
+| Limited-communication coordination: channel, shared belief maps, lease auction, failure detection and reassignment | Stable, tested. Validated (docs/18, docs/20) | [18](docs/18_PHASE3_COORDINATION_STUDY.md) |
+| MARL sector allocation: IPPO/MAPPO, nine trained models | Stable, tested. Validated at a small CPU budget (docs/19) | [19](docs/19_PHASE4_MARL_STUDY.md) |
+| Perception model: range falloff, terrain and hazard misreads, report confidence | Tested. Benchmark is exploratory | [22](docs/22_PERCEPTION.md) |
+| Web dashboard: replay, robots, communication, failures, experiments, history, exports | Tested (unit, HTTP, clean-install smoke) | [23](docs/23_DASHBOARD.md) |
+| 3D: kinematic co-simulation in MuJoCo, line of sight, 3D view | Tested. **Partial**: no flight dynamics | [24](docs/24_3D_SIMULATION.md) |
+| `swarm` CLI and packaged examples | Tested | [26](docs/26_INSTALL_AND_CLI.md) |
+
+**Not included:**
+- flight dynamics;
+- 3D-aware policies or sensing;
+- an image-based detector;
+- any validation for real operations.
+
+See [limitations](docs/25_COMPLETE_PLATFORM_STATUS.md#12-partially-completed-and-deferred) and
+[`docs/15_RISK_REGISTER_AND_LIMITATIONS.md`](docs/15_RISK_REGISTER_AND_LIMITATIONS.md).
+
+Development history: the phase-by-phase record is in [`docs/14_ROADMAP.md`](docs/14_ROADMAP.md),
+and released changes are in [`CHANGELOG.md`](CHANGELOG.md).
+
+**Policies** (`swarm policies` lists them; `swarm run --policy <name>`):
 
 | Policy | Information model |
 |---|---|
@@ -34,24 +69,19 @@ not control real aircraft or robots, and it is not validated for real disaster o
 | `astar_waypoint`, `frontier`, `frontier_hazard_aware` | decentralized (own observations only) |
 | `prioritized_frontier`, `assignment`, `assignment_hazard_aware` | centralized_pooled (all agents' observations; perfect communication assumed) |
 | `assignment_oracle` | **oracle** (reads hidden survivor locations; reference only, never reported as non-oracle performance) |
+| `frontier_shared`, `auction_comm`, `auction_no_reassign` | decentralized with communication (belief records, claims, heartbeats) |
+| `learned:<model>` | decentralized learned sector selection (Phase 4 actors; NumPy inference) |
 
 All results are simulation results on synthetic maps with illustrative parameters. All agents move one cell per
 step, so nothing here shows that drones outperform ground robots, or the reverse. Hazards and false reports are simple
 probabilistic models. The simulator is a simplified abstraction, not a realistic model
 (see `docs/15_RISK_REGISTER_AND_LIMITATIONS.md`). Phases and acceptance criteria are in `docs/14_ROADMAP.md`.
 
-Complete platform and implementation status: [`docs/25_COMPLETE_PLATFORM_STATUS.md`](docs/25_COMPLETE_PLATFORM_STATUS.md).
-
-## Dashboard, perception and 3D
-```bash
-python -m swarm.dashboard          # web UI at http://127.0.0.1:8765/ (docs/23_DASHBOARD.md)
-pip install -e ".[sim3d]"          # optional MuJoCo for the 3D analysis (docs/24_3D_SIMULATION.md)
-```
-Add a `perception` block to any config for noisy sensing (docs/22_PERCEPTION.md).
-
 ## Run an episode
 
 ```bash
+swarm run --config basic --policy auction_comm --seed 1000 --out runs/basic.json --events runs/basic.jsonl
+# equivalent long form, with an ASCII map:
 python -m swarm.experiments.run_episode --config configs/m2_default.json --seed 0 \
     --out runs/m2_seed0.json --events runs/m2_seed0.events.jsonl --render
 ```
@@ -84,11 +114,12 @@ definitions are in `docs/decisions/0009-mission-objectives-and-metrics.md`.
 
 ## Install (development)
 
-Requires Python 3.12 or newer.
+Requires Python 3.12 or newer. Full instructions, including Windows PowerShell, are in
+[`docs/26_INSTALL_AND_CLI.md`](docs/26_INSTALL_AND_CLI.md).
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+source .venv/bin/activate          # Windows PowerShell: .venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 ```
 
@@ -103,7 +134,10 @@ Optional extras:
 
 ## Quality gate
 
-The same commands run in CI on Python 3.12, 3.13 and 3.14:
+CI runs these on Python 3.12, 3.13 and 3.14, plus a learning job and a MuJoCo job. It also builds
+the wheel, installs it into a clean environment and runs `scripts/smoke_test.py` on Linux, macOS
+and Windows. Contributor workflow: [`CONTRIBUTING.md`](CONTRIBUTING.md). Security:
+[`SECURITY.md`](SECURITY.md).
 
 ```bash
 ruff check .
@@ -114,10 +148,9 @@ pytest
 
 ## Python support
 
-`requires-python >=3.12`. NumPy 2.5 dropped Python 3.11, and the planned later dependencies (PyTorch,
-PettingZoo, Gymnasium, SciPy, matplotlib) were checked on 2026-11-15 to resolve with binary wheels on
-Python 3.12–3.15. The runtime dependency is NumPy only. Heavier libraries will be optional extras
-added in the phase that needs them (`docs/decisions/README.md`).
+`requires-python >=3.12`. CI tests Python 3.12, 3.13 and 3.14 on Linux, plus a clean wheel install
+on Linux (3.12, 3.14), macOS (3.13) and Windows (3.13). The runtime dependency is NumPy only. PyTorch,
+PettingZoo, Gymnasium, matplotlib and MuJoCo are optional extras.
 
 ## Repository layout
 
@@ -128,9 +161,10 @@ added in the phase that needs them (`docs/decisions/README.md`).
 | `docs/` | Requirements, specifications, roadmap, risks (numbered 01–15) |
 | `docs/decisions/` | Architecture Decision Records |
 | `.claude/skills/` | Project-specific Claude Code skills |
-| `src/swarm/` | Python package: `core`, `scenarios`, `navigation`, `coordination`, `policies`, `evaluation`, `experiments`, `visualization` |
+| `src/swarm/` | Python package: `core`, `scenarios`, `navigation`, `coordination`, `policies`, `learning`, `evaluation`, `experiments`, `dashboard`, `visualization`, `sim3d`, `examples`, `cli` |
+| `scripts/smoke_test.py` | End-to-end smoke test of an installed package (used by CI) |
 | `docs/results/` | Archived generated results of pre-registered studies |
-| `configs/` | Example scenario configs (`m1_default.json` schema v1, `m2_default.json` schema v2) |
+| `configs/` | Scenario configs and study specs for every phase (`m1_default.json` schema v1, `m2_default.json` schema v2, `phase*/`) |
 | `tests/` | Test suite |
 | `.github/workflows/ci.yml` | Continuous integration |
 
