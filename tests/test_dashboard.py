@@ -211,3 +211,28 @@ def test_scene3d_endpoint_returns_the_recorded_tracks(tmp_path: Path) -> None:
     assert all(len(t["points"]) == len(record["frames"]) for t in tracks.values())
     analysis = out["analysis"]
     assert "unavailable" in analysis or analysis["contacts"] == 0
+
+
+def _raw(url: str, method: str, body: bytes, headers: dict[str, str]) -> int:
+    req = urllib.request.Request(url, data=body, method=method, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as res:
+            return int(res.status)
+    except urllib.error.HTTPError as exc:
+        with exc:
+            return int(exc.code)
+
+
+def test_http_hardening(base_url: str) -> None:
+    run = base_url + "/api/runs"
+    body = b'{"config_name": "examples/basic.json", "policy": "frontier", "seed": 1}'
+    assert _raw(run, "POST", body, {"Content-Type": "text/plain"}) == 403  # no simple CSRF posts
+    assert (
+        _raw(run, "POST", body, {"Content-Type": "application/json", "Host": "evil.example"}) == 403
+    )
+    big = b"{" + b" " * 1_000_001 + b"}"
+    assert _raw(run, "POST", big, {"Content-Type": "application/json"}) == 413
+    assert _raw(run, "POST", body, {"Content-Type": "application/json"}) == 200  # packaged example
+    with urllib.request.urlopen(base_url + "/", timeout=30) as res:
+        assert res.headers["X-Content-Type-Options"] == "nosniff"
+        assert res.headers["X-Frame-Options"] == "DENY"

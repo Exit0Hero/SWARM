@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import threading
 import traceback
 import uuid
@@ -26,6 +27,16 @@ from urllib.parse import parse_qs, urlparse
 from swarm.dashboard import service
 from swarm.dashboard.service import DashboardError, Store
 
+MAX_BODY_BYTES = 1_000_000
+"""Largest accepted request body; configs and experiment requests are a few kilobytes."""
+
+LOOPBACK = {"127.0.0.1", "localhost", "::1", "[::1]"}
+
+
+def packaged_examples() -> Path:
+    """Directory of the packaged example configs (``swarm.examples``)."""
+    return Path(str(resources.files("swarm.examples")))
+
 
 class Dashboard:
     """Request routing and the job table; independent of the HTTP transport for testing."""
@@ -36,6 +47,7 @@ class Dashboard:
         self.store = store
         self.config_roots = config_roots
         self.learned = service.learned_catalog(models_root)
+        self.loopback_only = True  # set by serve(); False only for an explicit non-local bind
         self.jobs: dict[str, dict[str, Any]] = {}
         self._lock = threading.Lock()
 
@@ -158,6 +170,10 @@ def make_handler(app: Dashboard) -> type[BaseHTTPRequestHandler]:
             self.send_response(status)
             self.send_header("Content-Type", mime)
             self.send_header("Content-Length", str(len(body)))
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.send_header("Cache-Control", "no-store")
             for k, v in (extra or {}).items():
                 self.send_header(k, v)
             self.end_headers()
@@ -166,9 +182,24 @@ def make_handler(app: Dashboard) -> type[BaseHTTPRequestHandler]:
         def _json(self, status: int, data: Any) -> None:
             self._send(status, json.dumps(data).encode("utf-8"), "application/json")
 
+        def _allowed(self, method: str) -> str | None:
+            """Why a request is refused, or ``None``. See docs/SECURITY.md."""
+            host = (self.headers.get("Host") or "").rsplit(":", 1)[0].lower()
+            if app.loopback_only and host not in LOOPBACK:
+                return "host header is not localhost (DNS-rebinding protection)"
+            has_body = self.headers.get("Content-Length") not in (None, "0")
+            json_body = (self.headers.get("Content-Type") or "").startswith("application/json")
+            if method in ("POST", "DELETE") and has_body and not json_body:
+                return "requests with a body must be application/json"
+            return None
+
         def _dispatch(self, method: str) -> None:
             url = urlparse(self.path)
             query = {k: v[0] for k, v in parse_qs(url.query).items()}
+            refusal = self._allowed(method)
+            if refusal is not None:
+                self._json(HTTPStatus.FORBIDDEN, {"error": refusal})
+                return
             try:
                 if not url.path.startswith("/api/"):
                     if method != "GET":
@@ -185,6 +216,9 @@ def make_handler(app: Dashboard) -> type[BaseHTTPRequestHandler]:
                     self._send(200, content.encode("utf-8"), mime, disposition)
                     return
                 length = int(self.headers.get("Content-Length") or 0)
+                if length > MAX_BODY_BYTES:
+                    self._json(HTTPStatus.REQUEST_ENTITY_TOO_LARGE, {"error": "request too large"})
+                    return
                 body = json.loads(self.rfile.read(length) or b"{}") if length else {}
                 self._json(200, app.handle(method, url.path, query, body))
             except DashboardError as exc:
@@ -211,7 +245,9 @@ def serve(
     port: int = 8765,
     models_root: Path | None = None,
 ) -> ThreadingHTTPServer:
-    app = Dashboard(Store(data_dir), config_roots, models_root)
+    roots = [r for r in config_roots if r.is_dir()] + [packaged_examples()]
+    app = Dashboard(Store(data_dir), roots, models_root)
+    app.loopback_only = host in LOOPBACK
     return ThreadingHTTPServer((host, port), make_handler(app))
 
 
@@ -228,6 +264,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="trained Phase 4 actors to offer as learned:<name> policies",
     )
     args = parser.parse_args(argv)
+    if args.host not in LOOPBACK:
+        print(
+            f"WARNING: binding to {args.host} exposes the dashboard to your network. It has no "
+            "authentication and can run simulations and write files under --data-dir "
+            "(docs/SECURITY.md).",
+            file=sys.stderr,
+        )
     server = serve(args.data_dir, args.configs, args.host, args.port, args.models)
     print(f"SWARM dashboard on http://{args.host}:{server.server_address[1]}/ (Ctrl-C to stop)")
     try:

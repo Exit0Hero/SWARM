@@ -450,7 +450,9 @@ def scene3d(record: dict[str, Any]) -> dict[str, Any]:
 
         analysis: dict[str, Any] = analyze_scene(scene, record["frames"])
     except ImportError:
-        analysis = {"unavailable": "install the sim3d extra (pip install -e .[sim3d]) for MuJoCo"}
+        analysis = {
+            "unavailable": 'install the sim3d extra (pip install "swarm[sim3d]") for MuJoCo'
+        }
     return {"scene": scene, "analysis": analysis}
 
 
