@@ -39,6 +39,8 @@ dev = [
 learning = ["torch>=2.5", "pettingzoo>=1.24", "gymnasium>=1.0"]
 # Figures for study reports (docs/results/*/report.py); never needed by the simulator.
 viz = ["matplotlib>=3.9"]
+# Phase 8 3D feasibility prototype only (ADR-0024).
+sim3d = ["mujoco>=3.2"]
 
 [project.urls]
 Repository = "https://github.com/Exit0Hero/SWARM"
@@ -80,7 +82,7 @@ files = ["src", "tests"]
 
 [[tool.mypy.overrides]]
 # Optional `viz` extra: CI type-checks without it installed.
-module = ["matplotlib", "matplotlib.*"]
+module = ["matplotlib", "matplotlib.*", "mujoco", "mujoco.*"]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
